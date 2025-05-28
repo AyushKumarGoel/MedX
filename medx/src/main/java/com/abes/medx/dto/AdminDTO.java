@@ -1,10 +1,10 @@
-package main.java.com.abes.medx.dto;
+package com.abes.medx.dto;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.List;
 
-public class AdminDTO extends User {
+public class AdminDTO extends UserDTO {
 
     private String adminId;
     private String password;
@@ -41,14 +41,14 @@ public class AdminDTO extends User {
         System.out.println("Age: " + getAge());
     }
 
-    public boolean removeDoctor(List<Doctor> doctors, String doctorId) {
+    public boolean removeDoctor(List<DoctorDTO> doctors, String doctorId) {
         try {
-            Field doctorIdField = Doctor.class.getDeclaredField("doctorId");
+            Field doctorIdField = DoctorDTO.class.getDeclaredField("doctorId");
             doctorIdField.setAccessible(true);
 
-            Iterator<Doctor> iterator = doctors.iterator();
+            Iterator<DoctorDTO> iterator = doctors.iterator();
             while (iterator.hasNext()) {
-                Doctor doctor = iterator.next();
+                DoctorDTO doctor = iterator.next();
                 Object idValue = doctorIdField.get(doctor);
                 if (idValue != null && idValue.toString().equals(doctorId)) {
                     iterator.remove();
