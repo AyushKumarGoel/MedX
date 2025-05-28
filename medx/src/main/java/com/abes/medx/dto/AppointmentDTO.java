@@ -4,11 +4,11 @@ public class AppointmentDTO {
     String appointmentId;
     String appointmentDate;
     String appointmentTime;
-    Patient patient;
+    PatientDTO patient;
     DoctorDTO doctor;
     int toPay;
 
-    public AppointmentDTO(String appointmentId, String appointmentDate, String appointmentTime, Patient patient, DoctorDTO doctor, int toPay) {
+    public AppointmentDTO(String appointmentId, String appointmentDate, String appointmentTime, PatientDTO patient, DoctorDTO doctor, int toPay) {
         this.appointmentId = appointmentId;
         this.appointmentDate = appointmentDate;
         this.appointmentTime = appointmentTime;
@@ -41,11 +41,11 @@ public class AppointmentDTO {
         this.appointmentTime = appointmentTime;
     }
 
-    public Patient getPatient() {
+    public PatientDTO getPatient() {
         return patient;
     }
 
-    public void setPatient(Patient patient) {
+    public void setPatient(PatientDTO patient) {
         this.patient = patient;
     }
 

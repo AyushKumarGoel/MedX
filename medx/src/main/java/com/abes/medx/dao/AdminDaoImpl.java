@@ -1,4 +1,4 @@
-package main.java.com.abes.medx.dao;
+package com.abes.medx.dao;
 
 public class AdminDaoImpl implements AdminDAO {
 

@@ -32,10 +32,10 @@ public class PatientDTO extends UserDTO{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Patient)) return false;
+        if (!(o instanceof PatientDTO)) return false;
         if (!super.equals(o)) return false;
 
-        Patient patient = (Patient) o;
+        PatientDTO patient = (PatientDTO) o;
 
         return patientId != null ? patientId.equals(patient.patientId) : patient.patientId == null;
     }

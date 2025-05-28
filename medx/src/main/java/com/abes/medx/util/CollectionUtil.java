@@ -3,6 +3,8 @@ package com.abes.medx.util;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.abes.medx.dto.PatientDTO;
+
 public class CollectionUtil {
     public static final Map<Integer, PatientDTO> patientMap = new HashMap<>();
 
