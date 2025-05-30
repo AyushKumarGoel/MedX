@@ -11,5 +11,6 @@ public interface PatientDAO {
     boolean delete(String email);
     PatientDTO getPatientByEmail(String email);
     List<PatientDTO> getAllPatients();
+    String getNextPatientId();
 
 }

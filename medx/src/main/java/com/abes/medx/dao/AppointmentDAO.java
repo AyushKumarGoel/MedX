@@ -9,6 +9,7 @@ public interface AppointmentDAO {
     boolean updateAppointment(AppointmentDTO updatedAppointment);
     boolean cancelAppointment(String appointmentId);
     AppointmentDTO getAppointmentById(String appointmentId);
+    String getNextAppointmentId();
     List<AppointmentDTO> getAppointmentsByPatientId(String patientId);
     List<AppointmentDTO> getAppointmentsByDoctorId(String doctorId);
     List<AppointmentDTO> getAllAppointments();
