@@ -1,14 +1,16 @@
 package com.abes.medx.dao;
 
-import com.abes.medx.dto.DoctorDTO;
-
 import java.util.List;
 
+import com.abes.medx.dto.DoctorDTO;
+
 public interface DoctorDAO {
-    void addDoctor(DoctorDTO doctor);
-    DoctorDTO getDoctorById(int id);
+    boolean register(DoctorDTO doctor);
+    DoctorDTO authenticate(String email, String password);
+    boolean updateProfile(DoctorDTO updatedDoctor);
+    boolean delete(String email);
+    DoctorDTO getDoctorByEmail(String email);
+    DoctorDTO getDoctorById(String doctorId);
     List<DoctorDTO> getAllDoctors();
-    void updateDoctor(DoctorDTO doctor);
-    void deleteDoctor(int id);
-    void showProfile(int id);
+    
 }

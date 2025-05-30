@@ -3,8 +3,8 @@ package com.abes.medx.dto;
 public class PatientDTO extends UserDTO{
     String patientId;
 
-    public PatientDTO(String name, String email, String phoneNumber, String age, String patientId) {
-        super(name, email, phoneNumber, age);
+    public PatientDTO(String name, String email, String password, String phoneNumber, String age, String patientId) {
+        super(name, email,password, phoneNumber, age);
         getPatientId();
     }
 

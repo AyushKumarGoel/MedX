@@ -3,14 +3,16 @@ package com.abes.medx.dto;
 public class UserDTO {
     private String name;
     private String email;
+    private String password; 
     private String phoneNumber;
     private String age;
 
-    public UserDTO(String name, String email, String phoneNumber, String age) {
-        getName();
-        getEmail();
-        getPhoneNumber();
-        getAge();
+    public UserDTO(String name, String email, String password, String phoneNumber, String age) {
+        setName(name);
+        setEmail(email);
+        setPassword(password);
+        setPhoneNumber(phoneNumber);
+        setAge(age);
     }
 
 
@@ -29,6 +31,13 @@ public class UserDTO {
         return email;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    public String getPassword() {
+        return password;
+    }
+
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
@@ -45,13 +54,12 @@ public class UserDTO {
 
     @Override
     public String toString() {
-        return "User{" +
-                "firstName='" + name + '\'' +
+        return "UserDTO{" +
+                "name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", age='" + age + '\'' +
                 '}';
     }
-
 
 }
