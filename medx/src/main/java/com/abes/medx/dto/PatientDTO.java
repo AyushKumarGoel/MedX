@@ -1,13 +1,11 @@
 package com.abes.medx.dto;
 
-import com.abes.medx.dto.UserDTO;
-
 public class PatientDTO extends UserDTO{
     String patientId;
 
-    public PatientDTO(String firstName, String lastName, String email, String phoneNumber, String age, String patientId) {
-        super(firstName, lastName, email, phoneNumber, age);
-        this.patientId = patientId;
+    public PatientDTO(String name, String email, String phoneNumber, String age, String patientId) {
+        super(name, email, phoneNumber, age);
+        getPatientId();
     }
 
     public String getPatientId() {
@@ -21,8 +19,7 @@ public class PatientDTO extends UserDTO{
     public String toString() {
         return "Patient{" +
                 "patientId='" + patientId + '\'' +
-                ", firstName='" + getFirstName() + '\'' +
-                ", lastName='" + getLastName() + '\'' +
+                ", firstName='" + getName() + '\'' +
                 ", email='" + getEmail() + '\'' +
                 ", phoneNumber='" + getPhoneNumber() + '\'' +
                 ", age='" + getAge() + '\'' +

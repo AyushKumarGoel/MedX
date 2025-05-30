@@ -9,9 +9,9 @@ public class AdminDTO extends UserDTO {
     private String adminId;
     private String password;
 
-    public AdminDTO(String firstName, String lastName, String email, String phoneNumber, String age,
+    public AdminDTO(String name, String email, String phoneNumber, String age,
                  String adminId, String password) {
-        super(firstName, lastName, email, phoneNumber, age);
+        super(name, email, phoneNumber, age);
         this.adminId = adminId;
         this.password = password;
     }
@@ -35,7 +35,7 @@ public class AdminDTO extends UserDTO {
     public void showProfile() {
         System.out.println("Admin Profile:");
         System.out.println("Admin ID: " + adminId);
-        System.out.println("Name: " + getFirstName() + " " + getLastName());
+        System.out.println("Name: " + getName());
         System.out.println("Email: " + getEmail());
         System.out.println("Phone: " + getPhoneNumber());
         System.out.println("Age: " + getAge());
@@ -69,8 +69,7 @@ public class AdminDTO extends UserDTO {
     public String toString() {
         return "Admin{" +
                 "adminId='" + adminId + '\'' +
-                ", firstName='" + getFirstName() + '\'' +
-                ", lastName='" + getLastName() + '\'' +
+                ", firstName='" + getName() + '\'' +
                 ", email='" + getEmail() + '\'' +
                 ", phoneNumber='" + getPhoneNumber() + '\'' +
                 ", age='" + getAge() + '\'' +
