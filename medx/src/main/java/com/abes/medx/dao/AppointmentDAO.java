@@ -13,6 +13,6 @@ public interface AppointmentDAO {
     List<AppointmentDTO> getAppointmentsByDoctorId(String doctorId);
     List<AppointmentDTO> getAllAppointments();
     List<AppointmentDTO> getAppointmentsByStatus(String status);
-
+    String getNextAppointmentId();
 }
 

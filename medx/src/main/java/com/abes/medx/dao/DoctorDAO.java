@@ -5,12 +5,12 @@ import java.util.List;
 import com.abes.medx.dto.DoctorDTO;
 
 public interface DoctorDAO {
-    boolean register(DoctorDTO doctor);
     DoctorDTO authenticate(String email, String password);
-    boolean updateProfile(DoctorDTO updatedDoctor);
+    boolean register(DoctorDTO doctor);
     boolean delete(String email);
-    DoctorDTO getDoctorByEmail(String email);
-    DoctorDTO getDoctorById(String doctorId);
+    boolean updateProfile(DoctorDTO doctor);
     List<DoctorDTO> getAllDoctors();
-    
+    DoctorDTO getDoctorById(String id);
+    DoctorDTO getDoctorByEmail(String email);
+    String getNextDoctorId();
 }

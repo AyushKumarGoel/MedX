@@ -56,4 +56,8 @@ public class PatientDAOImpl implements PatientDAO {
         return new ArrayList<>(CollectionUtil.patientMap.values());
     }
 
+    @Override
+    public String getNextPatientId() {
+        return "P" + (CollectionUtil.patientMap.size() + 1);
+    }
 }
