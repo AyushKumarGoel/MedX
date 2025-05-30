@@ -1,17 +1,15 @@
 package com.abes.medx.dao;
 
+import java.util.List;
+
+import com.abes.medx.dto.PatientDTO;
 
 public interface PatientDAO {
-    public String getPatientId(String firstName, String lastName);
+    boolean register(PatientDTO patient);
+    PatientDTO authenticate(String email, String password);
+    boolean updateProfile(PatientDTO updatedPatient);
+    boolean delete(String email);
+    PatientDTO getPatientByEmail(String email);
+    List<PatientDTO> getAllPatients();
 
-    public void bookAppointment(String patientId, String doctorId, String appointmentDate, String appointmentTime);
-
-    public void cancelAppointment(String patientId, String appointmentId);
-
-    public String getAppointmentDetails(String patientId, String appointmentId);
-
-    public String getPatientHistory(String patientId);
-
-    public void makePayment(String patientId, String paymentMethod, double amount);
-    
 }

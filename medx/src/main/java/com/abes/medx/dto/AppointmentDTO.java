@@ -7,14 +7,16 @@ public class AppointmentDTO {
     PatientDTO patient;
     DoctorDTO doctor;
     int toPay;
+    String status = "Scheduled";
 
-    public AppointmentDTO(String appointmentId, String appointmentDate, String appointmentTime, PatientDTO patient, DoctorDTO doctor, int toPay) {
-        this.appointmentId = appointmentId;
-        this.appointmentDate = appointmentDate;
-        this.appointmentTime = appointmentTime;
-        this.patient = patient;
-        this.doctor = doctor;
-        this.toPay = toPay;
+    public AppointmentDTO(String appointmentId, String appointmentDate, String appointmentTime, PatientDTO patient, DoctorDTO doctor, int toPay, String status) {
+        setAppointmentId(appointmentId);
+        setAppointmentDate(appointmentDate);
+        setAppointmentTime(appointmentTime);
+        setPatient(patient);
+        setDoctor(doctor);
+        setToPay(toPay);
+        setStatus("Scheduled");
     }
 
     public String getAppointmentId() {
@@ -65,4 +67,10 @@ public class AppointmentDTO {
         this.toPay = toPay;
     }
 
+    public String getStatus() {
+        return status;
+    }   
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
