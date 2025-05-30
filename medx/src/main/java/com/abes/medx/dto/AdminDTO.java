@@ -7,13 +7,10 @@ import java.util.List;
 public class AdminDTO extends UserDTO {
 
     private String adminId;
-    private String password;
 
-    public AdminDTO(String name, String email, String phoneNumber, String age,
-                 String adminId, String password) {
-        super(name, email, phoneNumber, age);
-        this.adminId = adminId;
-        this.password = password;
+    public AdminDTO(String adminId, String name, String email, String password , String phoneNumber, String age) {
+        super(name, email, password, phoneNumber, age);
+        setAdminId(adminId);
     }
 
     public String getAdminId() {
@@ -22,14 +19,6 @@ public class AdminDTO extends UserDTO {
 
     public void setAdminId(String adminId) {
         this.adminId = adminId;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public void showProfile() {

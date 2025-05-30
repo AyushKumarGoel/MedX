@@ -2,34 +2,26 @@ package com.abes.medx.dto;
 
 import java.util.Objects;
 
-public class DoctorDTO {
+public class DoctorDTO extends UserDTO {
 
-    private int doctorId;
-    private String name;
+    private String doctorId;
     private String specialization;
     private int yearsOfExperience;
 
-    public DoctorDTO(int doctorId, String name, String specialization, int yearsOfExperience) {
-        getId();
-        getName();
-        getSpecialization();
-        getYearsOfExperience();
+    public DoctorDTO(String doctorId, String name, String email, String password, String phoneNumber, String age,
+                    String specialization, int yearsOfExperience) {
+        super(name, email, password, phoneNumber, age);
+        setDoctorId(doctorId);
+        setSpecialization(specialization);
+        setYearsOfExperience(yearsOfExperience);
     }
 
-    public int getId() {
+    public String getDoctorId() {
         return doctorId;
     }
 
-    public void setId(int id) {
+    public void setDoctorId(String id) {
         this.doctorId = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getSpecialization() {
@@ -50,23 +42,30 @@ public class DoctorDTO {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        DoctorDTO doctorDTO = (DoctorDTO) o;
-        return doctorId == doctorDTO.doctorId && yearsOfExperience == doctorDTO.yearsOfExperience && Objects.equals(name, doctorDTO.name) && Objects.equals(specialization, doctorDTO.specialization);
+        if (this == o) return true;
+        if (!(o instanceof DoctorDTO)) return false;
+        if (!super.equals(o)) return false;
+        DoctorDTO that = (DoctorDTO) o;
+        return doctorId == that.doctorId &&
+                yearsOfExperience == that.yearsOfExperience &&
+                Objects.equals(specialization, that.specialization);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(doctorId, name, specialization, yearsOfExperience);
+        return Objects.hash(super.hashCode(), doctorId, specialization, yearsOfExperience);
     }
 
     @Override
     public String toString() {
         return "DoctorDTO{" +
-                "id=" + doctorId +
-                ", name='" + name + '\'' +
+                "doctorId=" + doctorId +
+                ", name='" + getName() + '\'' +
+                ", email='" + getEmail() + '\'' +
+                ", phone='" + getPhoneNumber() + '\'' +
+                ", age='" + getAge() + '\'' +
                 ", specialization='" + specialization + '\'' +
-                ", yearsOfExperience=" + yearsOfExperience +
+                ", experience=" + yearsOfExperience +
                 '}';
     }
 }

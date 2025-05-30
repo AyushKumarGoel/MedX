@@ -1,46 +1,62 @@
 package com.abes.medx.dao;
 
-import com.abes.medx.dto.DoctorDTO;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
+import com.abes.medx.dto.DoctorDTO;
+import com.abes.medx.util.CollectionUtil;
 
 public class DoctorDAOImpl implements DoctorDAO {
 
-    private List<DoctorDTO> doctorList = new ArrayList<>();
-
-    public void addDoctor(DoctorDTO doctor) {
-        doctorList.add(doctor);
+    @Override
+    public boolean register(DoctorDTO doctor) {
+        if (CollectionUtil.doctorMap.containsKey(doctor.getDoctorId())) return false;
+        CollectionUtil.doctorMap.put(doctor.getDoctorId(), doctor);
+        return true;
     }
 
     @Override
-    public DoctorDTO getDoctorById(int id) {
-        Optional<DoctorDTO> doctor = doctorList.stream().filter(d -> d.getId() == id).findFirst();
-        return doctor.orElse(null);
+    public DoctorDTO authenticate(String email, String password) {
+        for (DoctorDTO doctor : CollectionUtil.doctorMap.values()) {
+            if (doctor.getEmail().equalsIgnoreCase(email) && doctor.getPassword().equals(password)) {
+                return doctor;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public boolean updateProfile(DoctorDTO updatedDoctor) {
+        if (!CollectionUtil.doctorMap.containsKey(updatedDoctor.getDoctorId())) return false;
+        CollectionUtil.doctorMap.put(updatedDoctor.getDoctorId(), updatedDoctor);
+        return true;
+    }
+
+    @Override
+    public boolean delete(String email) {
+        DoctorDTO toDelete = getDoctorByEmail(email);
+        if (toDelete != null) {
+            CollectionUtil.doctorMap.remove(toDelete.getDoctorId());
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public DoctorDTO getDoctorByEmail(String email) {
+        return CollectionUtil.doctorMap.values().stream()
+                .filter(d -> d.getEmail().equalsIgnoreCase(email))
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
+    public DoctorDTO getDoctorById(String doctorId) {
+        return CollectionUtil.doctorMap.get(doctorId);
     }
 
     @Override
     public List<DoctorDTO> getAllDoctors() {
-        return new ArrayList<>(doctorList);
-    }
-
-    @Override
-    public void updateDoctor(DoctorDTO updatedDoctor) {
-        for(int index = 0; index < doctorList.size(); index++) {
-            if(doctorList.get(index).getId() == updatedDoctor.getId()) {
-                doctorList.remove(index);
-                doctorList.add(updatedDoctor);
-            }
-        }
-    }
-
-    @Override
-    public void deleteDoctor(int id) {
-        doctorList.remove(doctorList.stream().filter(d -> d.getId() == id).findFirst().get());
-    }
-
-    public void showProfile(int id) {
-        doctorList.stream().filter(d -> d.getId() == id).findFirst().ifPresent(doctorDTO -> System.out.println(doctorDTO.getName()));
+        return new ArrayList<>(CollectionUtil.doctorMap.values());
     }
 }
