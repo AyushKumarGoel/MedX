@@ -59,4 +59,9 @@ public class DoctorDAOImpl implements DoctorDAO {
     public List<DoctorDTO> getAllDoctors() {
         return new ArrayList<>(CollectionUtil.doctorMap.values());
     }
+
+    @Override
+    public String getNextDoctorId() {
+        return "D" + (CollectionUtil.doctorMap.size() + 1);
+    }
 }

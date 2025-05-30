@@ -12,5 +12,5 @@ public interface DoctorDAO {
     DoctorDTO getDoctorByEmail(String email);
     DoctorDTO getDoctorById(String doctorId);
     List<DoctorDTO> getAllDoctors();
-    
+    String getNextDoctorId();
 }
