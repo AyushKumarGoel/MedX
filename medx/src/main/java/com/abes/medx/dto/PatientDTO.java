@@ -5,7 +5,7 @@ public class PatientDTO extends UserDTO{
 
     public PatientDTO(String name, String email, String password, String phoneNumber, String age, String patientId) {
         super(name, email,password, phoneNumber, age);
-        getPatientId();
+        setPatientId(patientId);
     }
 
     public String getPatientId() {
