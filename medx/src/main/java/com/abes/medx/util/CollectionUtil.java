@@ -127,4 +127,6 @@ public class CollectionUtil {
         }
         appointmentMap.put(id, appointment);
     }
+
+    
 }
