@@ -88,5 +88,5 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         int nextId = CollectionUtil.appointmentMap.size() + 1;
         return "AP" + nextId; 
     }
-
+    
 }
