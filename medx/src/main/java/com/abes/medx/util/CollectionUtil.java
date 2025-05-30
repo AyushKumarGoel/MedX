@@ -35,7 +35,7 @@ public class CollectionUtil {
             }
 
             try {
-                PatientDTO patient2 = createPatient("P002", "Yatharth", "yath@gmail.com", "yatharth", "1234599990", "21");
+                PatientDTO patient2 = createPatient("P002", "Patient", "patient@mail.com", "patient123", "1234599990", "21");
                 validateAndPutPatient("P002", patient2);
             } catch (UserException e) {
                 System.err.println("Failed to initialize patient with ID P002: " + e.getMessage());
@@ -43,7 +43,7 @@ public class CollectionUtil {
 
             // Static Doctor Data
             try {
-                validateAndPutDoctor("D001", new DoctorDTO("D001", "Anjali Singh", "anjali@gmail.com", "anjali", "1234567890", "29", "Cardiologist", 10));
+                validateAndPutDoctor("D001", new DoctorDTO("D001", "Doctor", "doctor@mail.com", "doctor123", "1234567890", "29", "Cardiologist", 10));
             } catch (UserException e) {
                 System.err.println("Failed to initialize doctor with ID D001: " + e.getMessage());
             }
