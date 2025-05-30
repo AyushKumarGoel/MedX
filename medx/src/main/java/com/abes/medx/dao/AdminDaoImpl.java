@@ -1,5 +1,8 @@
 package com.abes.medx.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.abes.medx.dto.AdminDTO;
 import com.abes.medx.util.CollectionUtil;
 
@@ -48,5 +51,15 @@ public class AdminDAOImpl implements AdminDAO {
                 .filter(admin -> admin.getEmail().equalsIgnoreCase(email))
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public String getNextAdminId() {
+        return "ADM" + (CollectionUtil.adminMap.size() + 1);
+    }
+
+    @Override
+    public List<AdminDTO> getAllAdmins() {
+        return new ArrayList<>(CollectionUtil.adminMap.values());
     }
 }
