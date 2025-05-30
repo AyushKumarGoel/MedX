@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.abes.medx.dto.DoctorDTO;
+import com.abes.medx.exception.UserException;
 import com.abes.medx.util.CollectionUtil;
 
 class DoctorDAOImplTest {
@@ -19,7 +20,7 @@ class DoctorDAOImplTest {
     private DoctorDTO sampleDoctor;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws UserException {
         doctorDAO = new DoctorDAOImpl();
         sampleDoctor = new DoctorDTO(
                 "D001", "Dr. Smith", "smith@example.com", "pass123",
@@ -56,7 +57,7 @@ class DoctorDAOImplTest {
     }
 
     @Test
-    void testUpdateProfile() {
+    void testUpdateProfile() throws UserException {
         doctorDAO.register(sampleDoctor);
         DoctorDTO updated = new DoctorDTO(
                 "D001", "Dr. Updated", "smith@example.com", "newpass",
@@ -68,10 +69,15 @@ class DoctorDAOImplTest {
 
     @Test
     void testUpdateProfileFailure() {
-        DoctorDTO newDoc = new DoctorDTO(
-                "D002", "Dr. New", "new@example.com", "pass", "0000000000", "30", "Ortho", 5
-        );
-        assertFalse(doctorDAO.updateProfile(newDoc));
+        try {
+            DoctorDTO newDoc = new DoctorDTO(
+                    "D002", "Dr. New", "new@example.com", "pass", "0000000000", "30", "Ortho", 5
+            );
+            assertFalse(doctorDAO.updateProfile(newDoc));
+        } catch (UserException e) {
+            // Optionally fail the test if exception is not expected
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
@@ -103,7 +109,7 @@ class DoctorDAOImplTest {
     }
 
     @Test
-    void testGetAllDoctors() {
+    void testGetAllDoctors() throws UserException {
         doctorDAO.register(sampleDoctor);
         doctorDAO.register(new DoctorDTO("D002", "Dr. Jane", "jane@example.com", "1234", "1111111111", "40", "ENT", 10));
         List<DoctorDTO> list = doctorDAO.getAllDoctors();
