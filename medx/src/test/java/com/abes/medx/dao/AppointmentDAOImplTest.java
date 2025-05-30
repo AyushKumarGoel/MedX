@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import com.abes.medx.dto.AppointmentDTO;
 import com.abes.medx.dto.DoctorDTO;
 import com.abes.medx.dto.PatientDTO;
+import com.abes.medx.exception.UserException;
 import com.abes.medx.util.CollectionUtil;
 
 class AppointmentDAOImplTest {
@@ -21,7 +22,7 @@ class AppointmentDAOImplTest {
     private PatientDTO patient;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws UserException {
         appointmentDAO = new AppointmentDAOImpl();
         CollectionUtil.appointmentMap.clear();
 
