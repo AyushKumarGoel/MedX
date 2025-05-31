@@ -8,6 +8,9 @@ import com.abes.medx.util.CollectionUtil;
 
 public class AdminDAOImpl implements AdminDAO {
 
+    public AdminDAOImpl() {
+    }
+
     @Override
     public boolean register(AdminDTO admin) {
         if (CollectionUtil.adminMap.containsKey(admin.getAdminId())) {
