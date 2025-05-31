@@ -12,7 +12,7 @@ import com.abes.medx.dao.PatientDAO;
 import com.abes.medx.dao.PatientDAOImpl;
 import com.abes.medx.service.AppointmentService;
 import com.abes.medx.service.UserService;
-import com.abes.medx.ui.UI;
+import com.abes.medx.ui.*;
 import com.abes.medx.util.CollectionUtil;
 
 public class MainDriver {
@@ -20,7 +20,6 @@ public class MainDriver {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println(CollectionUtil.patientMap.keySet());
-
 
         // Instantiate DAO implementations
         AdminDAO adminDAO = new AdminDAOImpl();
@@ -35,7 +34,5 @@ public class MainDriver {
         UI ui = new UI(scanner, userService, appointmentService);
         ui.start();
 
-
-        scanner.close(); // Optional: good practice
     }
 }
