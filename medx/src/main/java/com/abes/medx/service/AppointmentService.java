@@ -21,7 +21,7 @@ public class AppointmentService {
     }
 
     public AppointmentDTO createAppointment(String id, String date, String time, PatientDTO patient, String doctorId, int toPay) throws AppointmentException {
-        if (id == null || id.trim().isEmpty() || date == null || time == null || patient == null || doctorId == null) {
+        if (date == null || time == null || patient == null) {
             throw new AppointmentException("Invalid appointment data provided.");
         }
         if (toPay < 0) {
