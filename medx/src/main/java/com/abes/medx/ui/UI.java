@@ -655,54 +655,65 @@ public class UI {
     }
 
     private void bookAppointment(PatientDTO patient) {
+    try {
+        System.out.print("Date (YYYY-MM-DD): ");
+        String date = scanner.nextLine();
         try {
-            System.out.print("Date (YYYY-MM-DD): ");
-            String date = scanner.nextLine();
-            try {
-                LocalDate.parse(date);
-            } catch (DateTimeParseException e) {
-                throw new AppointmentException("Invalid date format. Use YYYY-MM-DD (e.g., 2025-12-31).");
-            }
-            System.out.print("Time (HH:MM): ");
-            String time = scanner.nextLine();
-            try {
-                LocalTime.parse(time);
-            } catch (DateTimeParseException e) {
-                throw new AppointmentException("Invalid time format. Use HH:MM (e.g., 14:30).");
-            }
-            System.out.print("Doctor ID: ");
-            String doctorId = scanner.nextLine();
-            if (doctorId.trim().isEmpty()) {
-                throw new AppointmentException("Doctor ID cannot be empty.");
-            }
-            System.out.print("Payment Amount: ");
-            String paymentInput = scanner.nextLine();
-            int toPay;
-            try {
-                toPay = Integer.parseInt(paymentInput);
-                if (toPay < 0) {
-                    throw new AppointmentException("Payment amount cannot be negative.");
-                }
-            } catch (NumberFormatException e) {
-                throw new AppointmentException("Invalid payment amount. Please enter a number.");
-            }
-
-            AppointmentDTO appointment = appointmentService.createAppointment(appointmentService.getNextAppointmentId(), date, time, patient, doctorId, toPay);
-            if (appointment == null) {
-                throw new AppointmentException("Failed to create appointment. Doctor may not exist or appointment ID may be taken.");
-            }
-            if (!appointmentService.bookAppointment(appointment)) {
-                throw new BookingException("Failed to book appointment. There may be a scheduling conflict.");
-            }
-            System.out.println("Appointment booked successfully.");
-        } catch (AppointmentException e) {
-            System.out.println("Error: " + e.getMessage());
-        } catch (BookingException e) {
-            System.out.println("Booking error: " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("Unexpected error during appointment booking: " + e.getMessage());
+            LocalDate.parse(date);
+        } catch (DateTimeParseException e) {
+            throw new AppointmentException("Invalid date format. Use YYYY-MM-DD (e.g., 2025-12-31).");
         }
+
+        System.out.print("Time (HH:MM): ");
+        String time = scanner.nextLine();
+        try {
+            LocalTime.parse(time);
+        } catch (DateTimeParseException e) {
+            throw new AppointmentException("Invalid time format. Use HH:MM (e.g., 14:30).");
+        }
+
+        // Show all doctors
+        List<DoctorDTO> doctors = userService.getAllDoctors();
+        if (doctors == null || doctors.isEmpty()) {
+            throw new AppointmentException("No doctors available.");
+        }
+
+        System.out.println("Available Doctors:");
+        for (DoctorDTO doctor : doctors) {
+            System.out.println("ID: " + doctor.getDoctorId() + ", Name: " + doctor.getName() + ", Specialty: " + doctor.getSpecialization());
+        }
+
+        System.out.print("Enter Doctor ID from the list above: ");
+        String doctorId = scanner.nextLine();
+        if (doctorId.trim().isEmpty()) {
+            throw new AppointmentException("Doctor ID cannot be empty.");
+        }
+
+        // Removed payment input, assuming zero or default payment
+        int toPay = 0;
+
+        AppointmentDTO appointment = appointmentService.createAppointment(
+            appointmentService.getNextAppointmentId(),
+            date, time, patient, doctorId, toPay);
+
+        if (appointment == null) {
+            throw new AppointmentException("Failed to create appointment. Doctor may not exist or appointment ID may be taken.");
+        }
+
+        if (!appointmentService.bookAppointment(appointment)) {
+            throw new BookingException("Failed to book appointment. There may be a scheduling conflict.");
+        }
+
+        System.out.println("Appointment booked successfully.");
+
+    } catch (AppointmentException e) {
+        System.out.println("Error: " + e.getMessage());
+    } catch (BookingException e) {
+        System.out.println("Booking error: " + e.getMessage());
+    } catch (Exception e) {
+        System.out.println("Unexpected error during appointment booking: " + e.getMessage());
     }
+}
 
     private void updateDoctorProfile(DoctorDTO doctor) {
         try {
