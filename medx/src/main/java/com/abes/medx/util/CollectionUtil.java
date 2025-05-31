@@ -57,14 +57,14 @@ public class CollectionUtil {
             // Static Appointment Data
             if (patientMap.containsKey("P1") && doctorMap.containsKey("D1")) {
                 String appointmentId1 = "AP1";
-                validateAndPutAppointment(appointmentId1, new AppointmentDTO(appointmentId1, "2023-10-01", "10:00", patientMap.get("P001"), doctorMap.get("D001"), 500, "Scheduled"));
+                validateAndPutAppointment(appointmentId1, new AppointmentDTO(appointmentId1, "2023-10-01", "10:00", patientMap.get("P1"), doctorMap.get("D1"), 500, "Scheduled"));
             } else {
                 System.err.println("Skipping appointment AP001: Required patient or doctor not initialized.");
             }
 
             if (patientMap.containsKey("P2") && doctorMap.containsKey("D2")) {
                 String appointmentId2 = "AP2";
-                validateAndPutAppointment(appointmentId2, new AppointmentDTO(appointmentId2, "2023-10-02", "11:00", patientMap.get("P002"), doctorMap.get("D002"), 700, "Scheduled"));
+                validateAndPutAppointment(appointmentId2, new AppointmentDTO(appointmentId2, "2023-10-02", "11:00", patientMap.get("P2"), doctorMap.get("D2"), 700, "Scheduled"));
             } else {
                 System.err.println("Skipping appointment AP002: Required patient or doctor not initialized.");
             }
