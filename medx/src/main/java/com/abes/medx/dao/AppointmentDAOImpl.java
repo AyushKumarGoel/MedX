@@ -85,8 +85,11 @@ public class AppointmentDAOImpl implements AppointmentDAO {
 
     @Override
     public String getNextAppointmentId() {
-        int nextId = CollectionUtil.appointmentMap.size() + 1;
-        return "AP" + nextId; 
+        int i = 1;
+        while (CollectionUtil.appointmentMap.containsKey("AP" + i)) {
+            i++;
+        }
+        return "AP" + i;
     }
     
 }
