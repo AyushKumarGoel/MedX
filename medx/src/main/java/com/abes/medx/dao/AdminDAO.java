@@ -12,4 +12,5 @@ public interface AdminDAO {
     AdminDTO getAdminByEmail(String email);
     String getNextAdminId();
     List<AdminDTO> getAllAdmins();
+    
 }

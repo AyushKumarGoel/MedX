@@ -24,7 +24,7 @@ class PatientDAOImplTest {
         patientDAO = new PatientDAOImpl();
         try {
             samplePatient = new PatientDTO(
-                    "John Doe", "john@example.com", "pass123", "9876543210", "30", "P001"
+                    "P001", "John Doe", "john@example.com", "pass123", "9876543210", "30"
             );
         } catch (UserException e) {
             throw new RuntimeException("Failed to create sample patient", e);
@@ -62,10 +62,10 @@ class PatientDAOImplTest {
     @Test
     void testUpdateProfileSuccess() {
         patientDAO.register(samplePatient);
-        PatientDTO updated = null;
+        PatientDTO updated;
         try {
             updated = new PatientDTO(
-                    "John Updated", "john@example.com", "newpass", "0000000000", "31", "P001"
+                    "P001", "John Updated", "john@example.com", "newpass", "0000000000", "31"
             );
         } catch (UserException e) {
             throw new RuntimeException("Failed to create updated patient", e);
@@ -76,10 +76,10 @@ class PatientDAOImplTest {
 
     @Test
     void testUpdateProfileFailure() {
-        PatientDTO newPatient = null;
+        PatientDTO newPatient;
         try {
             newPatient = new PatientDTO(
-                    "Jane Doe", "jane@example.com", "pass456", "1111111111", "28", "P999"
+                    "P999", "Jane Doe", "jane@example.com", "pass456", "1111111111", "28"
             );
         } catch (UserException e) {
             throw new RuntimeException("Failed to create new patient", e);
@@ -117,7 +117,7 @@ class PatientDAOImplTest {
         patientDAO.register(samplePatient);
         try {
             patientDAO.register(new PatientDTO(
-                    "Alice", "alice@example.com", "alice123", "9999999999", "25", "P002"
+                    "P002", "Alice", "alice@example.com", "alice123", "9999999999", "25"
             ));
         } catch (UserException e) {
             throw new RuntimeException("Failed to create Alice patient", e);
