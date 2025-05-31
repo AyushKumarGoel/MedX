@@ -26,8 +26,8 @@ class AppointmentDAOImplTest {
         appointmentDAO = new AppointmentDAOImpl();
         CollectionUtil.appointmentMap.clear();
 
-        doctor = new DoctorDTO("D001", "Dr. Smith", "smith@doc.com", "doc123", "9999999999", "40", "Cardiology", 15);
-        patient = new PatientDTO("John Doe", "john@pat.com", "pat123", "8888888888", "30", "P001");
+        doctor = new DoctorDTO("D1", "Dr Smith", "smith@doc.com", "doc123", "9999999999", "40", "Cardiology", 15);
+        patient = new PatientDTO("P1", "John Doe", "john@pat.com", "pat123", "8888888888", "30");
     }
 
     AppointmentDTO createAppointment(String id, String date, String time) {
@@ -36,15 +36,15 @@ class AppointmentDAOImplTest {
 
     @Test
     void testBookAppointmentSuccess() {
-        AppointmentDTO appt = createAppointment("AP001", "2025-06-01", "10:00 AM");
+        AppointmentDTO appt = createAppointment("AP1", "2025-06-01", "10:00 AM");
         assertTrue(appointmentDAO.bookAppointment(appt));
         assertEquals(1, CollectionUtil.appointmentMap.size());
     }
 
     @Test
     void testBookAppointmentDuplicateIdFails() {
-        AppointmentDTO appt1 = createAppointment("AP001", "2025-06-01", "10:00 AM");
-        AppointmentDTO appt2 = createAppointment("AP001", "2025-06-02", "11:00 AM");
+        AppointmentDTO appt1 = createAppointment("AP1", "2025-06-01", "10:00 AM");
+        AppointmentDTO appt2 = createAppointment("AP1", "2025-06-02", "11:00 AM");
 
         assertTrue(appointmentDAO.bookAppointment(appt1));
         assertFalse(appointmentDAO.bookAppointment(appt2)); // Duplicate ID
@@ -52,8 +52,8 @@ class AppointmentDAOImplTest {
 
     @Test
     void testBookAppointmentConflictFails() {
-        AppointmentDTO appt1 = createAppointment("AP001", "2025-06-01", "10:00 AM");
-        AppointmentDTO appt2 = createAppointment("AP002", "2025-06-01", "10:00 AM"); // Same doctor, date, time
+        AppointmentDTO appt1 = createAppointment("AP1", "2025-06-01", "10:00 AM");
+        AppointmentDTO appt2 = createAppointment("AP2", "2025-06-01", "10:00 AM"); // Same doctor, date, time
 
         assertTrue(appointmentDAO.bookAppointment(appt1));
         assertFalse(appointmentDAO.bookAppointment(appt2)); // Conflict
@@ -61,27 +61,27 @@ class AppointmentDAOImplTest {
 
     @Test
     void testUpdateAppointmentSuccess() {
-        AppointmentDTO appt = createAppointment("AP001", "2025-06-01", "10:00 AM");
+        AppointmentDTO appt = createAppointment("AP1", "2025-06-01", "10:00 AM");
         appointmentDAO.bookAppointment(appt);
 
         appt.setToPay(1000);
         assertTrue(appointmentDAO.updateAppointment(appt));
-        assertEquals(1000, CollectionUtil.appointmentMap.get("AP001").getToPay());
+        assertEquals(1000, CollectionUtil.appointmentMap.get("AP1").getToPay());
     }
 
     @Test
     void testUpdateAppointmentFailsIfNotExist() {
-        AppointmentDTO appt = createAppointment("AP001", "2025-06-01", "10:00 AM");
+        AppointmentDTO appt = createAppointment("AP1", "2025-06-01", "10:00 AM");
         assertFalse(appointmentDAO.updateAppointment(appt)); // Not in map
     }
 
     @Test
     void testCancelAppointmentSuccess() {
-        AppointmentDTO appt = createAppointment("AP001", "2025-06-01", "10:00 AM");
+        AppointmentDTO appt = createAppointment("AP1", "2025-06-01", "10:00 AM");
         appointmentDAO.bookAppointment(appt);
 
-        assertTrue(appointmentDAO.cancelAppointment("AP001"));
-        assertEquals("Cancelled", CollectionUtil.appointmentMap.get("AP001").getStatus());
+        assertTrue(appointmentDAO.cancelAppointment("AP1"));
+        assertEquals("Cancelled", CollectionUtil.appointmentMap.get("AP1").getStatus());
     }
 
     @Test
@@ -91,36 +91,36 @@ class AppointmentDAOImplTest {
 
     @Test
     void testGetAppointmentById() {
-        AppointmentDTO appt = createAppointment("AP001", "2025-06-01", "10:00 AM");
+        AppointmentDTO appt = createAppointment("AP1", "2025-06-01", "10:00 AM");
         appointmentDAO.bookAppointment(appt);
 
-        AppointmentDTO result = appointmentDAO.getAppointmentById("AP001");
+        AppointmentDTO result = appointmentDAO.getAppointmentById("AP1");
         assertNotNull(result);
-        assertEquals("AP001", result.getAppointmentId());
+        assertEquals("AP1", result.getAppointmentId());
     }
 
     @Test
     void testGetAppointmentsByPatientId() {
-        AppointmentDTO appt = createAppointment("AP001", "2025-06-01", "10:00 AM");
+        AppointmentDTO appt = createAppointment("AP1", "2025-06-01", "10:00 AM");
         appointmentDAO.bookAppointment(appt);
 
-        List<AppointmentDTO> result = appointmentDAO.getAppointmentsByPatientId("P001");
+        List<AppointmentDTO> result = appointmentDAO.getAppointmentsByPatientId("P1");
         assertEquals(1, result.size());
     }
 
     @Test
     void testGetAppointmentsByDoctorId() {
-        AppointmentDTO appt = createAppointment("AP001", "2025-06-01", "10:00 AM");
+        AppointmentDTO appt = createAppointment("AP1", "2025-06-01", "10:00 AM");
         appointmentDAO.bookAppointment(appt);
 
-        List<AppointmentDTO> result = appointmentDAO.getAppointmentsByDoctorId("D001");
+        List<AppointmentDTO> result = appointmentDAO.getAppointmentsByDoctorId("D1");
         assertEquals(1, result.size());
     }
 
     @Test
     void testGetAllAppointments() {
-        appointmentDAO.bookAppointment(createAppointment("AP001", "2025-06-01", "10:00 AM"));
-        appointmentDAO.bookAppointment(createAppointment("AP002", "2025-06-02", "11:00 AM"));
+        appointmentDAO.bookAppointment(createAppointment("AP1", "2025-06-01", "10:00 AM"));
+        appointmentDAO.bookAppointment(createAppointment("AP2", "2025-06-02", "11:00 AM"));
 
         List<AppointmentDTO> all = appointmentDAO.getAllAppointments();
         assertEquals(2, all.size());
@@ -128,12 +128,12 @@ class AppointmentDAOImplTest {
 
     @Test
     void testGetAppointmentsByStatus() {
-        AppointmentDTO appt1 = createAppointment("AP001", "2025-06-01", "10:00 AM");
-        AppointmentDTO appt2 = createAppointment("AP002", "2025-06-02", "11:00 AM");
+        AppointmentDTO appt1 = createAppointment("AP1", "2025-06-01", "10:00 AM");
+        AppointmentDTO appt2 = createAppointment("AP2", "2025-06-02", "11:00 AM");
 
         appointmentDAO.bookAppointment(appt1);
         appointmentDAO.bookAppointment(appt2);
-        appointmentDAO.cancelAppointment("AP002");
+        appointmentDAO.cancelAppointment("AP2");
 
         List<AppointmentDTO> scheduled = appointmentDAO.getAppointmentsByStatus("Scheduled");
         List<AppointmentDTO> cancelled = appointmentDAO.getAppointmentsByStatus("Cancelled");
