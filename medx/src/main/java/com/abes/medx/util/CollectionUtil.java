@@ -24,26 +24,26 @@ public class CollectionUtil {
         try {
             // Static Admin Data
             validateAndPutAdmin("A001", new AdminDTO("A001", "Ujjwal Kumar", "ujj@gmail.com", "ujj", "1234567890", "30"));
-
             validateAndPutAdmin("A002", new AdminDTO("A002", "Admin User", "admin@mail.com", "admin123", "1234567890", "35"));
+
             // Static Patient Data
             try {
                 PatientDTO patient1 = createPatient("P001", "RajVerma", "raj@gmail.com", "raj", "1234567890", "20");
                 validateAndPutPatient("P001", patient1);
             } catch (UserException e) {
-                System.err.println("Failed to initialize patient with ID " + "P001" + ": " + e.getMessage());
+                System.err.println("Failed to initialize patient with ID P001: " + e.getMessage());
             }
 
             try {
-                PatientDTO patient2 = createPatient("P002", "Yatharth", "yath@gmail.com", "yatharth", "1234599990", "21");
+                PatientDTO patient2 = createPatient("P002", "Patient", "patient@mail.com", "patient123", "1234599990", "21");
                 validateAndPutPatient("P002", patient2);
             } catch (UserException e) {
-                System.err.println("Failed to initialize patient with ID " + "P002" + ": " + e.getMessage());
+                System.err.println("Failed to initialize patient with ID P002: " + e.getMessage());
             }
 
             // Static Doctor Data
             try {
-            validateAndPutDoctor("D001", new DoctorDTO("D001", "Anjali Singh", "anjali@gmail.com", "anjali", "1234567890", "29", "Cardiologist", 10));
+                validateAndPutDoctor("D001", new DoctorDTO("D001", "Doctor", "doctor@mail.com", "doctor123", "1234567890", "29", "Cardiologist", 10));
             } catch (UserException e) {
                 System.err.println("Failed to initialize doctor with ID D001: " + e.getMessage());
             }
@@ -53,7 +53,6 @@ public class CollectionUtil {
             } catch (UserException e) {
                 System.err.println("Failed to initialize doctor with ID D002: " + e.getMessage());
             }
-
 
             // Static Appointment Data
             if (patientMap.containsKey("P001") && doctorMap.containsKey("D001")) {
@@ -128,4 +127,6 @@ public class CollectionUtil {
         }
         appointmentMap.put(id, appointment);
     }
+
+    
 }

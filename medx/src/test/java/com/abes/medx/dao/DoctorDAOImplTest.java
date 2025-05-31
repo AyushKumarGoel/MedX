@@ -20,7 +20,7 @@ class DoctorDAOImplTest {
     private DoctorDTO sampleDoctor;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws UserException {
         doctorDAO = new DoctorDAOImpl();
         try {
             sampleDoctor = new DoctorDTO(
@@ -61,7 +61,7 @@ class DoctorDAOImplTest {
     }
 
     @Test
-    void testUpdateProfile() {
+    void testUpdateProfile() throws UserException {
         doctorDAO.register(sampleDoctor);
         DoctorDTO updated = null;
         try {
@@ -118,7 +118,7 @@ class DoctorDAOImplTest {
     }
 
     @Test
-    void testGetAllDoctors() {
+    void testGetAllDoctors() throws UserException {
         doctorDAO.register(sampleDoctor);
         try {
             doctorDAO.register(new DoctorDTO("D002", "Dr. Jane", "jane@example.com", "1234", "1111111111", "40", "ENT", 10));
