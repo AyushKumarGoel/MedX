@@ -1,4 +1,5 @@
-package com.abes.medx.ui;   
+package com.abes.medx.ui;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -7,7 +8,6 @@ import com.abes.medx.dto.DoctorDTO;
 import com.abes.medx.dto.PatientDTO;
 import com.abes.medx.exception.UserException;
 import com.abes.medx.service.UserService;
-
 
 public class AdminUI {
 
@@ -48,9 +48,8 @@ public class AdminUI {
             System.out.println("7. Delete Patient");
             System.out.println("8. View All Admins");
             System.out.println("9. Register New Admin");
-            System.out.println("10. Update Admin");
-            System.out.println("11. Delete Admin");
-            System.out.println("12. Logout");
+          
+            System.out.println("10. Logout");
             System.out.print("Choose: ");
             String choice = scanner.nextLine();
 
@@ -61,10 +60,10 @@ public class AdminUI {
                         doctors.forEach(System.out::println);
                         break;
                     case "2":
-                        // call your registerDoctor() method
+                        registerDoctor();
                         break;
                     case "3":
-                        // call your updateDoctor() method
+                        updateDoctor();
                         break;
                     case "4":
                         System.out.print("Enter doctor email to delete: ");
@@ -80,7 +79,7 @@ public class AdminUI {
                         patients.forEach(System.out::println);
                         break;
                     case "6":
-                        // call your registerPatient() method
+                        registerPatient();
                         break;
                     case "7":
                         System.out.print("Enter patient email to delete: ");
@@ -96,24 +95,10 @@ public class AdminUI {
                         admins.forEach(System.out::println);
                         break;
                     case "9":
-                        // call your registerAdmin() method
+                        registerAdmin();
                         break;
+                    
                     case "10":
-                        // call your updateAdmin() method
-                        break;
-                    case "11":
-                        System.out.print("Enter admin email to delete: ");
-                        String admEmail = scanner.nextLine();
-                        if (admEmail.equals(admin.getEmail())) {
-                            throw new UserException("Cannot delete yourself while logged in.");
-                        }
-                        if (userService.deleteAdmin(admEmail)) {
-                            System.out.println("Admin deleted.");
-                        } else {
-                            System.out.println("Admin not found.");
-                        }
-                        break;
-                    case "12":
                         System.out.println("Logging out...");
                         return;
                     default:
@@ -124,4 +109,134 @@ public class AdminUI {
             }
         }
     }
+
+    private void registerDoctor() {
+    try {
+        System.out.print("Doctor ID: ");
+        String doctorId = scanner.nextLine();
+        System.out.print("Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Email: ");
+        String email = scanner.nextLine();
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+        System.out.print("Phone Number: ");
+        String phoneNumber = scanner.nextLine();
+        System.out.print("Age: ");
+        String age = scanner.nextLine();
+        System.out.print("Specialization: ");
+        String specialization = scanner.nextLine();
+        System.out.print("Years of Experience: ");
+        int yearsOfExperience = Integer.parseInt(scanner.nextLine());
+
+        DoctorDTO doctor = new DoctorDTO(doctorId, name, email, password, phoneNumber, age, specialization, yearsOfExperience);
+        userService.registerDoctor(doctor);
+        System.out.println("Doctor registered successfully.");
+    } catch (UserException e) {
+        System.out.println("Registration failed: " + e.getMessage());
+    } catch (NumberFormatException e) {
+        System.out.println("Invalid input for years of experience.");
+    }
+}
+
+private void updateDoctor() {
+    try {
+        System.out.print("Doctor ID: ");
+        String doctorId = scanner.nextLine();
+        System.out.print("Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Email: ");
+        String email = scanner.nextLine();
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+        System.out.print("Phone Number: ");
+        String phoneNumber = scanner.nextLine();
+        System.out.print("Age: ");
+        String age = scanner.nextLine();
+        System.out.print("Specialization: ");
+        String specialization = scanner.nextLine();
+        System.out.print("Years of Experience: ");
+        int yearsOfExperience = Integer.parseInt(scanner.nextLine());
+
+        DoctorDTO doctor = new DoctorDTO(doctorId, name, email, password, phoneNumber, age, specialization, yearsOfExperience);
+        userService.updateDoctorProfile(doctor);
+        System.out.println("Doctor updated successfully.");
+    } catch (UserException e) {
+        System.out.println("Update failed: " + e.getMessage());
+    } catch (NumberFormatException e) {
+        System.out.println("Invalid input for years of experience.");
+    }
+}
+
+
+    private void registerPatient() {
+        try {
+            System.out.print("Name: ");
+            String name = scanner.nextLine();
+            if (name.trim().isEmpty()) {
+                throw new UserException("Name cannot be empty.");
+            }
+            System.out.print("Email: ");
+            String email = scanner.nextLine();
+            if (email.trim().isEmpty()) {
+                throw new UserException("Email cannot be empty.");
+            }
+            System.out.print("Password: ");
+            String password = scanner.nextLine();
+            if (password.trim().isEmpty()) {
+                throw new UserException("Password cannot be empty.");
+            }
+            System.out.print("Phone Number: ");
+            String phoneNumber = scanner.nextLine();
+            System.out.print("Age: ");
+            String age = scanner.nextLine();
+
+            PatientDTO patient = new PatientDTO(userService.getNextPatientId(), name, email, password, phoneNumber, age);
+            if (userService.registerPatient(patient)) {
+                System.out.println("Patient registered successfully.");
+            } else {
+                System.out.println("Patient registration failed. ID or email may already exist.");
+            }
+        } catch (UserException e) {
+            System.out.println("Error registering patient: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Unexpected error during patient registration: " + e.getMessage());
+        }
+    }
+ private void registerAdmin() {
+        try {
+            System.out.print("Name: ");
+            String name = scanner.nextLine();
+            if (name.trim().isEmpty()) {
+                throw new UserException("Name cannot be empty.");
+            }
+            System.out.print("Email: ");
+            String email = scanner.nextLine();
+            if (email.trim().isEmpty()) {
+                throw new UserException("Email cannot be empty.");
+            }
+            System.out.print("Password: ");
+            String password = scanner.nextLine();
+            if (password.trim().isEmpty()) {
+                throw new UserException("Password cannot be empty.");
+            }
+            System.out.print("Phone Number: ");
+            String phoneNumber = scanner.nextLine();
+            System.out.print("Age: ");
+            String age = scanner.nextLine();
+
+            AdminDTO admin = new AdminDTO(userService.getNextAdminId(), name, email, password, phoneNumber, age);
+            if (userService.registerAdmin(admin)) {
+                System.out.println("Admin registered successfully.");
+            } else {
+                System.out.println("Admin registration failed. ID or email may already exist.");
+            }
+        } catch (UserException e) {
+            System.out.println("Error registering admin: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Unexpected error during admin registration: " + e.getMessage());
+        }
+    }
+    
+
 }

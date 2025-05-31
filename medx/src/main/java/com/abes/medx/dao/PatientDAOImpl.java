@@ -8,6 +8,9 @@ import com.abes.medx.util.CollectionUtil;
 
 public class PatientDAOImpl implements PatientDAO {
 
+    public PatientDAOImpl() {
+    }
+
     @Override
     public boolean register(PatientDTO patient) {
         if (CollectionUtil.patientMap.containsKey(patient.getPatientId())) return false;

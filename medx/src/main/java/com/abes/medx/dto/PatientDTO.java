@@ -1,9 +1,8 @@
 package com.abes.medx.dto;
-import com.abes.medx.exception.UserException;
 public class PatientDTO extends UserDTO{
     String patientId;
 
-    public PatientDTO(String patientId, String name, String email, String password, String phoneNumber, String age) throws UserException {
+    public PatientDTO(String patientId, String name, String email, String password, String phoneNumber, String age) {
         super(name, email,password, phoneNumber, age);
         setPatientId(patientId);
     }

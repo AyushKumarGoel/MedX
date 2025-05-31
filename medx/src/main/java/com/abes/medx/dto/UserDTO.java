@@ -1,8 +1,5 @@
 package com.abes.medx.dto;
 
-import com.abes.medx.exception.UserException;
-import com.abes.medx.util.ValidationUtil;
-
 public class UserDTO {
     private String name;
     private String email;
@@ -10,7 +7,7 @@ public class UserDTO {
     private String phoneNumber;
     private String age;
 
-    public UserDTO(String name, String email, String password, String phoneNumber, String age) throws UserException {
+    public UserDTO(String name, String email, String password, String phoneNumber, String age) {
         setName(name);
         setEmail(email);
         setPassword(password);
@@ -18,40 +15,40 @@ public class UserDTO {
         setAge(age);
     }
 
-    public void setName(String name) throws UserException {
-        this.name = ValidationUtil.validateName(name);
+    public void setName(String name)  {
+        this.name = name;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setEmail(String email) throws UserException {
-        this.email = ValidationUtil.validateEmail(email);
+    public void setEmail(String email)  {
+        this.email = email;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setPassword(String password) throws UserException {
-        this.password = ValidationUtil.validatePassword(password);
+    public void setPassword(String password)  {
+        this.password = password;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPhoneNumber(String phoneNumber) throws UserException {
-        this.phoneNumber = ValidationUtil.validatePhoneNumber(phoneNumber);
+    public void setPhoneNumber(String phoneNumber)  {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setAge(String age) throws UserException {
-        this.age = ValidationUtil.validateAge(age);
+    public void setAge(String age)  {
+        this.age = age;
     }
 
     public String getAge() {

@@ -2,8 +2,6 @@ package com.abes.medx.dto;
 
 import java.util.Objects;
 
-import com.abes.medx.exception.UserException;
-
 public class DoctorDTO extends UserDTO {
 
     private String doctorId;
@@ -11,7 +9,7 @@ public class DoctorDTO extends UserDTO {
     private int yearsOfExperience;
 
     public DoctorDTO(String doctorId, String name, String email, String password, String phoneNumber, String age,
-                    String specialization, int yearsOfExperience) throws UserException {
+                    String specialization, int yearsOfExperience) {
         super(name, email, password, phoneNumber, age);
         System.out.println("Creating DoctorDTO: ID=" + doctorId + ", Name=" + name + ", Email=" + email +
                           ", Phone=" + phoneNumber + ", Age=" + age + ", Specialization=" + specialization +
