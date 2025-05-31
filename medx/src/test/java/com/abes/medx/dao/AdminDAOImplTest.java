@@ -20,7 +20,7 @@ class AdminDAOImplTest {
     @BeforeEach
     void setUp() throws UserException {
         adminDAO = new AdminDAOImpl();
-        sampleAdmin = new AdminDTO("A001", "Alice Admin", "alice@admin.com", "admin123", "9876543210", "35");
+        sampleAdmin = new AdminDTO("A1", "Alice Admin", "alice@admin.com", "admin123", "9876543210", "35");
         CollectionUtil.adminMap.clear(); // Reset state before each test
     }
 
@@ -41,7 +41,7 @@ class AdminDAOImplTest {
         adminDAO.register(sampleAdmin);
         AdminDTO result = adminDAO.authenticate("alice@admin.com", "admin123");
         assertNotNull(result);
-        assertEquals("A001", result.getAdminId());
+        assertEquals("A1", result.getAdminId());
     }
 
     @Test
@@ -54,9 +54,9 @@ class AdminDAOImplTest {
     @Test
     void testUpdateProfileSuccess() throws UserException {
         adminDAO.register(sampleAdmin);
-        AdminDTO updatedAdmin = new AdminDTO("A001", "Alice Updated", "alice@admin.com", "newpass", "1234567890", "36");
+        AdminDTO updatedAdmin = new AdminDTO("A1", "Alice Updated", "alice@admin.com", "newpass", "1234567890", "36");
         assertTrue(adminDAO.updateProfile(updatedAdmin));
-        assertEquals("Alice Updated", CollectionUtil.adminMap.get("A001").getName());
+        assertEquals("Alice Updated", CollectionUtil.adminMap.get("A1").getName());
     }
 
     // @Test
@@ -83,7 +83,7 @@ class AdminDAOImplTest {
         adminDAO.register(sampleAdmin);
         AdminDTO result = adminDAO.getAdminByEmail("alice@admin.com");
         assertNotNull(result);
-        assertEquals("A001", result.getAdminId());
+        assertEquals("A1", result.getAdminId());
     }
 
     @Test
