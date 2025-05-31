@@ -22,15 +22,12 @@ class DoctorDAOImplTest {
     @BeforeEach
     void setUp() throws UserException {
         doctorDAO = new DoctorDAOImpl();
-        try {
-            sampleDoctor = new DoctorDTO(
-                    "D001", "Dr. Smith", "smith@example.com", "pass123",
-                    "1234567890", "45", "Cardiology", 15
-            );
-        } catch (UserException e) {
-            throw new RuntimeException("Failed to create sampleDoctor in setUp", e);
-        }
         CollectionUtil.doctorMap.clear(); // Reset storage before each test
+
+        sampleDoctor = new DoctorDTO(
+            "D10", "Raj", "raj@example.com", "pass123",
+            "1234567890", "45", "Cardiology", 15
+        );
     }
 
     @Test
@@ -42,58 +39,48 @@ class DoctorDAOImplTest {
     @Test
     void testRegisterDuplicate() {
         doctorDAO.register(sampleDoctor);
-        assertFalse(doctorDAO.register(sampleDoctor)); // Should fail due to duplicate ID
+        assertFalse(doctorDAO.register(sampleDoctor)); // Duplicate ID
     }
 
     @Test
     void testAuthenticateSuccess() {
         doctorDAO.register(sampleDoctor);
-        DoctorDTO result = doctorDAO.authenticate("smith@example.com", "pass123");
+        DoctorDTO result = doctorDAO.authenticate("raj@example.com", "pass123");
         assertNotNull(result);
-        assertEquals("D001", result.getDoctorId());
+        assertEquals("D10", result.getDoctorId());
     }
 
     @Test
     void testAuthenticateFailure() {
         doctorDAO.register(sampleDoctor);
-        DoctorDTO result = doctorDAO.authenticate("smith@example.com", "wrongpass");
+        DoctorDTO result = doctorDAO.authenticate("raj@example.com", "wrongpass");
         assertNull(result);
     }
 
     @Test
     void testUpdateProfile() throws UserException {
         doctorDAO.register(sampleDoctor);
-        DoctorDTO updated = null;
-        try {
-            updated = new DoctorDTO(
-                    "D001", "Dr. Updated", "smith@example.com", "newpass",
-                    "9999999999", "46", "Neurology", 20
-            );
-        } catch (UserException e) {
-            throw new RuntimeException("Failed to create updated DoctorDTO in testUpdateProfile", e);
-        }
+        DoctorDTO updated = new DoctorDTO(
+            "D10", "Raja", "raj@example.com", "newpass",
+            "9999999999", "46", "Neurology", 20
+        );
         assertTrue(doctorDAO.updateProfile(updated));
-        assertEquals("Dr. Updated", CollectionUtil.doctorMap.get("D001").getName());
+        assertEquals("Raja", CollectionUtil.doctorMap.get("D10").getName());
     }
 
     @Test
-    void testUpdateProfileFailure() {
-        DoctorDTO newDoc = null;
-        try {
-            newDoc = new DoctorDTO(
-                    "D002", "Dr. New", "new@example.com", "pass", "0000000000", "30", "Ortho", 5
-            );
-        } catch (UserException e) {
-            throw new RuntimeException("Failed to create newDoc in testUpdateProfileFailure", e);
-        }
-        assertFalse(doctorDAO.updateProfile(newDoc));
+    void testUpdateProfileFailure() throws UserException {
+        DoctorDTO newDoc = new DoctorDTO(
+            "D11", "Rajan", "new@example.com", "pass", "0000000000", "30", "Ortho", 5
+        );
+        assertFalse(doctorDAO.updateProfile(newDoc)); // Not registered
     }
 
     @Test
     void testDeleteSuccess() {
         doctorDAO.register(sampleDoctor);
-        assertTrue(doctorDAO.delete("smith@example.com"));
-        assertNull(CollectionUtil.doctorMap.get("D001"));
+        assertTrue(doctorDAO.delete("raj@example.com"));
+        assertNull(CollectionUtil.doctorMap.get("D10"));
     }
 
     @Test
@@ -104,27 +91,26 @@ class DoctorDAOImplTest {
     @Test
     void testGetDoctorByEmail() {
         doctorDAO.register(sampleDoctor);
-        DoctorDTO result = doctorDAO.getDoctorByEmail("smith@example.com");
+        DoctorDTO result = doctorDAO.getDoctorByEmail("raj@example.com");
         assertNotNull(result);
-        assertEquals("D001", result.getDoctorId());
+        assertEquals("D10", result.getDoctorId());
     }
 
     @Test
     void testGetDoctorById() {
         doctorDAO.register(sampleDoctor);
-        DoctorDTO result = doctorDAO.getDoctorById("D001");
+        DoctorDTO result = doctorDAO.getDoctorById("D10");
         assertNotNull(result);
-        assertEquals("Dr. Smith", result.getName());
+        assertEquals("Raj", result.getName());
     }
 
     @Test
     void testGetAllDoctors() throws UserException {
         doctorDAO.register(sampleDoctor);
-        try {
-            doctorDAO.register(new DoctorDTO("D002", "Dr. Jane", "jane@example.com", "1234", "1111111111", "40", "ENT", 10));
-        } catch (UserException e) {
-            throw new RuntimeException("Failed to create DoctorDTO in testGetAllDoctors", e);
-        }
+        doctorDAO.register(new DoctorDTO(
+            "D11", "Yash", "yash@example.com", "1234",
+            "1111111111", "40", "ENT", 10
+        ));
         List<DoctorDTO> list = doctorDAO.getAllDoctors();
         assertEquals(2, list.size());
     }
