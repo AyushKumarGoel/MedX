@@ -20,16 +20,12 @@ class PatientDAOImplTest {
     private PatientDTO samplePatient;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws UserException {
         patientDAO = new PatientDAOImpl();
-        try {
-            samplePatient = new PatientDTO(
-                    "John Doe", "john@example.com", "pass123", "9876543210", "30", "P001"
-            );
-        } catch (UserException e) {
-            throw new RuntimeException("Failed to create sample patient", e);
-        }
-        CollectionUtil.patientMap.clear(); // Clear storage before each test
+        CollectionUtil.patientMap.clear(); // Clear map before each test
+        samplePatient = new PatientDTO(
+            "P10", "Kamal", "kamal@example.com", "pass123", "9876543210", "30"
+        );
     }
 
     @Test
@@ -41,70 +37,60 @@ class PatientDAOImplTest {
     @Test
     void testRegisterDuplicate() {
         patientDAO.register(samplePatient);
-        assertFalse(patientDAO.register(samplePatient)); // Duplicate ID
+        assertFalse(patientDAO.register(samplePatient)); // Should not allow duplicate
     }
 
     @Test
     void testAuthenticateSuccess() {
         patientDAO.register(samplePatient);
-        PatientDTO result = patientDAO.authenticate("john@example.com", "pass123");
+        PatientDTO result = patientDAO.authenticate("kamal@example.com", "pass123");
         assertNotNull(result);
-        assertEquals("P001", result.getPatientId());
+        assertEquals("P10", result.getPatientId());
     }
 
     @Test
     void testAuthenticateFailure() {
         patientDAO.register(samplePatient);
-        PatientDTO result = patientDAO.authenticate("john@example.com", "wrongpass");
+        PatientDTO result = patientDAO.authenticate("kamal@example.com", "wrongpass");
         assertNull(result);
     }
 
     @Test
-    void testUpdateProfileSuccess() {
+    void testUpdateProfileSuccess() throws UserException {
         patientDAO.register(samplePatient);
-        PatientDTO updated = null;
-        try {
-            updated = new PatientDTO(
-                    "John Updated", "john@example.com", "newpass", "0000000000", "31", "P001"
-            );
-        } catch (UserException e) {
-            throw new RuntimeException("Failed to create updated patient", e);
-        }
+        PatientDTO updated = new PatientDTO(
+            "P10", "Kamal Updated", "kamal@example.com", "newpass", "0000000000", "31"
+        );
         assertTrue(patientDAO.updateProfile(updated));
-        assertEquals("John Updated", CollectionUtil.patientMap.get("P001").getName());
+        assertEquals("Kamal Updated", CollectionUtil.patientMap.get("P10").getName());
     }
 
     @Test
-    void testUpdateProfileFailure() {
-        PatientDTO newPatient = null;
-        try {
-            newPatient = new PatientDTO(
-                    "Jane Doe", "jane@example.com", "pass456", "1111111111", "28", "P999"
-            );
-        } catch (UserException e) {
-            throw new RuntimeException("Failed to create new patient", e);
-        }
-        assertFalse(patientDAO.updateProfile(newPatient)); // Not yet registered
+    void testUpdateProfileFailure() throws UserException {
+        PatientDTO newPatient = new PatientDTO(
+            "P11", "Ayushi", "ayushi@example.com", "pass456", "1111111111", "28"
+        );
+        assertFalse(patientDAO.updateProfile(newPatient));
     }
 
     @Test
     void testDeleteSuccess() {
         patientDAO.register(samplePatient);
-        assertTrue(patientDAO.delete("john@example.com"));
+        assertTrue(patientDAO.delete("kamal@example.com"));
         assertEquals(0, CollectionUtil.patientMap.size());
     }
 
     @Test
     void testDeleteFailure() {
-        assertFalse(patientDAO.delete("nonexistent@example.com"));
+        assertFalse(patientDAO.delete("abc@example.com"));
     }
 
     @Test
     void testGetPatientByEmailSuccess() {
         patientDAO.register(samplePatient);
-        PatientDTO result = patientDAO.getPatientByEmail("john@example.com");
+        PatientDTO result = patientDAO.getPatientByEmail("kamal@example.com");
         assertNotNull(result);
-        assertEquals("P001", result.getPatientId());
+        assertEquals("P10", result.getPatientId());
     }
 
     @Test
@@ -113,15 +99,11 @@ class PatientDAOImplTest {
     }
 
     @Test
-    void testGetAllPatients() {
+    void testGetAllPatients() throws UserException {
         patientDAO.register(samplePatient);
-        try {
-            patientDAO.register(new PatientDTO(
-                    "Alice", "alice@example.com", "alice123", "9999999999", "25", "P002"
-            ));
-        } catch (UserException e) {
-            throw new RuntimeException("Failed to create Alice patient", e);
-        }
+        patientDAO.register(new PatientDTO(
+            "P11", "tanya", "tanya@example.com", "tanya123", "9999999999", "25"
+        ));
         List<PatientDTO> list = patientDAO.getAllPatients();
         assertEquals(2, list.size());
     }

@@ -63,7 +63,7 @@ public class DoctorDAOImpl implements DoctorDAO {
     @Override
     public String getNextDoctorId() {
         int i = 1;
-        while (CollectionUtil.doctorMap.containsKey("D" + String.format("%03d", i))) {
+        while (CollectionUtil.doctorMap.containsKey("D" + i)) {
             i++;
         }
         return "D" + i;      
