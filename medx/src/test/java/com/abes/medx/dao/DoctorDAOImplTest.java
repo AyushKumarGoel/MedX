@@ -22,10 +22,14 @@ class DoctorDAOImplTest {
     @BeforeEach
     void setUp() throws UserException {
         doctorDAO = new DoctorDAOImpl();
-        sampleDoctor = new DoctorDTO(
-                "D001", "Dr. Smith", "smith@example.com", "pass123",
-                "1234567890", "45", "Cardiology", 15
-        );
+        try {
+            sampleDoctor = new DoctorDTO(
+                    "D001", "Dr. Smith", "smith@example.com", "pass123",
+                    "1234567890", "45", "Cardiology", 15
+            );
+        } catch (UserException e) {
+            throw new RuntimeException("Failed to create sampleDoctor in setUp", e);
+        }
         CollectionUtil.doctorMap.clear(); // Reset storage before each test
     }
 
@@ -59,25 +63,30 @@ class DoctorDAOImplTest {
     @Test
     void testUpdateProfile() throws UserException {
         doctorDAO.register(sampleDoctor);
-        DoctorDTO updated = new DoctorDTO(
-                "D001", "Dr. Updated", "smith@example.com", "newpass",
-                "9999999999", "46", "Neurology", 20
-        );
+        DoctorDTO updated = null;
+        try {
+            updated = new DoctorDTO(
+                    "D001", "Dr. Updated", "smith@example.com", "newpass",
+                    "9999999999", "46", "Neurology", 20
+            );
+        } catch (UserException e) {
+            throw new RuntimeException("Failed to create updated DoctorDTO in testUpdateProfile", e);
+        }
         assertTrue(doctorDAO.updateProfile(updated));
         assertEquals("Dr. Updated", CollectionUtil.doctorMap.get("D001").getName());
     }
 
     @Test
     void testUpdateProfileFailure() {
+        DoctorDTO newDoc = null;
         try {
-            DoctorDTO newDoc = new DoctorDTO(
+            newDoc = new DoctorDTO(
                     "D002", "Dr. New", "new@example.com", "pass", "0000000000", "30", "Ortho", 5
             );
-            assertFalse(doctorDAO.updateProfile(newDoc));
         } catch (UserException e) {
-            // Optionally fail the test if exception is not expected
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to create newDoc in testUpdateProfileFailure", e);
         }
+        assertFalse(doctorDAO.updateProfile(newDoc));
     }
 
     @Test
@@ -111,7 +120,11 @@ class DoctorDAOImplTest {
     @Test
     void testGetAllDoctors() throws UserException {
         doctorDAO.register(sampleDoctor);
-        doctorDAO.register(new DoctorDTO("D002", "Dr. Jane", "jane@example.com", "1234", "1111111111", "40", "ENT", 10));
+        try {
+            doctorDAO.register(new DoctorDTO("D002", "Dr. Jane", "jane@example.com", "1234", "1111111111", "40", "ENT", 10));
+        } catch (UserException e) {
+            throw new RuntimeException("Failed to create DoctorDTO in testGetAllDoctors", e);
+        }
         List<DoctorDTO> list = doctorDAO.getAllDoctors();
         assertEquals(2, list.size());
     }
