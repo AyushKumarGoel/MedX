@@ -19,11 +19,11 @@ import com.abes.medx.exception.UserException;
 
 class UserServiceTest {
 
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @BeforeEach
     void setUp() {
-        userService = new UserService(new AdminDAOImpl(), new DoctorDAOImpl(), new PatientDAOImpl());
+        userService = new UserServiceImpl(new AdminDAOImpl(), new DoctorDAOImpl(), new PatientDAOImpl());
     }
 
     // ---------------------- Admin Tests ----------------------
