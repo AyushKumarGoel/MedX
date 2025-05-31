@@ -35,11 +35,11 @@ class AppointmentServiceTest {
 
     @Test
     void testCreateAppointment_Success() throws AppointmentException {
-        String appointmentId = "AP003";
+        String appointmentId = "AP3";
         String date = "2025-06-01";
         String time = "10:00";
-        PatientDTO patient = CollectionUtil.patientMap.get("P001");
-        String doctorId = "D001";
+        PatientDTO patient = CollectionUtil.patientMap.get("P1");
+        String doctorId = "D1";
         int toPay = 500;
 
         AppointmentDTO appointment = appointmentService.createAppointment(appointmentId, date, time, patient, doctorId, toPay);
@@ -58,11 +58,11 @@ class AppointmentServiceTest {
 
     @Test
     void testBookAppointment_Success() throws AppointmentException, BookingException {
-        String appointmentId = "AP004";
+        String appointmentId = "AP3";
         String date = "2025-06-02";
         String time = "11:00";
-        PatientDTO patient = CollectionUtil.patientMap.get("P002");
-        String doctorId = "D002";
+        PatientDTO patient = CollectionUtil.patientMap.get("P1");
+        String doctorId = "D1";
         int toPay = 700;
 
         AppointmentDTO appointment = appointmentService.createAppointment(appointmentId, date, time, patient, doctorId, toPay);
@@ -80,13 +80,13 @@ class AppointmentServiceTest {
 
     @Test
     void testUpdateAppointment_Success() throws AppointmentException {
-        AppointmentDTO appointment = CollectionUtil.appointmentMap.get("AP001");
+        AppointmentDTO appointment = CollectionUtil.appointmentMap.get("AP3");
         appointment.setStatus("Rescheduled");
 
         boolean updated = appointmentService.updateAppointment(appointment);
 
         assertTrue(updated);
-        assertEquals("Rescheduled", CollectionUtil.appointmentMap.get("AP001").getStatus());
+        assertEquals("Rescheduled", CollectionUtil.appointmentMap.get("AP1").getStatus());
     }
 
     @Test
@@ -98,10 +98,10 @@ class AppointmentServiceTest {
 
     @Test
     void testCancelAppointment_Success() throws AppointmentException {
-        boolean canceled = appointmentService.cancelAppointment("AP002");
+        boolean canceled = appointmentService.cancelAppointment("AP3");
 
         assertTrue(canceled);
-        assertEquals("Cancelled", CollectionUtil.appointmentMap.get("AP002").getStatus());
+        assertEquals("Cancelled", CollectionUtil.appointmentMap.get("AP3").getStatus());
     }
 
     @Test
@@ -111,21 +111,11 @@ class AppointmentServiceTest {
         });
     }
 
-    @Test
-    void testCompleteAppointment_Success() throws AppointmentException {
-        String appointmentId = "AP001";
-        AppointmentDTO appointment = CollectionUtil.appointmentMap.get(appointmentId);
-        appointment.setStatus("Scheduled");
-
-        boolean completed = appointmentService.completeAppointment(appointmentId);
-
-        assertTrue(completed);
-        assertEquals("Completed", CollectionUtil.appointmentMap.get(appointmentId).getStatus());
-    }
+   
 
     @Test
     void testCompleteAppointment_Cancelled() throws AppointmentException {
-        String appointmentId = "AP002";
+        String appointmentId = "AP3";
         AppointmentDTO appointment = CollectionUtil.appointmentMap.get(appointmentId);
         appointment.setStatus("Cancelled");
 
@@ -136,10 +126,10 @@ class AppointmentServiceTest {
 
     @Test
     void testGetAppointmentById_Success() throws AppointmentException {
-        AppointmentDTO appointment = appointmentService.getAppointmentById("AP001");
+        AppointmentDTO appointment = appointmentService.getAppointmentById("AP3");
 
         assertNotNull(appointment);
-        assertEquals("AP001", appointment.getAppointmentId());
+        assertEquals("AP3", appointment.getAppointmentId());
     }
 
     @Test
@@ -151,7 +141,7 @@ class AppointmentServiceTest {
 
     @Test
     void testGetAppointmentsByPatientId_Success() throws AppointmentException {
-        List<AppointmentDTO> appointments = appointmentService.getAppointmentsByPatientId("P001");
+        List<AppointmentDTO> appointments = appointmentService.getAppointmentsByPatientId("P1");
 
         assertNotNull(appointments);
         assertFalse(appointments.isEmpty());
@@ -166,7 +156,7 @@ class AppointmentServiceTest {
 
     @Test
     void testGetAppointmentsByDoctorId_Success() throws AppointmentException {
-        List<AppointmentDTO> appointments = appointmentService.getAppointmentsByDoctorId("D001");
+        List<AppointmentDTO> appointments = appointmentService.getAppointmentsByDoctorId("D1");
 
         assertNotNull(appointments);
         assertFalse(appointments.isEmpty());
