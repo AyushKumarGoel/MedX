@@ -79,12 +79,12 @@ class UserServiceTest {
     void testGetDoctorById() throws UserException {
         DoctorDTO doctor = userService.getDoctorById("D001");
         assertNotNull(doctor);
-        assertEquals("anjali@gmail.com", doctor.getEmail());
+        assertEquals("doctor@mail.com", doctor.getEmail());
     }
 
     @Test
     void testGetDoctorByEmail() throws UserException {
-        DoctorDTO doctor = userService.getDoctorByEmail("anjali@gmail.com");
+        DoctorDTO doctor = userService.getDoctorByEmail("doctor@mail.com");
         assertNotNull(doctor);
         assertEquals("D001", doctor.getDoctorId());
     }
