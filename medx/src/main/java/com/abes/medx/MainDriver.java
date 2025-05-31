@@ -12,7 +12,7 @@ import com.abes.medx.dao.PatientDAO;
 import com.abes.medx.dao.PatientDAOImpl;
 import com.abes.medx.service.AppointmentService;
 import com.abes.medx.service.UserService;
-import com.abes.medx.ui.*;
+import com.abes.medx.ui.UI;
 import com.abes.medx.util.CollectionUtil;
 
 public class MainDriver {
