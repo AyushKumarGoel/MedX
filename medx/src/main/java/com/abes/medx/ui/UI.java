@@ -2,15 +2,23 @@ package com.abes.medx.ui;
 
 import java.util.Scanner;
 
-import com.abes.medx.service.AppointmentService;
-import com.abes.medx.service.UserService;
+import com.abes.medx.dto.AdminDTO;
+import com.abes.medx.dto.AppointmentDTO;
+import com.abes.medx.dto.DoctorDTO;
+import com.abes.medx.dto.PatientDTO;
+import com.abes.medx.exception.AppointmentException;
+import com.abes.medx.exception.BookingException;
+import com.abes.medx.exception.UserException;
+import com.abes.medx.service.AppointmentServiceImpl;
+import com.abes.medx.service.UserServiceImpl;
+
 
 public class UI {
     private final Scanner scanner;
-    private final UserService userService;
-    private final AppointmentService appointmentService;
+    private final UserServiceImpl userService;
+    private final AppointmentServiceImpl appointmentService;
 
-    public UI(Scanner scanner, UserService userService, AppointmentService appointmentService) {
+    public UI(Scanner scanner, UserServiceImpl userService, AppointmentServiceImpl appointmentService) {
         this.scanner = scanner;
         this.userService = userService;
         this.appointmentService = appointmentService;
