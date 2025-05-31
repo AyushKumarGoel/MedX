@@ -20,6 +20,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         this.doctorDAO = doctorDAO;
     }
 
+    @Override
     public AppointmentDTO createAppointment(String id, String date, String time, PatientDTO patient, String doctorId, int toPay) throws AppointmentException {
         if (date == null || time == null || patient == null) {
             throw new AppointmentException("Invalid appointment data provided.");
@@ -39,6 +40,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         return new AppointmentDTO(id, date, time, patient, doctor, toPay, "Scheduled");
     }
 
+    @Override
     public boolean bookAppointment(AppointmentDTO appointment) throws BookingException {
         if (appointment == null || appointment.getAppointmentId() == null) {
             throw new BookingException("Invalid appointment data for booking.");
@@ -46,6 +48,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentDAO.bookAppointment(appointment);
     }
 
+    @Override
     public boolean updateAppointment(AppointmentDTO appointment) throws AppointmentException {
         if (appointment == null || appointment.getAppointmentId() == null) {
             throw new AppointmentException("Invalid appointment data for update.");
@@ -53,6 +56,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentDAO.updateAppointment(appointment);
     }
 
+    @Override
     public boolean cancelAppointment(String id) throws AppointmentException {
         if (id == null || id.trim().isEmpty()) {
             throw new AppointmentException("Appointment ID cannot be empty.");
@@ -60,6 +64,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentDAO.cancelAppointment(id);
     }
 
+    @Override
     public boolean completeAppointment(String id) throws AppointmentException {
         if (id == null || id.trim().isEmpty()) {
             throw new AppointmentException("Appointment ID cannot be empty.");
@@ -75,6 +80,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentDAO.updateAppointment(a);
     }
 
+    @Override
     public AppointmentDTO getAppointmentById(String id) throws AppointmentException {
         if (id == null || id.trim().isEmpty()) {
             throw new AppointmentException("Appointment ID cannot be empty.");
@@ -86,6 +92,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointment;
     }
 
+    @Override
     public List<AppointmentDTO> getAppointmentsByPatientId(String patientId) throws AppointmentException {
         if (patientId == null || patientId.trim().isEmpty()) {
             throw new AppointmentException("Patient ID cannot be empty.");
@@ -93,6 +100,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentDAO.getAppointmentsByPatientId(patientId);
     }
 
+    @Override
     public List<AppointmentDTO> getAppointmentsByDoctorId(String doctorId) throws AppointmentException {
         if (doctorId == null || doctorId.trim().isEmpty()) {
             throw new AppointmentException("Doctor ID cannot be empty.");
@@ -100,6 +108,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentDAO.getAppointmentsByDoctorId(doctorId);
     }
 
+    @Override
     public List<AppointmentDTO> getAppointmentsByStatus(String status) throws AppointmentException {
         if (status == null || status.trim().isEmpty()) {
             throw new AppointmentException("Status cannot be empty.");
@@ -107,10 +116,12 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentDAO.getAppointmentsByStatus(status);
     }
 
+    @Override
     public List<AppointmentDTO> getAllAppointments() throws AppointmentException {
         return appointmentDAO.getAllAppointments();
     }
 
+    @Override
     public String getNextAppointmentId() throws AppointmentException {
         String nextId = appointmentDAO.getNextAppointmentId();
         if (nextId == null || nextId.trim().isEmpty()) {
