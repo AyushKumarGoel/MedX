@@ -1,0 +1,15 @@
+-------------------------------------------------------------------------------
+Test set: DoctorDAOImplTest
+-------------------------------------------------------------------------------
+Tests run: 12, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.106 s <<< FAILURE! -- in DoctorDAOImplTest
+DoctorDAOImplTest.testDeleteDoctor_Success -- Time elapsed: 0.004 s <<< ERROR!
+com.abes.medx.exception.UserException: Name must contain only alphabetic characters and spaces. Provided: Dr. Temp
+	at com.abes.medx.util.ValidationUtil.validateName(ValidationUtil.java:13)
+	at com.abes.medx.dto.UserDTO.setName(UserDTO.java:22)
+	at com.abes.medx.dto.UserDTO.<init>(UserDTO.java:14)
+	at com.abes.medx.dto.DoctorDTO.<init>(DoctorDTO.java:15)
+	at DoctorDAOImplTest.testDeleteDoctor_Success(DoctorDAOImplTest.java:70)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
