@@ -1,5 +1,6 @@
 package com.abes.medx.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,9 @@ public class CollectionUtil {
     public static final Map<String, AppointmentDTO> appointmentMap = new HashMap<>();
     public static final Map<String, List<String>> patientAppointments = new HashMap<>();
     public static final Map<String, List<String>> doctorAppointments = new HashMap<>();
-
+    public static final List<AppointmentDTO> scheduled = new ArrayList<>();
+    public static final List<AppointmentDTO> completed = new ArrayList<>();
+    
     static {
         try {
             // Static Admin Data
