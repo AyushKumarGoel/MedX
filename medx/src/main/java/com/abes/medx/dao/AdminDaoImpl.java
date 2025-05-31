@@ -25,8 +25,7 @@ public class AdminDAOImpl implements AdminDAO {
         return CollectionUtil.adminMap.values().stream()
                 .filter(admin -> admin.getEmail().equalsIgnoreCase(email)
                         && admin.getPassword().equals(password))
-                .findFirst()
-                .orElse(null);
+                        .findFirst().orElse(null);
     }
 
     @Override
