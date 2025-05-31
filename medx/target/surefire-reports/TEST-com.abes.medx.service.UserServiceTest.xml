@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.abes.medx.service.UserServiceTest" time="0.11" tests="16" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="21"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.class.path" value="C:\Users\AMIT GUPTA JI\Documents\Capgemini\Sprint\MedX\medx\target\test-classes;C:\Users\AMIT GUPTA JI\Documents\Capgemini\Sprint\MedX\medx\target\classes;C:\Users\AMIT GUPTA JI\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.12.2\junit-jupiter-api-5.12.2.jar;C:\Users\AMIT GUPTA JI\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\AMIT GUPTA JI\.m2\repository\org\junit\platform\junit-platform-commons\1.12.2\junit-platform-commons-1.12.2.jar;C:\Users\AMIT GUPTA JI\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;"/>
+    <property name="java.vm.vendor" value="Eclipse Adoptium"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://adoptium.net/"/>
+    <property name="user.timezone" value="Asia/Calcutta"/>
+    <property name="os.name" value="Windows 11"/>
+    <property name="java.vm.specification.version" value="21"/>
+    <property name="user.country" value="IN"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.boot.library.path" value="c:\Users\AMIT GUPTA JI\.p2\pool\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_21.0.6.v20250130-0529\jre\bin"/>
+    <property name="sun.java.command" value="C:\Users\AMIT GUPTA JI\AppData\Local\Temp\surefire5026706722491098198\surefirebooter-20250530224455959_3.jar C:\Users\AMIT GUPTA JI\AppData\Local\Temp\surefire5026706722491098198 2025-05-30T22-44-55_762-jvmRun1 surefire-20250530224455959_1tmp surefire_0-20250530224455959_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="test" value="com.abes.medx.service.UserServiceTest"/>
+    <property name="surefire.test.class.path" value="C:\Users\AMIT GUPTA JI\Documents\Capgemini\Sprint\MedX\medx\target\test-classes;C:\Users\AMIT GUPTA JI\Documents\Capgemini\Sprint\MedX\medx\target\classes;C:\Users\AMIT GUPTA JI\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.12.2\junit-jupiter-api-5.12.2.jar;C:\Users\AMIT GUPTA JI\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\AMIT GUPTA JI\.m2\repository\org\junit\platform\junit-platform-commons\1.12.2\junit-platform-commons-1.12.2.jar;C:\Users\AMIT GUPTA JI\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\AMIT GUPTA JI"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2025-01-21"/>
+    <property name="java.home" value="c:\Users\AMIT GUPTA JI\.p2\pool\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_21.0.6.v20250130-0529\jre"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="C:\Users\AMIT GUPTA JI\Documents\Capgemini\Sprint\MedX\medx"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\AMIT GUPTA JI\AppData\Local\Temp\surefire5026706722491098198\surefirebooter-20250530224455959_3.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="21.0.6+7-LTS"/>
+    <property name="user.name" value="AMIT GUPTA JI"/>
+    <property name="stdout.encoding" value="Cp1252"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Temurin-21.0.6+7"/>
+    <property name="maven.ext.class.path" value="C:\Users\AMIT GUPTA JI\.vscode\extensions\oracle.oracle-java-24.0.0\nbcode\java\maven-nblib\netbeans-eventspy.jar"/>
+    <property name="localRepository" value="C:\Users\AMIT GUPTA JI\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/adoptium/adoptium-support/issues"/>
+    <property name="java.io.tmpdir" value="C:\Users\AMITGU~1\AppData\Local\Temp\"/>
+    <property name="java.version" value="21.0.6"/>
+    <property name="user.dir" value="C:\Users\AMIT GUPTA JI\Documents\Capgemini\Sprint\MedX\medx"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="c:\Users\AMIT GUPTA JI\.p2\pool\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_21.0.6.v20250130-0529\jre\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\Common Files\Oracle\Java\javapath;C:\oraclexe\app\oracle\product\10.2.0\server\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\MinGW\bin;C:\Program Files\dotnet\;C:\Program Files\MySQL\MySQL Server 8.0\bin;C:\Program Files (x86)\HP\Common\HPDestPlgIn\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files\PuTTY\;C:\Program Files\Java\jdk-21\bin;C:\Users\AMIT GUPTA JI\AppData\Local\Programs\Python\Python310\Scripts\;C:\Users\AMIT GUPTA JI\AppData\Local\Programs\Python\Python310\;C:\Users\AMIT GUPTA JI\AppData\Local\Microsoft\WindowsApps;C:\Users\AMIT GUPTA JI\AppData\Local\Programs\Microsoft VS Code\bin;C:\MinGW\bin;C:\Program Files (x86)\HP\Common\HPDestPlgIn\;C:\Users\AMIT GUPTA JI\AppData\Roaming\npm;C:\Users\AMIT GUPTA JI\.dotnet\tools;C:\Program Files\Apache\apache-maven-3.9.9\bin;;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="Cp1252"/>
+    <property name="java.vendor" value="Eclipse Adoptium"/>
+    <property name="java.vm.version" value="21.0.6+7-LTS"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="65.0"/>
+  </properties>
+  <testcase name="testGetNextAdminId" classname="com.abes.medx.service.UserServiceTest" time="0.039">
+    <system-out><![CDATA[Created PatientDTO for ID: P001, Email: raj@gmail.com, PatientID: P001
+Successfully added patient with ID: P001
+Created PatientDTO for ID: P002, Email: yath@gmail.com, PatientID: P002
+Successfully added patient with ID: P002
+]]></system-out>
+  </testcase>
+  <testcase name="testGetPatientByEmail" classname="com.abes.medx.service.UserServiceTest" time="0.01"/>
+  <testcase name="testGetAllPatients" classname="com.abes.medx.service.UserServiceTest" time="0.003"/>
+  <testcase name="testGetNextPatientId" classname="com.abes.medx.service.UserServiceTest" time="0.001"/>
+  <testcase name="testDoctorLoginSuccess" classname="com.abes.medx.service.UserServiceTest" time="0.0"/>
+  <testcase name="testGetDoctorById" classname="com.abes.medx.service.UserServiceTest" time="0.001"/>
+  <testcase name="testGetAllAdmins" classname="com.abes.medx.service.UserServiceTest" time="0.001"/>
+  <testcase name="testAdminLoginSuccess" classname="com.abes.medx.service.UserServiceTest" time="0.001"/>
+  <testcase name="testGetAllDoctors" classname="com.abes.medx.service.UserServiceTest" time="0.0"/>
+  <testcase name="testDoctorLoginFailure" classname="com.abes.medx.service.UserServiceTest" time="0.002"/>
+  <testcase name="testPatientLoginSuccess" classname="com.abes.medx.service.UserServiceTest" time="0.001"/>
+  <testcase name="testAdminLoginFailure" classname="com.abes.medx.service.UserServiceTest" time="0.001"/>
+  <testcase name="testGetDoctorByEmail" classname="com.abes.medx.service.UserServiceTest" time="0.001"/>
+  <testcase name="testGetNextDoctorId" classname="com.abes.medx.service.UserServiceTest" time="0.002"/>
+  <testcase name="testGetAdminByEmail" classname="com.abes.medx.service.UserServiceTest" time="0.001"/>
+  <testcase name="testPatientLoginFailure" classname="com.abes.medx.service.UserServiceTest" time="0.001"/>
+</testsuite>

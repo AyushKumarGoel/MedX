@@ -55,9 +55,14 @@ public class AdminDAOImpl implements AdminDAO {
 
     @Override
     public String getNextAdminId() {
-        return "ADM" + (CollectionUtil.adminMap.size() + 1);
+        int i = 1;
+        while (CollectionUtil.appointmentMap.containsKey("ADM" + i)) {
+            i++;
+        }
+        return "ADM" + i;
     }
 
+    // overriding
     @Override
     public List<AdminDTO> getAllAdmins() {
         return new ArrayList<>(CollectionUtil.adminMap.values());

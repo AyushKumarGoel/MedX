@@ -62,6 +62,10 @@ public class DoctorDAOImpl implements DoctorDAO {
 
     @Override
     public String getNextDoctorId() {
-        return "D" + (CollectionUtil.doctorMap.size() + 1);
+        int i = 1;
+        while (CollectionUtil.doctorMap.containsKey("D" + String.format("%03d", i))) {
+            i++;
+        }
+        return "D" + i;      
     }
 }
