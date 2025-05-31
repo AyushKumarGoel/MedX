@@ -24,243 +24,149 @@ public class UserService {
 
     // Admin
     public AdminDTO adminLogin(String email, String password) throws UserException {
-        try {
-            AdminDTO admin = adminDAO.authenticate(email, password);
-            if (admin == null) {
-                throw new UserException("Invalid admin email or password.");
-            }
-            return admin;
-        } catch (Exception e) {
-            throw new UserException("Error during admin login: " + e.getMessage());
-        }
+        AdminDTO admin = adminDAO.authenticate(email, password);
+        if (admin == null) throw new UserException("Invalid admin email or password.");
+        return admin;
     }
 
     public boolean registerAdmin(AdminDTO admin) throws UserException {
-        try {
-            if (admin == null || admin.getEmail() == null || admin.getAdminId() == null) {
-                throw new UserException("Invalid admin data provided.");
-            }
-            return adminDAO.register(admin);
-        } catch (Exception e) {
-            throw new UserException("Error registering admin: " + e.getMessage());
+        if (admin == null || admin.getEmail() == null || admin.getAdminId() == null) {
+            throw new UserException("Invalid admin data provided.");
         }
+        return adminDAO.register(admin);
     }
 
     public boolean updateAdminProfile(AdminDTO admin) throws UserException {
-        try {
-            if (admin == null || admin.getAdminId() == null || admin.getEmail() == null) {
-                throw new UserException("Invalid admin data for update.");
-            }
-            return adminDAO.updateProfile(admin);
-        } catch (Exception e) {
-            throw new UserException("Error updating admin profile: " + e.getMessage());
+        if (admin == null || admin.getAdminId() == null || admin.getEmail() == null) {
+            throw new UserException("Invalid admin data for update.");
         }
+        return adminDAO.updateProfile(admin);
     }
 
     public boolean deleteAdmin(String email) throws UserException {
-        try {
-            if (email == null || email.trim().isEmpty()) {
-                throw new UserException("Email cannot be empty.");
-            }
-            return adminDAO.delete(email);
-        } catch (Exception e) {
-            throw new UserException("Error deleting admin: " + e.getMessage());
+        if (email == null || email.trim().isEmpty()) {
+            throw new UserException("Email cannot be empty.");
         }
+        return adminDAO.delete(email);
     }
 
     public AdminDTO getAdminByEmail(String email) throws UserException {
-        try {
-            if (email == null || email.trim().isEmpty()) {
-                throw new UserException("Email cannot be empty.");
-            }
-            return adminDAO.getAdminByEmail(email);
-        } catch (Exception e) {
-            throw new UserException("Error retrieving admin: " + e.getMessage());
+        if (email == null || email.trim().isEmpty()) {
+            throw new UserException("Email cannot be empty.");
         }
+        return adminDAO.getAdminByEmail(email);
     }
 
     public List<AdminDTO> getAllAdmins() throws UserException {
-        try {
-            return adminDAO.getAllAdmins();
-        } catch (Exception e) {
-            throw new UserException("Error retrieving admins: " + e.getMessage());
+        return adminDAO.getAllAdmins();
+    }
+
+    public String getNextAdminId() throws UserException {
+        String nextId = adminDAO.getNextAdminId();
+        if (nextId == null || nextId.trim().isEmpty()) {
+            throw new UserException("Failed to generate next admin ID.");
         }
+        return nextId;
     }
 
     // Doctor
     public DoctorDTO doctorLogin(String email, String password) throws UserException {
-        try {
-            DoctorDTO doctor = doctorDAO.authenticate(email, password);
-            if (doctor == null) {
-                throw new UserException("Invalid doctor email or password.");
-            }
-            return doctor;
-        } catch (Exception e) {
-            throw new UserException("Error during doctor login: " + e.getMessage());
-        }
+        DoctorDTO doctor = doctorDAO.authenticate(email, password);
+        if (doctor == null) throw new UserException("Invalid doctor email or password.");
+        return doctor;
     }
 
     public boolean registerDoctor(DoctorDTO doctor) throws UserException {
-        try {
-            if (doctor == null || doctor.getEmail() == null || doctor.getDoctorId() == null) {
-                throw new UserException("Invalid doctor data provided.");
-            }
-            return doctorDAO.register(doctor);
-        } catch (Exception e) {
-            throw new UserException("Error registering doctor: " + e.getMessage());
+        if (doctor == null || doctor.getEmail() == null || doctor.getDoctorId() == null) {
+            throw new UserException("Invalid doctor data provided.");
         }
+        return doctorDAO.register(doctor);
     }
 
     public boolean deleteDoctor(String email) throws UserException {
-        try {
-            if (email == null || email.trim().isEmpty()) {
-                throw new UserException("Email cannot be empty.");
-            }
-            return doctorDAO.delete(email);
-        } catch (Exception e) {
-            throw new UserException("Error deleting doctor: " + e.getMessage());
+        if (email == null || email.trim().isEmpty()) {
+            throw new UserException("Email cannot be empty.");
         }
+        return doctorDAO.delete(email);
     }
 
     public boolean updateDoctorProfile(DoctorDTO doctor) throws UserException {
-        try {
-            if (doctor == null || doctor.getDoctorId() == null) {
-                throw new UserException("Invalid doctor data for update.");
-            }
-            return doctorDAO.updateProfile(doctor);
-        } catch (Exception e) {
-            throw new UserException("Error updating doctor profile: " + e.getMessage());
+        if (doctor == null || doctor.getDoctorId() == null) {
+            throw new UserException("Invalid doctor data for update.");
         }
+        return doctorDAO.updateProfile(doctor);
     }
 
     public List<DoctorDTO> getAllDoctors() throws UserException {
-        try {
-            return doctorDAO.getAllDoctors();
-        } catch (Exception e) {
-            throw new UserException("Error retrieving doctors: " + e.getMessage());
-        }
+        return doctorDAO.getAllDoctors();
     }
 
     public DoctorDTO getDoctorById(String id) throws UserException {
-        try {
-            if (id == null || id.trim().isEmpty()) {
-                throw new UserException("Doctor ID cannot be empty.");
-            }
-            return doctorDAO.getDoctorById(id);
-        } catch (Exception e) {
-            throw new UserException("Error retrieving doctor by ID: " + e.getMessage());
+        if (id == null || id.trim().isEmpty()) {
+            throw new UserException("Doctor ID cannot be empty.");
         }
+        return doctorDAO.getDoctorById(id);
     }
 
     public DoctorDTO getDoctorByEmail(String email) throws UserException {
-        try {
-            if (email == null || email.trim().isEmpty()) {
-                throw new UserException("Email cannot be empty.");
-            }
-            return doctorDAO.getDoctorByEmail(email);
-        } catch (Exception e) {
-            throw new UserException("Error retrieving doctor by email: " + e.getMessage());
+        if (email == null || email.trim().isEmpty()) {
+            throw new UserException("Email cannot be empty.");
         }
+        return doctorDAO.getDoctorByEmail(email);
+    }
+
+    public String getNextDoctorId() throws UserException {
+        String nextId = doctorDAO.getNextDoctorId();
+        if (nextId == null || nextId.trim().isEmpty()) {
+            throw new UserException("Failed to generate next doctor ID.");
+        }
+        return nextId;
     }
 
     // Patient
     public PatientDTO patientLogin(String email, String password) throws UserException {
-        try {
-            PatientDTO patient = patientDAO.authenticate(email, password);
-            if (patient == null) {
-                throw new UserException("Invalid patient email or password.");
-            }
-            return patient;
-        } catch (Exception e) {
-            throw new UserException("Error during patient login: " + e.getMessage());
-        }
+        PatientDTO patient = patientDAO.authenticate(email, password);
+        if (patient == null) throw new UserException("Invalid patient email or password.");
+        return patient;
     }
 
     public boolean registerPatient(PatientDTO patient) throws UserException {
-        try {
-            if (patient == null || patient.getEmail() == null || patient.getPatientId() == null) {
-                throw new UserException("Invalid patient data provided.");
-            }
-            return patientDAO.register(patient);
-        } catch (Exception e) {
-            throw new UserException("Error registering patient: " + e.getMessage());
+        if (patient == null || patient.getEmail() == null || patient.getPatientId() == null) {
+            throw new UserException("Invalid patient data provided.");
         }
+        return patientDAO.register(patient);
     }
 
     public boolean updatePatientProfile(PatientDTO patient) throws UserException {
-        try {
-            if (patient == null || patient.getPatientId() == null) {
-                throw new UserException("Invalid patient data for update.");
-            }
-            return patientDAO.updateProfile(patient);
-        } catch (Exception e) {
-            throw new UserException("Error updating patient profile: " + e.getMessage());
+        if (patient == null || patient.getPatientId() == null) {
+            throw new UserException("Invalid patient data for update.");
         }
+        return patientDAO.updateProfile(patient);
     }
 
     public boolean deletePatient(String email) throws UserException {
-        try {
-            if (email == null || email.trim().isEmpty()) {
-                throw new UserException("Email cannot be empty.");
-            }
-            return patientDAO.delete(email);
-        } catch (Exception e) {
-            throw new UserException("Error deleting patient: " + e.getMessage());
+        if (email == null || email.trim().isEmpty()) {
+            throw new UserException("Email cannot be empty.");
         }
+        return patientDAO.delete(email);
     }
 
     public List<PatientDTO> getAllPatients() throws UserException {
-        try {
-            return patientDAO.getAllPatients();
-        } catch (Exception e) {
-            throw new UserException("Error retrieving patients: " + e.getMessage());
-        }
+        return patientDAO.getAllPatients();
     }
 
     public PatientDTO getPatientByEmail(String email) throws UserException {
-        try {
-            if (email == null || email.trim().isEmpty()) {
-                throw new UserException("Email cannot be empty.");
-            }
-            return patientDAO.getPatientByEmail(email);
-        } catch (Exception e) {
-            throw new UserException("Error retrieving patient: " + e.getMessage());
+        if (email == null || email.trim().isEmpty()) {
+            throw new UserException("Email cannot be empty.");
         }
+        return patientDAO.getPatientByEmail(email);
     }
 
     public String getNextPatientId() throws UserException {
-        try {
-            String nextId = patientDAO.getNextPatientId();
-            if (nextId == null || nextId.trim().isEmpty()) {
-                throw new UserException("Failed to generate next patient ID.");
-            }
-            return nextId;
-        } catch (Exception e) {
-            throw new UserException("Error generating next patient ID: " + e.getMessage());
+        String nextId = patientDAO.getNextPatientId();
+        if (nextId == null || nextId.trim().isEmpty()) {
+            throw new UserException("Failed to generate next patient ID.");
         }
-    }
-
-    public String getNextDoctorId() throws UserException {
-        try {
-            String nextId = doctorDAO.getNextDoctorId();
-            if (nextId == null || nextId.trim().isEmpty()) {
-                throw new UserException("Failed to generate next doctor ID.");
-            }
-            return nextId;
-        } catch (Exception e) {
-            throw new UserException("Error generating next doctor ID: " + e.getMessage());
-        }
-    }
-
-    public String getNextAdminId() throws UserException {
-        try {
-            String nextId = adminDAO.getNextAdminId();
-            if (nextId == null || nextId.trim().isEmpty()) {
-                throw new UserException("Failed to generate next admin ID.");
-            }
-            return nextId;
-        } catch (Exception e) {
-            throw new UserException("Error generating next admin ID: " + e.getMessage());
-        }
+        return nextId;
     }
 }
