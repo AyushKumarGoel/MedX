@@ -3,6 +3,7 @@ package com.abes.medx.ui;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -230,57 +231,99 @@ public class UI {
     }
 
     private void doctorMenu(DoctorDTO doctor) {
-        while (true) {
-            System.out.println("\n--- Doctor Menu ---");
-            System.out.println("1. View My Appointments");
-            System.out.println("2. Complete An Appointment");
-            System.out.println("3. Update My Profile");
-            System.out.println("4. Logout");
-            System.out.print("Choose: ");
-            String choice = scanner.nextLine();
+    while (true) {
+        System.out.println("\n--- Doctor Menu ---");
+        System.out.println("1. View My Appointments");
+        System.out.println("2. Complete An Appointment");
+        System.out.println("3. Update My Profile");
+        System.out.println("4. Logout");
+        System.out.print("Choose: ");
+        String choice = scanner.nextLine();
 
-            try {
-                switch (choice) {
-                    case "1":
-                        List<AppointmentDTO> doctorAppointments = appointmentService.getAppointmentsByDoctorId(doctor.getDoctorId());
-                        if (doctorAppointments.isEmpty()) {
-                            System.out.println("No appointments found.");
-                        } else {
-                            for (AppointmentDTO app : doctorAppointments) {
-                                System.out.println("Appointment: " + app.getAppointmentId() + " - " + app.getAppointmentDate() + " " + app.getAppointmentTime() + 
-                                "\nPatient: " + app.getPatient().getName() + "\nStatus: " + app.getStatus());
+        try {
+            switch (choice) {
+                case "1":
+                    List<AppointmentDTO> doctorAppointments = appointmentService.getAppointmentsByDoctorId(doctor.getDoctorId());
+                    if (doctorAppointments.isEmpty()) {
+                        System.out.println("No appointments found.");
+                    } else {
+                        List<AppointmentDTO> scheduled = new ArrayList<>();
+                        List<AppointmentDTO> completed = new ArrayList<>();
+
+                        for (AppointmentDTO app : doctorAppointments) {
+                            if ("Scheduled".equalsIgnoreCase(app.getStatus())) {
+                                scheduled.add(app);
+                            } else if ("Completed".equalsIgnoreCase(app.getStatus())) {
+                                completed.add(app);
                             }
                         }
-                        break;
-                    case "2":
-                        System.out.print("Enter appointment ID to complete: ");
-                        String id = scanner.nextLine();
-                        if (id.trim().isEmpty()) {
-                            throw new AppointmentException("Appointment ID cannot be empty.");
-                        }
-                        if (appointmentService.completeAppointment(id)) {
-                            System.out.println("Appointment marked as completed.");
+
+                        // Display Scheduled Appointments
+                        System.out.println("\n--- Scheduled Appointments ---");
+                        if (scheduled.isEmpty()) {
+                            System.out.println("No scheduled appointments.");
                         } else {
-                            System.out.println("Failed to complete appointment.");
+                            for (AppointmentDTO app : scheduled) {
+                                System.out.println("========================================");
+                                System.out.println("Appointment ID : " + app.getAppointmentId());
+                                System.out.println("Date           : " + app.getAppointmentDate());
+                                System.out.println("Time           : " + app.getAppointmentTime());
+                                System.out.println("Patient Name   : " + app.getPatient().getName());
+                                System.out.println("Status         : " + app.getStatus());
+                                System.out.println("========================================");
+                            }
                         }
-                        break;
-                    case "3":
-                        updateDoctorProfile(doctor);
-                        break;
-                    case "4":
-                        System.out.println("Doctor logged out.");
-                        return;
-                    default:
-                        System.out.println("Invalid option. Please enter 1, 2, 3, or 4.");
-                        break;
-                }
-            } catch (AppointmentException e) {
-                System.out.println("Error: " + e.getMessage());
-            } catch (Exception e) {
-                System.out.println("Unexpected error: " + e.getMessage());
+
+                        // Display Completed Appointments
+                        System.out.println("\n--- Completed Appointments ---");
+                        if (completed.isEmpty()) {
+                            System.out.println("No completed appointments.");
+                        } else {
+                            for (AppointmentDTO app : completed) {
+                                System.out.println("========================================");
+                                System.out.println("Appointment ID : " + app.getAppointmentId());
+                                System.out.println("Date           : " + app.getAppointmentDate());
+                                System.out.println("Time           : " + app.getAppointmentTime());
+                                System.out.println("Patient Name   : " + app.getPatient().getName());
+                                System.out.println("Status         : " + app.getStatus());
+                                System.out.println("========================================");
+                            }
+                        }
+                    }
+                    break;
+
+                case "2":
+                    System.out.print("Enter appointment ID to complete: ");
+                    String id = scanner.nextLine();
+                    if (id.trim().isEmpty()) {
+                        throw new AppointmentException("Appointment ID cannot be empty.");
+                    }
+                    if (appointmentService.completeAppointment(id)) {
+                        System.out.println("Appointment marked as completed.");
+                    } else {
+                        System.out.println("Failed to complete appointment.");
+                    }
+                    break;
+
+                case "3":
+                    updateDoctorProfile(doctor);
+                    break;
+
+                case "4":
+                    System.out.println("Doctor logged out.");
+                    return;
+
+                default:
+                    System.out.println("Invalid option. Please enter 1, 2, 3, or 4.");
+                    break;
             }
+        } catch (AppointmentException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Unexpected error: " + e.getMessage());
         }
     }
+}
 
     private void handlePatient() {
         try {
