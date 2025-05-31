@@ -21,7 +21,10 @@ public class MainDriver {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println(CollectionUtil.patientMap.keySet());
-
+        System.out.println(CollectionUtil.doctorMap.keySet());
+        System.out.println(CollectionUtil.adminMap.keySet());
+        System.out.println("Welcome to MedX, your healthcare management system!");
+        System.out.println("Please select your role to continue:"); 
         // Instantiate DAO implementations
         AdminDAO adminDAO = new AdminDAOImpl();
         DoctorDAO doctorDAO = new DoctorDAOImpl();
@@ -36,6 +39,8 @@ public class MainDriver {
         ui.start();
         // Close the scanner
         scanner.close();
+        System.out.println("Thank you for using MedX. Goodbye!");
+        
 
     }
 }

@@ -15,6 +15,10 @@ import com.abes.medx.service.AppointmentServiceImpl;
 import com.abes.medx.service.UserServiceImpl;
 import com.abes.medx.util.ValidationUtil;
 
+/**
+ * UI class for the MedX system, providing a command-line interface for users to interact with the system.
+ * It handles admin, doctor, and patient functionalities including login, registration, and appointment management.
+ */
 public class UI {
 
     private final Scanner scanner;
@@ -740,7 +744,6 @@ public class UI {
             System.out.println("Unexpected error during profile update: " + e.getMessage());
         }
     }
-
     private void updatePatientProfile(PatientDTO patient) {
         try {
             System.out.println("Current details: " + patient);
