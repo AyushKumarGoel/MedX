@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.abes.medx.dto.DoctorDTO;
+import com.abes.medx.exception.UserException;
 import com.abes.medx.util.CollectionUtil;
 
 class DoctorDAOImplTest {
@@ -21,10 +22,14 @@ class DoctorDAOImplTest {
     @BeforeEach
     void setUp() {
         doctorDAO = new DoctorDAOImpl();
-        sampleDoctor = new DoctorDTO(
-                "D001", "Dr. Smith", "smith@example.com", "pass123",
-                "1234567890", "45", "Cardiology", 15
-        );
+        try {
+            sampleDoctor = new DoctorDTO(
+                    "D001", "Dr. Smith", "smith@example.com", "pass123",
+                    "1234567890", "45", "Cardiology", 15
+            );
+        } catch (UserException e) {
+            throw new RuntimeException("Failed to create sampleDoctor in setUp", e);
+        }
         CollectionUtil.doctorMap.clear(); // Reset storage before each test
     }
 
@@ -58,19 +63,29 @@ class DoctorDAOImplTest {
     @Test
     void testUpdateProfile() {
         doctorDAO.register(sampleDoctor);
-        DoctorDTO updated = new DoctorDTO(
-                "D001", "Dr. Updated", "smith@example.com", "newpass",
-                "9999999999", "46", "Neurology", 20
-        );
+        DoctorDTO updated = null;
+        try {
+            updated = new DoctorDTO(
+                    "D001", "Dr. Updated", "smith@example.com", "newpass",
+                    "9999999999", "46", "Neurology", 20
+            );
+        } catch (UserException e) {
+            throw new RuntimeException("Failed to create updated DoctorDTO in testUpdateProfile", e);
+        }
         assertTrue(doctorDAO.updateProfile(updated));
         assertEquals("Dr. Updated", CollectionUtil.doctorMap.get("D001").getName());
     }
 
     @Test
     void testUpdateProfileFailure() {
-        DoctorDTO newDoc = new DoctorDTO(
-                "D002", "Dr. New", "new@example.com", "pass", "0000000000", "30", "Ortho", 5
-        );
+        DoctorDTO newDoc = null;
+        try {
+            newDoc = new DoctorDTO(
+                    "D002", "Dr. New", "new@example.com", "pass", "0000000000", "30", "Ortho", 5
+            );
+        } catch (UserException e) {
+            throw new RuntimeException("Failed to create newDoc in testUpdateProfileFailure", e);
+        }
         assertFalse(doctorDAO.updateProfile(newDoc));
     }
 
@@ -105,7 +120,11 @@ class DoctorDAOImplTest {
     @Test
     void testGetAllDoctors() {
         doctorDAO.register(sampleDoctor);
-        doctorDAO.register(new DoctorDTO("D002", "Dr. Jane", "jane@example.com", "1234", "1111111111", "40", "ENT", 10));
+        try {
+            doctorDAO.register(new DoctorDTO("D002", "Dr. Jane", "jane@example.com", "1234", "1111111111", "40", "ENT", 10));
+        } catch (UserException e) {
+            throw new RuntimeException("Failed to create DoctorDTO in testGetAllDoctors", e);
+        }
         List<DoctorDTO> list = doctorDAO.getAllDoctors();
         assertEquals(2, list.size());
     }

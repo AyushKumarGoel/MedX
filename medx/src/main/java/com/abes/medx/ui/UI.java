@@ -233,7 +233,7 @@ public class UI {
         while (true) {
             System.out.println("\n--- Doctor Menu ---");
             System.out.println("1. View My Appointments");
-            System.out.println("2. Complete Appointment");
+            System.out.println("2. Complete An Appointment");
             System.out.println("3. Update My Profile");
             System.out.println("4. Logout");
             System.out.print("Choose: ");
@@ -247,7 +247,8 @@ public class UI {
                             System.out.println("No appointments found.");
                         } else {
                             for (AppointmentDTO app : doctorAppointments) {
-                                System.out.println(app);
+                                System.out.println("Appointment: " + app.getAppointmentId() + " - " + app.getAppointmentDate() + " " + app.getAppointmentTime() + 
+                                "\nPatient: " + app.getPatient().getName() + "\nStatus: " + app.getStatus());
                             }
                         }
                         break;
@@ -317,12 +318,13 @@ public class UI {
             try {
                 switch (choice) {
                     case "1":
+                        System.out.println("Appointment Details:");
                         List<AppointmentDTO> patientAppointments = appointmentService.getAppointmentsByPatientId(patient.getPatientId());
                         if (patientAppointments.isEmpty()) {
-                            System.out.println("No appointments found.");
+                        System.out.println("No appointments found.");
                         } else {
                             for (AppointmentDTO app : patientAppointments) {
-                                System.out.println(app);
+                                System.out.println("Appointment: " + app.getAppointmentId() + " - " + app.getAppointmentDate() + " " + app.getAppointmentTime() + "\n" + "Doctor: " + app.getDoctor().getName() + app.getDoctor().getSpecialization() + "\n" + "Status: " + app.getStatus() + "\n" );
                             }
                         }
                         break;

@@ -1,9 +1,10 @@
-C:\Users\tanya\OneDrive\Desktop\MEDX\MedX\medx\src\test\java\com\abes\medx\AppTest.java
-C:\Users\tanya\OneDrive\Desktop\MEDX\MedX\medx\src\test\java\com\abes\medx\dao\AdminDAOImplTest.java
-C:\Users\tanya\OneDrive\Desktop\MEDX\MedX\medx\src\test\java\com\abes\medx\dao\AppointmentDAOImplTest.java
-C:\Users\tanya\OneDrive\Desktop\MEDX\MedX\medx\src\test\java\com\abes\medx\dao\DoctorDAOImplTest.java
-C:\Users\tanya\OneDrive\Desktop\MEDX\MedX\medx\src\test\java\com\abes\medx\dao\PatientDAOImplTest.java
-C:\Users\tanya\OneDrive\Desktop\MEDX\MedX\medx\src\test\java\com\abes\medx\dao\userDaoTest.java
-C:\Users\tanya\OneDrive\Desktop\MEDX\MedX\medx\src\test\java\com\abes\medx\dto\userDtoTest.java
-C:\Users\tanya\OneDrive\Desktop\MEDX\MedX\medx\src\test\java\com\abes\medx\exception\MedicalExceptionTest.java
-C:\Users\tanya\OneDrive\Desktop\MEDX\MedX\medx\src\test\java\com\abes\medx\service\PatientServiceTest.java
+C:\Users\AMIT GUPTA JI\Documents\Capgemini\Sprint\MedX\medx\src\test\java\com\abes\medx\AppTest.java
+C:\Users\AMIT GUPTA JI\Documents\Capgemini\Sprint\MedX\medx\src\test\java\com\abes\medx\dao\AdminDAOImplTest.java
+C:\Users\AMIT GUPTA JI\Documents\Capgemini\Sprint\MedX\medx\src\test\java\com\abes\medx\dao\AppointmentDAOImplTest.java
+C:\Users\AMIT GUPTA JI\Documents\Capgemini\Sprint\MedX\medx\src\test\java\com\abes\medx\dao\DoctorDAOImplTest.java
+C:\Users\AMIT GUPTA JI\Documents\Capgemini\Sprint\MedX\medx\src\test\java\com\abes\medx\dao\PatientDAOImplTest.java
+C:\Users\AMIT GUPTA JI\Documents\Capgemini\Sprint\MedX\medx\src\test\java\com\abes\medx\dao\userDaoTest.java
+C:\Users\AMIT GUPTA JI\Documents\Capgemini\Sprint\MedX\medx\src\test\java\com\abes\medx\dto\userDtoTest.java
+C:\Users\AMIT GUPTA JI\Documents\Capgemini\Sprint\MedX\medx\src\test\java\com\abes\medx\exception\MedicalExceptionTest.java
+C:\Users\AMIT GUPTA JI\Documents\Capgemini\Sprint\MedX\medx\src\test\java\com\abes\medx\service\AppointmentServiceTest.java
+C:\Users\AMIT GUPTA JI\Documents\Capgemini\Sprint\MedX\medx\src\test\java\com\abes\medx\service\UserServiceTest.java
