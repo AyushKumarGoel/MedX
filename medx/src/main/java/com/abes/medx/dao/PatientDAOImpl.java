@@ -59,7 +59,7 @@ public class PatientDAOImpl implements PatientDAO {
     @Override
     public String getNextPatientId() {
         int i = 1;
-        while (CollectionUtil.patientMap.containsKey("P" + String.format("%03d", i))) {
+        while (CollectionUtil.patientMap.containsKey("P" +i)) {
             i++;
         }
         return "P" + i;
