@@ -7,14 +7,14 @@ import com.abes.medx.dto.AdminDTO;
 import com.abes.medx.dto.DoctorDTO;
 import com.abes.medx.dto.PatientDTO;
 import com.abes.medx.exception.UserException;
-import com.abes.medx.service.UserService;
+import com.abes.medx.service.UserServiceImpl;
 
 public class AdminUI {
 
     private final Scanner scanner;
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
-    public AdminUI(Scanner scanner, UserService userService) {
+    public AdminUI(Scanner scanner, UserServiceImpl userService) {
         this.scanner = scanner;
         this.userService = userService;
     }

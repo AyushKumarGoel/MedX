@@ -11,8 +11,8 @@ import com.abes.medx.dao.DoctorDAO;
 import com.abes.medx.dao.DoctorDAOImpl;
 import com.abes.medx.dao.PatientDAO;
 import com.abes.medx.dao.PatientDAOImpl;
-import com.abes.medx.service.AppointmentService;
-import com.abes.medx.service.UserService;
+import com.abes.medx.service.AppointmentServiceImpl;
+import com.abes.medx.service.UserServiceImpl;
 import com.abes.medx.ui.UI;
 import com.abes.medx.util.CollectionUtil;
 
@@ -28,12 +28,14 @@ public class MainDriver {
         PatientDAO patientDAO = new PatientDAOImpl();
         AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
 
-        UserService userService = new UserService(adminDAO, doctorDAO, patientDAO);
-        AppointmentService appointmentService = new AppointmentService(appointmentDAO, doctorDAO);
+        UserServiceImpl userService = new UserServiceImpl(adminDAO, doctorDAO, patientDAO);
+        AppointmentServiceImpl appointmentService = new AppointmentServiceImpl(appointmentDAO, doctorDAO);
 
         // Launch the UI
         UI ui = new UI(scanner, userService, appointmentService);
         ui.start();
+        // Close the scanner
+        scanner.close();
 
     }
 }

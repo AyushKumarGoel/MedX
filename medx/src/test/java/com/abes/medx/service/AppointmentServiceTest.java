@@ -22,7 +22,7 @@ import com.abes.medx.util.CollectionUtil;
 
 class AppointmentServiceTest {
 
-    private AppointmentService appointmentService;
+    private AppointmentServiceImpl appointmentService;
     private AppointmentDAO appointmentDAO;
     private DoctorDAO doctorDAO;
 
@@ -30,7 +30,7 @@ class AppointmentServiceTest {
     public void setUp() {
         appointmentDAO = new AppointmentDAOImpl();
         doctorDAO = new DoctorDAOImpl();
-        appointmentService = new AppointmentService(appointmentDAO, doctorDAO);
+        appointmentService = new AppointmentServiceImpl(appointmentDAO, doctorDAO);
     }
 
     @Test
