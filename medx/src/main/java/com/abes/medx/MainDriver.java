@@ -28,7 +28,6 @@ public class MainDriver {
         PatientDAO patientDAO = new PatientDAOImpl();
         AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
 
-        // Instantiate services
         UserService userService = new UserService(adminDAO, doctorDAO, patientDAO);
         AppointmentService appointmentService = new AppointmentService(appointmentDAO, doctorDAO);
 
