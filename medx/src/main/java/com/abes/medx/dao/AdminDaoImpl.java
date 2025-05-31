@@ -58,6 +58,7 @@ public class AdminDAOImpl implements AdminDAO {
         return "ADM" + (CollectionUtil.adminMap.size() + 1);
     }
 
+    // overriding
     @Override
     public List<AdminDTO> getAllAdmins() {
         return new ArrayList<>(CollectionUtil.adminMap.values());
