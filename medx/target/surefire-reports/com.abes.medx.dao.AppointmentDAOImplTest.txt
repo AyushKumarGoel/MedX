@@ -1,0 +1,147 @@
+-------------------------------------------------------------------------------
+Test set: com.abes.medx.dao.AppointmentDAOImplTest
+-------------------------------------------------------------------------------
+Tests run: 13, Failures: 0, Errors: 13, Skipped: 0, Time elapsed: 0.206 s <<< FAILURE! -- in com.abes.medx.dao.AppointmentDAOImplTest
+com.abes.medx.dao.AppointmentDAOImplTest.testGetAllAppointments -- Time elapsed: 0.091 s <<< ERROR!
+com.abes.medx.exception.UserException: Name must contain only alphabetic characters and spaces. Provided: Dr. Smith
+	at com.abes.medx.util.ValidationUtil.validateName(ValidationUtil.java:13)
+	at com.abes.medx.dto.UserDTO.setName(UserDTO.java:22)
+	at com.abes.medx.dto.UserDTO.<init>(UserDTO.java:14)
+	at com.abes.medx.dto.DoctorDTO.<init>(DoctorDTO.java:15)
+	at com.abes.medx.dao.AppointmentDAOImplTest.setUp(AppointmentDAOImplTest.java:29)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.abes.medx.dao.AppointmentDAOImplTest.testGetAppointmentsByPatientId -- Time elapsed: 0.005 s <<< ERROR!
+com.abes.medx.exception.UserException: Name must contain only alphabetic characters and spaces. Provided: Dr. Smith
+	at com.abes.medx.util.ValidationUtil.validateName(ValidationUtil.java:13)
+	at com.abes.medx.dto.UserDTO.setName(UserDTO.java:22)
+	at com.abes.medx.dto.UserDTO.<init>(UserDTO.java:14)
+	at com.abes.medx.dto.DoctorDTO.<init>(DoctorDTO.java:15)
+	at com.abes.medx.dao.AppointmentDAOImplTest.setUp(AppointmentDAOImplTest.java:29)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.abes.medx.dao.AppointmentDAOImplTest.testBookAppointmentConflictFails -- Time elapsed: 0.004 s <<< ERROR!
+com.abes.medx.exception.UserException: Name must contain only alphabetic characters and spaces. Provided: Dr. Smith
+	at com.abes.medx.util.ValidationUtil.validateName(ValidationUtil.java:13)
+	at com.abes.medx.dto.UserDTO.setName(UserDTO.java:22)
+	at com.abes.medx.dto.UserDTO.<init>(UserDTO.java:14)
+	at com.abes.medx.dto.DoctorDTO.<init>(DoctorDTO.java:15)
+	at com.abes.medx.dao.AppointmentDAOImplTest.setUp(AppointmentDAOImplTest.java:29)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.abes.medx.dao.AppointmentDAOImplTest.testUpdateAppointmentSuccess -- Time elapsed: 0.008 s <<< ERROR!
+com.abes.medx.exception.UserException: Name must contain only alphabetic characters and spaces. Provided: Dr. Smith
+	at com.abes.medx.util.ValidationUtil.validateName(ValidationUtil.java:13)
+	at com.abes.medx.dto.UserDTO.setName(UserDTO.java:22)
+	at com.abes.medx.dto.UserDTO.<init>(UserDTO.java:14)
+	at com.abes.medx.dto.DoctorDTO.<init>(DoctorDTO.java:15)
+	at com.abes.medx.dao.AppointmentDAOImplTest.setUp(AppointmentDAOImplTest.java:29)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.abes.medx.dao.AppointmentDAOImplTest.testBookAppointmentDuplicateIdFails -- Time elapsed: 0.002 s <<< ERROR!
+com.abes.medx.exception.UserException: Name must contain only alphabetic characters and spaces. Provided: Dr. Smith
+	at com.abes.medx.util.ValidationUtil.validateName(ValidationUtil.java:13)
+	at com.abes.medx.dto.UserDTO.setName(UserDTO.java:22)
+	at com.abes.medx.dto.UserDTO.<init>(UserDTO.java:14)
+	at com.abes.medx.dto.DoctorDTO.<init>(DoctorDTO.java:15)
+	at com.abes.medx.dao.AppointmentDAOImplTest.setUp(AppointmentDAOImplTest.java:29)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.abes.medx.dao.AppointmentDAOImplTest.testGetAppointmentsByStatus -- Time elapsed: 0.005 s <<< ERROR!
+com.abes.medx.exception.UserException: Name must contain only alphabetic characters and spaces. Provided: Dr. Smith
+	at com.abes.medx.util.ValidationUtil.validateName(ValidationUtil.java:13)
+	at com.abes.medx.dto.UserDTO.setName(UserDTO.java:22)
+	at com.abes.medx.dto.UserDTO.<init>(UserDTO.java:14)
+	at com.abes.medx.dto.DoctorDTO.<init>(DoctorDTO.java:15)
+	at com.abes.medx.dao.AppointmentDAOImplTest.setUp(AppointmentDAOImplTest.java:29)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.abes.medx.dao.AppointmentDAOImplTest.testGetAppointmentById -- Time elapsed: 0.006 s <<< ERROR!
+com.abes.medx.exception.UserException: Name must contain only alphabetic characters and spaces. Provided: Dr. Smith
+	at com.abes.medx.util.ValidationUtil.validateName(ValidationUtil.java:13)
+	at com.abes.medx.dto.UserDTO.setName(UserDTO.java:22)
+	at com.abes.medx.dto.UserDTO.<init>(UserDTO.java:14)
+	at com.abes.medx.dto.DoctorDTO.<init>(DoctorDTO.java:15)
+	at com.abes.medx.dao.AppointmentDAOImplTest.setUp(AppointmentDAOImplTest.java:29)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.abes.medx.dao.AppointmentDAOImplTest.testGetAppointmentsByDoctorId -- Time elapsed: 0.001 s <<< ERROR!
+com.abes.medx.exception.UserException: Name must contain only alphabetic characters and spaces. Provided: Dr. Smith
+	at com.abes.medx.util.ValidationUtil.validateName(ValidationUtil.java:13)
+	at com.abes.medx.dto.UserDTO.setName(UserDTO.java:22)
+	at com.abes.medx.dto.UserDTO.<init>(UserDTO.java:14)
+	at com.abes.medx.dto.DoctorDTO.<init>(DoctorDTO.java:15)
+	at com.abes.medx.dao.AppointmentDAOImplTest.setUp(AppointmentDAOImplTest.java:29)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.abes.medx.dao.AppointmentDAOImplTest.testUpdateAppointmentFailsIfNotExist -- Time elapsed: 0.005 s <<< ERROR!
+com.abes.medx.exception.UserException: Name must contain only alphabetic characters and spaces. Provided: Dr. Smith
+	at com.abes.medx.util.ValidationUtil.validateName(ValidationUtil.java:13)
+	at com.abes.medx.dto.UserDTO.setName(UserDTO.java:22)
+	at com.abes.medx.dto.UserDTO.<init>(UserDTO.java:14)
+	at com.abes.medx.dto.DoctorDTO.<init>(DoctorDTO.java:15)
+	at com.abes.medx.dao.AppointmentDAOImplTest.setUp(AppointmentDAOImplTest.java:29)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.abes.medx.dao.AppointmentDAOImplTest.testCancelAppointmentFailsIfNotFound -- Time elapsed: 0 s <<< ERROR!
+com.abes.medx.exception.UserException: Name must contain only alphabetic characters and spaces. Provided: Dr. Smith
+	at com.abes.medx.util.ValidationUtil.validateName(ValidationUtil.java:13)
+	at com.abes.medx.dto.UserDTO.setName(UserDTO.java:22)
+	at com.abes.medx.dto.UserDTO.<init>(UserDTO.java:14)
+	at com.abes.medx.dto.DoctorDTO.<init>(DoctorDTO.java:15)
+	at com.abes.medx.dao.AppointmentDAOImplTest.setUp(AppointmentDAOImplTest.java:29)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.abes.medx.dao.AppointmentDAOImplTest.testGetNextAppointmentId -- Time elapsed: 0.002 s <<< ERROR!
+com.abes.medx.exception.UserException: Name must contain only alphabetic characters and spaces. Provided: Dr. Smith
+	at com.abes.medx.util.ValidationUtil.validateName(ValidationUtil.java:13)
+	at com.abes.medx.dto.UserDTO.setName(UserDTO.java:22)
+	at com.abes.medx.dto.UserDTO.<init>(UserDTO.java:14)
+	at com.abes.medx.dto.DoctorDTO.<init>(DoctorDTO.java:15)
+	at com.abes.medx.dao.AppointmentDAOImplTest.setUp(AppointmentDAOImplTest.java:29)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.abes.medx.dao.AppointmentDAOImplTest.testCancelAppointmentSuccess -- Time elapsed: 0 s <<< ERROR!
+com.abes.medx.exception.UserException: Name must contain only alphabetic characters and spaces. Provided: Dr. Smith
+	at com.abes.medx.util.ValidationUtil.validateName(ValidationUtil.java:13)
+	at com.abes.medx.dto.UserDTO.setName(UserDTO.java:22)
+	at com.abes.medx.dto.UserDTO.<init>(UserDTO.java:14)
+	at com.abes.medx.dto.DoctorDTO.<init>(DoctorDTO.java:15)
+	at com.abes.medx.dao.AppointmentDAOImplTest.setUp(AppointmentDAOImplTest.java:29)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.abes.medx.dao.AppointmentDAOImplTest.testBookAppointmentSuccess -- Time elapsed: 0 s <<< ERROR!
+com.abes.medx.exception.UserException: Name must contain only alphabetic characters and spaces. Provided: Dr. Smith
+	at com.abes.medx.util.ValidationUtil.validateName(ValidationUtil.java:13)
+	at com.abes.medx.dto.UserDTO.setName(UserDTO.java:22)
+	at com.abes.medx.dto.UserDTO.<init>(UserDTO.java:14)
+	at com.abes.medx.dto.DoctorDTO.<init>(DoctorDTO.java:15)
+	at com.abes.medx.dao.AppointmentDAOImplTest.setUp(AppointmentDAOImplTest.java:29)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
