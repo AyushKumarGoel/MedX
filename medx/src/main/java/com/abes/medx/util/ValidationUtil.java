@@ -59,4 +59,17 @@ public class ValidationUtil {
         }
         return age;
     }
+    public static String validateTime(String time) throws com.abes.medx.exception.AppointmentException {
+    if (time == null || !time.matches("^([01]?\\d|2[0-3]):[0-5]\\d$")) {
+        throw new com.abes.medx.exception.AppointmentException("Invalid time format. Please use HH:MM (24-hour format).");
+    }
+    return time;
+}
+
+    public static String validateDate(String date) throws com.abes.medx.exception.AppointmentException {
+        if (date == null || !date.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
+            throw new com.abes.medx.exception.AppointmentException("Invalid date format. Please use YYYY-MM-DD.");
+        }
+        return date;
+    }
 }
