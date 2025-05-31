@@ -48,9 +48,8 @@ public class AdminUI {
             System.out.println("7. Delete Patient");
             System.out.println("8. View All Admins");
             System.out.println("9. Register New Admin");
-            System.out.println("10. Update Admin");
-            System.out.println("11. Delete Admin");
-            System.out.println("12. Logout");
+          
+            System.out.println("10. Logout");
             System.out.print("Choose: ");
             String choice = scanner.nextLine();
 
@@ -98,22 +97,8 @@ public class AdminUI {
                     case "9":
                         registerAdmin();
                         break;
+                    
                     case "10":
-                        updateAdmin();
-                        break;
-                    case "11":
-                        System.out.print("Enter admin email to delete: ");
-                        String admEmail = scanner.nextLine();
-                        if (admEmail.equals(admin.getEmail())) {
-                            throw new UserException("Cannot delete yourself while logged in.");
-                        }
-                        if (userService.deleteAdmin(admEmail)) {
-                            System.out.println("Admin deleted.");
-                        } else {
-                            System.out.println("Admin not found.");
-                        }
-                        break;
-                    case "12":
                         System.out.println("Logging out...");
                         return;
                     default:
@@ -254,54 +239,4 @@ private void updateDoctor() {
     }
     
 
-    private void updateAdmin() {
-        try {
-            System.out.print("Enter admin email to update: ");
-            String email = scanner.nextLine();
-            if (email.trim().isEmpty()) {
-                throw new UserException("Admin email cannot be empty.");
-            }
-            AdminDTO admin = userService.getAdminByEmail(email);
-            if (admin == null) {
-                throw new UserException("Admin with email " + email + " not found.");
-            }
-
-            System.out.println("Current details: " + admin);
-            System.out.print("New Name (press Enter to keep current): ");
-            String name = scanner.nextLine();
-            if (!name.trim().isEmpty()) {
-                admin.setName(name);
-            }
-            System.out.print("New Email (press Enter to keep current): ");
-            String newEmail = scanner.nextLine();
-            if (!newEmail.trim().isEmpty()) {
-                admin.setEmail(newEmail);
-            }
-            System.out.print("New Password (press Enter to keep current): ");
-            String password = scanner.nextLine();
-            if (!password.trim().isEmpty()) {
-                admin.setPassword(password);
-            }
-            System.out.print("New Phone Number (press Enter to keep current): ");
-            String phoneNumber = scanner.nextLine();
-            if (!phoneNumber.trim().isEmpty()) {
-                admin.setPhoneNumber(phoneNumber);
-            }
-            System.out.print("New Age (press Enter to keep current): ");
-            String age = scanner.nextLine();
-            if (!age.trim().isEmpty()) {
-                admin.setAge(age);
-            }
-
-            if (userService.updateAdminProfile(admin)) {
-                System.out.println("Admin updated successfully.");
-            } else {
-                System.out.println("Failed to update admin.");
-            }
-        } catch (UserException e) {
-            System.out.println("Error updating admin: " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("Unexpected error during admin update: " + e.getMessage());
-        }
-    }
 }
