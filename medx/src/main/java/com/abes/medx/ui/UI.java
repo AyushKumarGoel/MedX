@@ -85,128 +85,126 @@ public class UI {
         }
     }
 
-    private void adminMenu(AdminDTO admin) {
-        while (true) {
-            System.out.println("\n--- Admin Menu ---");
-            System.out.println("1. View All Doctors");
-            System.out.println("2. Register New Doctor");
-            System.out.println("3. Update Doctor");
-            System.out.println("4. Delete Doctor");
-            System.out.println("5. View All Patients");
-            System.out.println("6. Register New Patient");
-            System.out.println("7. Update Patient");
-            System.out.println("8. Delete Patient");
-            System.out.println("9. View All Admins");
-            System.out.println("10. Register New Admin");
-            System.out.println("11. Update Admin");
-            System.out.println("12. Delete Admin");
-            System.out.println("13. Logout");
-            System.out.print("Choose: ");
-            String choice = scanner.nextLine();
+   private void adminMenu(AdminDTO admin) {
+    while (true) {
+        System.out.println("\n--- Admin Menu ---");
+        System.out.println("1. View All Doctors");
+        System.out.println("2. Register New Doctor");
+        System.out.println("3. Update Doctor");
+        System.out.println("4. Delete Doctor");
+        System.out.println("5. View All Patients");
+        System.out.println("6. Register New Patient");
+        // Removed option 7 (Update Patient)
+        System.out.println("7. Delete Patient"); // shifted up
+        System.out.println("8. View All Admins");
+        System.out.println("9. Register New Admin");
+        System.out.println("10. Update Admin");
+        System.out.println("11. Delete Admin");
+        System.out.println("12. Logout");
+        System.out.print("Choose: ");
+        String choice = scanner.nextLine();
 
-            try {
-                switch (choice) {
-                    case "1":
-                        List<DoctorDTO> doctors = userService.getAllDoctors();
-                        if (doctors.isEmpty()) {
-                            System.out.println("No doctors found.");
-                        } else {
-                            for (DoctorDTO doctor : doctors) {
-                                System.out.println(doctor);
-                            }
+        try {
+            switch (choice) {
+                case "1":
+                    List<DoctorDTO> doctors = userService.getAllDoctors();
+                    if (doctors.isEmpty()) {
+                        System.out.println("No doctors found.");
+                    } else {
+                        for (DoctorDTO doctor : doctors) {
+                            System.out.println(doctor);
                         }
-                        break;
-                    case "2":
-                        registerDoctor();
-                        break;
-                    case "3":
-                        updateDoctor();
-                        break;
-                    case "4":
-                        System.out.print("Enter doctor email to delete: ");
-                        String docEmail = scanner.nextLine();
-                        if (docEmail.trim().isEmpty()) {
-                            throw new UserException("Doctor email cannot be empty.");
+                    }
+                    break;
+                case "2":
+                    registerDoctor();
+                    break;
+                case "3":
+                    updateDoctor();
+                    break;
+                case "4":
+                    System.out.print("Enter doctor email to delete: ");
+                    String docEmail = scanner.nextLine();
+                    if (docEmail.trim().isEmpty()) {
+                        throw new UserException("Doctor email cannot be empty.");
+                    }
+                    if (userService.deleteDoctor(docEmail)) {
+                        System.out.println("Doctor deleted successfully.");
+                    } else {
+                        System.out.println("Failed to delete doctor. Email not found.");
+                    }
+                    break;
+                case "5":
+                    List<PatientDTO> patients = userService.getAllPatients();
+                    if (patients.isEmpty()) {
+                        System.out.println("No patients found.");
+                    } else {
+                        for (PatientDTO patient : patients) {
+                            System.out.println(patient);
                         }
-                        if (userService.deleteDoctor(docEmail)) {
-                            System.out.println("Doctor deleted successfully.");
-                        } else {
-                            System.out.println("Failed to delete doctor. Email not found.");
+                    }
+                    break;
+                case "6":
+                    registerPatient();
+                    break;
+                case "7":
+                    System.out.print("Enter patient email to delete: ");
+                    String patientEmail = scanner.nextLine();
+                    if (patientEmail.trim().isEmpty()) {
+                        throw new UserException("Patient email cannot be empty.");
+                    }
+                    if (userService.deletePatient(patientEmail)) {
+                        System.out.println("Patient deleted successfully.");
+                    } else {
+                        System.out.println("Failed to delete patient. Email not found.");
+                    }
+                    break;
+                case "8":
+                    List<AdminDTO> admins = userService.getAllAdmins();
+                    if (admins.isEmpty()) {
+                        System.out.println("No admins found.");
+                    } else {
+                        for (AdminDTO a : admins) {
+                            System.out.println(a);
                         }
-                        break;
-                    case "5":
-                        List<PatientDTO> patients = userService.getAllPatients();
-                        if (patients.isEmpty()) {
-                            System.out.println("No patients found.");
-                        } else {
-                            for (PatientDTO patient : patients) {
-                                System.out.println(patient);
-                            }
-                        }
-                        break;
-                    case "6":
-                        registerPatient();
-                        break;
-                    case "7":
-                        updatePatient();
-                        break;
-                    case "8":
-                        System.out.print("Enter patient email to delete: ");
-                        String patientEmail = scanner.nextLine();
-                        if (patientEmail.trim().isEmpty()) {
-                            throw new UserException("Patient email cannot be empty.");
-                        }
-                        if (userService.deletePatient(patientEmail)) {
-                            System.out.println("Patient deleted successfully.");
-                        } else {
-                            System.out.println("Failed to delete patient. Email not found.");
-                        }
-                        break;
-                    case "9":
-                        List<AdminDTO> admins = userService.getAllAdmins();
-                        if (admins.isEmpty()) {
-                            System.out.println("No admins found.");
-                        } else {
-                            for (AdminDTO a : admins) {
-                                System.out.println(a);
-                            }
-                        }
-                        break;
-                    case "10":
-                        registerAdmin();
-                        break;
-                    case "11":
-                        updateAdmin();
-                        break;
-                    case "12":
-                        System.out.print("Enter admin email to delete: ");
-                        String adminEmail = scanner.nextLine();
-                        if (adminEmail.trim().isEmpty()) {
-                            throw new UserException("Admin email cannot be empty.");
-                        }
-                        if (adminEmail.equals(admin.getEmail())) {
-                            throw new UserException("Cannot delete your own account while logged in.");
-                        }
-                        if (userService.deleteAdmin(adminEmail)) {
-                            System.out.println("Admin deleted successfully.");
-                        } else {
-                            System.out.println("Failed to delete admin. Email not found.");
-                        }
-                        break;
-                    case "13":
-                        System.out.println("Admin logged out.");
-                        return;
-                    default:
-                        System.out.println("Invalid option. Please enter 1-13.");
-                        break;
-                }
-            } catch (UserException e) {
-                System.out.println("Error: " + e.getMessage());
-            } catch (Exception e) {
-                System.out.println("Unexpected error: " + e.getMessage());
+                    }
+                    break;
+                case "9":
+                    registerAdmin();
+                    break;
+                case "10":
+                    updateAdmin();
+                    break;
+                case "11":
+                    System.out.print("Enter admin email to delete: ");
+                    String adminEmail = scanner.nextLine();
+                    if (adminEmail.trim().isEmpty()) {
+                        throw new UserException("Admin email cannot be empty.");
+                    }
+                    if (adminEmail.equals(admin.getEmail())) {
+                        throw new UserException("Cannot delete your own account while logged in.");
+                    }
+                    if (userService.deleteAdmin(adminEmail)) {
+                        System.out.println("Admin deleted successfully.");
+                    } else {
+                        System.out.println("Failed to delete admin. Email not found.");
+                    }
+                    break;
+                case "12":
+                    System.out.println("Admin logged out.");
+                    return;
+                default:
+                    System.out.println("Invalid option. Please enter 1-12.");
+                    break;
             }
+        } catch (UserException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Unexpected error: " + e.getMessage());
         }
     }
+}
+
 
     private void handleDoctor() {
         try {
