@@ -51,7 +51,7 @@ class UserServiceTest {
     void testGetAdminByEmail() throws UserException {
         AdminDTO admin = userService.getAdminByEmail("admin@mail.com");
         assertNotNull(admin);
-        assertEquals("ADM2", admin.getAdminId());
+        assertEquals("A002", admin.getAdminId());
     }
 
     // ---------------------- Doctor Tests ----------------------
@@ -60,7 +60,7 @@ class UserServiceTest {
     void testDoctorLoginSuccess() throws UserException {
         DoctorDTO doctor = userService.doctorLogin("rahul@gmail.com", "rahul");
         assertNotNull(doctor);
-        assertEquals("D2", doctor.getDoctorId());
+        assertEquals("D002", doctor.getDoctorId());
     }
 
     @Test
@@ -77,7 +77,7 @@ class UserServiceTest {
 
     @Test
     void testGetDoctorById() throws UserException {
-        DoctorDTO doctor = userService.getDoctorById("D1");
+        DoctorDTO doctor = userService.getDoctorById("D001");
         assertNotNull(doctor);
         assertEquals("doctor@mail.com", doctor.getEmail());
     }
@@ -86,7 +86,7 @@ class UserServiceTest {
     void testGetDoctorByEmail() throws UserException {
         DoctorDTO doctor = userService.getDoctorByEmail("doctor@mail.com");
         assertNotNull(doctor);
-        assertEquals("D1", doctor.getDoctorId());
+        assertEquals("D001", doctor.getDoctorId());
     }
 
     // ---------------------- Patient Tests ----------------------
@@ -95,7 +95,7 @@ class UserServiceTest {
     void testPatientLoginSuccess() throws UserException {
         PatientDTO patient = userService.patientLogin("raj@gmail.com", "raj");
         assertNotNull(patient);
-        assertEquals("P1", patient.getPatientId());
+        assertEquals("P001", patient.getPatientId());
     }
 
     @Test
@@ -114,7 +114,7 @@ class UserServiceTest {
     void testGetPatientByEmail() throws UserException {
         PatientDTO patient = userService.getPatientByEmail("raj@gmail.com");
         assertNotNull(patient);
-        assertEquals("P1", patient.getPatientId());
+        assertEquals("P001", patient.getPatientId());
     }
 
     // ---------------------- ID Generators ----------------------
