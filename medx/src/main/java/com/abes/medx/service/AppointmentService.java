@@ -2,120 +2,116 @@ package com.abes.medx.service;
 
 import java.util.List;
 
-import com.abes.medx.dao.AppointmentDAO;
-import com.abes.medx.dao.DoctorDAO;
 import com.abes.medx.dto.AppointmentDTO;
-import com.abes.medx.dto.DoctorDTO;
 import com.abes.medx.dto.PatientDTO;
 import com.abes.medx.exception.AppointmentException;
 import com.abes.medx.exception.BookingException;
 
-public class AppointmentService {
+/**
+ * Service interface for managing appointment-related operations in the MedX system.
+ * It defines methods for creating, booking, updating, and retrieving appointments.
+ */
+public interface AppointmentService {
 
-    private final AppointmentDAO appointmentDAO;
-    private final DoctorDAO doctorDAO;
+    /**
+     * Creates a new appointment with the specified details.
+     *
+     * @param id        Unique appointment ID.
+     * @param date      Appointment date.
+     * @param time      Appointment time.
+     * @param patient   Patient object containing patient details.
+     * @param doctorId  ID of the doctor for the appointment.
+     * @param toPay     Payment amount for the appointment.
+     * @return AppointmentDTO object with the created appointment details.
+     * @throws AppointmentException if appointment creation fails.
+     */
+    AppointmentDTO createAppointment(String id, String date, String time, PatientDTO patient, String doctorId, int toPay) throws AppointmentException;
 
-    public AppointmentService(AppointmentDAO appointmentDAO, DoctorDAO doctorDAO) {
-        this.appointmentDAO = appointmentDAO;
-        this.doctorDAO = doctorDAO;
-    }
+    /**
+     * Books an existing appointment.
+     *
+     * @param appointment Appointment to be booked.
+     * @return true if booking was successful, false otherwise.
+     * @throws BookingException if booking fails.
+     */
+    boolean bookAppointment(AppointmentDTO appointment) throws BookingException;
 
-    public AppointmentDTO createAppointment(String id, String date, String time, PatientDTO patient, String doctorId, int toPay) throws AppointmentException {
-        if (id == null || id.trim().isEmpty() || date == null || time == null || patient == null || doctorId == null) {
-            throw new AppointmentException("Invalid appointment data provided.");
-        }
-        if (toPay < 0) {
-            throw new AppointmentException("Payment amount cannot be negative.");
-        }
-        if (appointmentDAO.getAppointmentById(id) != null) {
-            throw new AppointmentException("Appointment ID already exists.");
-        }
+    /**
+     * Updates an existing appointment.
+     *
+     * @param appointment Updated appointment details.
+     * @return true if update was successful.
+     * @throws AppointmentException if update fails.
+     */
+    boolean updateAppointment(AppointmentDTO appointment) throws AppointmentException;
 
-        DoctorDTO doctor = doctorDAO.getDoctorById(doctorId);
-        if (doctor == null) {
-            throw new AppointmentException("Doctor with ID " + doctorId + " not found.");
-        }
+    /**
+     * Cancels an appointment by ID.
+     *
+     * @param id ID of the appointment to cancel.
+     * @return true if cancellation was successful.
+     * @throws AppointmentException if cancellation fails.
+     */
+    boolean cancelAppointment(String id) throws AppointmentException;
 
-        return new AppointmentDTO(id, date, time, patient, doctor, toPay, "Scheduled");
-    }
+    /**
+     * Marks an appointment as completed by ID.
+     *
+     * @param id ID of the completed appointment.
+     * @return true if completion was successful.
+     * @throws AppointmentException if operation fails.
+     */
+    boolean completeAppointment(String id) throws AppointmentException;
 
-    public boolean bookAppointment(AppointmentDTO appointment) throws BookingException {
-        if (appointment == null || appointment.getAppointmentId() == null) {
-            throw new BookingException("Invalid appointment data for booking.");
-        }
-        return appointmentDAO.bookAppointment(appointment);
-    }
+    /**
+     * Retrieves an appointment by its ID.
+     *
+     * @param id Appointment ID.
+     * @return AppointmentDTO object with appointment details.
+     * @throws AppointmentException if retrieval fails.
+     */
+    AppointmentDTO getAppointmentById(String id) throws AppointmentException;
 
-    public boolean updateAppointment(AppointmentDTO appointment) throws AppointmentException {
-        if (appointment == null || appointment.getAppointmentId() == null) {
-            throw new AppointmentException("Invalid appointment data for update.");
-        }
-        return appointmentDAO.updateAppointment(appointment);
-    }
+    /**
+     * Retrieves all appointments for a specific patient.
+     *
+     * @param patientId ID of the patient.
+     * @return List of AppointmentDTOs for the patient.
+     * @throws AppointmentException if retrieval fails.
+     */
+    List<AppointmentDTO> getAppointmentsByPatientId(String patientId) throws AppointmentException;
 
-    public boolean cancelAppointment(String id) throws AppointmentException {
-        if (id == null || id.trim().isEmpty()) {
-            throw new AppointmentException("Appointment ID cannot be empty.");
-        }
-        return appointmentDAO.cancelAppointment(id);
-    }
+    /**
+     * Retrieves all appointments for a specific doctor.
+     *
+     * @param doctorId ID of the doctor.
+     * @return List of AppointmentDTOs for the doctor.
+     * @throws AppointmentException if retrieval fails.
+     */
+    List<AppointmentDTO> getAppointmentsByDoctorId(String doctorId) throws AppointmentException;
 
-    public boolean completeAppointment(String id) throws AppointmentException {
-        if (id == null || id.trim().isEmpty()) {
-            throw new AppointmentException("Appointment ID cannot be empty.");
-        }
-        AppointmentDTO a = appointmentDAO.getAppointmentById(id);
-        if (a == null) {
-            throw new AppointmentException("Appointment with ID " + id + " not found.");
-        }
-        if ("Cancelled".equalsIgnoreCase(a.getStatus())) {
-            throw new AppointmentException("Cannot complete a cancelled appointment.");
-        }
-        a.setStatus("Completed");
-        return appointmentDAO.updateAppointment(a);
-    }
+    /**
+     * Retrieves appointments filtered by their status (e.g., booked, completed, cancelled).
+     *
+     * @param status Status to filter appointments by.
+     * @return List of AppointmentDTOs matching the status.
+     * @throws AppointmentException if retrieval fails.
+     */
+    List<AppointmentDTO> getAppointmentsByStatus(String status) throws AppointmentException;
 
-    public AppointmentDTO getAppointmentById(String id) throws AppointmentException {
-        if (id == null || id.trim().isEmpty()) {
-            throw new AppointmentException("Appointment ID cannot be empty.");
-        }
-        AppointmentDTO appointment = appointmentDAO.getAppointmentById(id);
-        if (appointment == null) {
-            throw new AppointmentException("Appointment with ID " + id + " not found.");
-        }
-        return appointment;
-    }
+    /**
+     * Retrieves all appointments in the system.
+     *
+     * @return List of all AppointmentDTOs.
+     * @throws AppointmentException if retrieval fails.
+     */
+    List<AppointmentDTO> getAllAppointments() throws AppointmentException;
 
-    public List<AppointmentDTO> getAppointmentsByPatientId(String patientId) throws AppointmentException {
-        if (patientId == null || patientId.trim().isEmpty()) {
-            throw new AppointmentException("Patient ID cannot be empty.");
-        }
-        return appointmentDAO.getAppointmentsByPatientId(patientId);
-    }
-
-    public List<AppointmentDTO> getAppointmentsByDoctorId(String doctorId) throws AppointmentException {
-        if (doctorId == null || doctorId.trim().isEmpty()) {
-            throw new AppointmentException("Doctor ID cannot be empty.");
-        }
-        return appointmentDAO.getAppointmentsByDoctorId(doctorId);
-    }
-
-    public List<AppointmentDTO> getAppointmentsByStatus(String status) throws AppointmentException {
-        if (status == null || status.trim().isEmpty()) {
-            throw new AppointmentException("Status cannot be empty.");
-        }
-        return appointmentDAO.getAppointmentsByStatus(status);
-    }
-
-    public List<AppointmentDTO> getAllAppointments() throws AppointmentException {
-        return appointmentDAO.getAllAppointments();
-    }
-
-    public String getNextAppointmentId() throws AppointmentException {
-        String nextId = appointmentDAO.getNextAppointmentId();
-        if (nextId == null || nextId.trim().isEmpty()) {
-            throw new AppointmentException("Failed to generate next appointment ID.");
-        }
-        return nextId;
-    }
+    /**
+     * Generates or retrieves the next available appointment ID.
+     *
+     * @return A new unique appointment ID.
+     * @throws AppointmentException if ID generation fails.
+     */
+    String getNextAppointmentId() throws AppointmentException;
 }

@@ -19,10 +19,11 @@ class DoctorDAOImplTest {
     private DoctorDAO doctorDAO;
     private DoctorDTO sampleDoctor;
 
+    // Initializes DAO and sample doctor before each test
     @BeforeEach
     void setUp() throws UserException {
         doctorDAO = new DoctorDAOImpl();
-        CollectionUtil.doctorMap.clear(); // Reset storage before each test
+        CollectionUtil.doctorMap.clear(); // Clear in-memory map
 
         sampleDoctor = new DoctorDTO(
             "D10", "Raj", "raj@example.com", "pass123",
@@ -30,18 +31,21 @@ class DoctorDAOImplTest {
         );
     }
 
+    // Should register a new doctor successfully
     @Test
     void testRegisterSuccess() {
         assertTrue(doctorDAO.register(sampleDoctor));
         assertEquals(1, CollectionUtil.doctorMap.size());
     }
 
+    // Should fail to register duplicate doctor
     @Test
     void testRegisterDuplicate() {
         doctorDAO.register(sampleDoctor);
         assertFalse(doctorDAO.register(sampleDoctor)); // Duplicate ID
     }
 
+    // Should authenticate doctor with correct credentials
     @Test
     void testAuthenticateSuccess() {
         doctorDAO.register(sampleDoctor);
@@ -50,6 +54,7 @@ class DoctorDAOImplTest {
         assertEquals("D10", result.getDoctorId());
     }
 
+    // Should fail authentication with wrong password
     @Test
     void testAuthenticateFailure() {
         doctorDAO.register(sampleDoctor);
@@ -57,6 +62,7 @@ class DoctorDAOImplTest {
         assertNull(result);
     }
 
+    // Should update doctor profile successfully
     @Test
     void testUpdateProfile() throws UserException {
         doctorDAO.register(sampleDoctor);
@@ -68,6 +74,7 @@ class DoctorDAOImplTest {
         assertEquals("Raja", CollectionUtil.doctorMap.get("D10").getName());
     }
 
+    // Should fail to update if doctor not found
     @Test
     void testUpdateProfileFailure() throws UserException {
         DoctorDTO newDoc = new DoctorDTO(
@@ -76,6 +83,7 @@ class DoctorDAOImplTest {
         assertFalse(doctorDAO.updateProfile(newDoc)); // Not registered
     }
 
+    // Should delete doctor successfully
     @Test
     void testDeleteSuccess() {
         doctorDAO.register(sampleDoctor);
@@ -83,11 +91,13 @@ class DoctorDAOImplTest {
         assertNull(CollectionUtil.doctorMap.get("D10"));
     }
 
+    // Should fail to delete if doctor not found
     @Test
     void testDeleteFailure() {
         assertFalse(doctorDAO.delete("nonexistent@example.com"));
     }
 
+    // Should retrieve doctor by email
     @Test
     void testGetDoctorByEmail() {
         doctorDAO.register(sampleDoctor);
@@ -96,6 +106,7 @@ class DoctorDAOImplTest {
         assertEquals("D10", result.getDoctorId());
     }
 
+    // Should retrieve doctor by ID
     @Test
     void testGetDoctorById() {
         doctorDAO.register(sampleDoctor);
@@ -104,6 +115,7 @@ class DoctorDAOImplTest {
         assertEquals("Raj", result.getName());
     }
 
+    // Should retrieve all registered doctors
     @Test
     void testGetAllDoctors() throws UserException {
         doctorDAO.register(sampleDoctor);

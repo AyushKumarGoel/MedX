@@ -2,20 +2,25 @@ package com.abes.medx.dto;
 
 import java.util.Objects;
 
-import com.abes.medx.exception.UserException;
-
+/**
+ * Data Transfer Object (DTO) representing a Doctor.
+ * Inherits common user fields from UserDTO and adds doctor-specific details.
+ */
 public class DoctorDTO extends UserDTO {
 
     private String doctorId;
     private String specialization;
     private int yearsOfExperience;
 
+    /**
+     * Initializes a DoctorDTO with both user and doctor-specific details.
+     */
     public DoctorDTO(String doctorId, String name, String email, String password, String phoneNumber, String age,
-                    String specialization, int yearsOfExperience) throws UserException {
+                     String specialization, int yearsOfExperience) {
         super(name, email, password, phoneNumber, age);
         System.out.println("Creating DoctorDTO: ID=" + doctorId + ", Name=" + name + ", Email=" + email +
-                          ", Phone=" + phoneNumber + ", Age=" + age + ", Specialization=" + specialization +
-                          ", Experience=" + yearsOfExperience);
+                ", Phone=" + phoneNumber + ", Age=" + age + ", Specialization=" + specialization +
+                ", Experience=" + yearsOfExperience);
         setDoctorId(doctorId);
         setSpecialization(specialization);
         setYearsOfExperience(yearsOfExperience);
@@ -51,8 +56,8 @@ public class DoctorDTO extends UserDTO {
         if (!(o instanceof DoctorDTO)) return false;
         if (!super.equals(o)) return false;
         DoctorDTO that = (DoctorDTO) o;
-        return doctorId == that.doctorId &&
-                yearsOfExperience == that.yearsOfExperience &&
+        return yearsOfExperience == that.yearsOfExperience &&
+                Objects.equals(doctorId, that.doctorId) &&
                 Objects.equals(specialization, that.specialization);
     }
 

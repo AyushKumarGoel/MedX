@@ -2,171 +2,211 @@ package com.abes.medx.service;
 
 import java.util.List;
 
-import com.abes.medx.dao.AdminDAO;
-import com.abes.medx.dao.DoctorDAO;
-import com.abes.medx.dao.PatientDAO;
 import com.abes.medx.dto.AdminDTO;
 import com.abes.medx.dto.DoctorDTO;
 import com.abes.medx.dto.PatientDTO;
 import com.abes.medx.exception.UserException;
 
-public class UserService {
+public interface UserService {
 
-    private final AdminDAO adminDAO;
-    private final DoctorDAO doctorDAO;
-    private final PatientDAO patientDAO;
+    // ---------------- Admin operations ----------------
 
-    public UserService(AdminDAO adminDAO, DoctorDAO doctorDAO, PatientDAO patientDAO) {
-        this.adminDAO = adminDAO;
-        this.doctorDAO = doctorDAO;
-        this.patientDAO = patientDAO;
-    }
+    /**
+     * Authenticates an admin using email and password.
+     *
+     * @param email    Admin's email
+     * @param password Admin's password
+     * @return AdminDTO object if credentials are valid
+     * @throws UserException if authentication fails
+     */
+    AdminDTO adminLogin(String email, String password) throws UserException;
 
-    // Admin
-    public AdminDTO adminLogin(String email, String password) throws UserException {
-        AdminDTO admin = adminDAO.authenticate(email, password);
-        if (admin == null) throw new UserException("Invalid admin email or password.");
-        return admin;
-    }
+    /**
+     * Registers a new admin.
+     *
+     * @param admin AdminDTO object containing admin details
+     * @return true if registration is successful
+     * @throws UserException if registration fails
+     */
+    boolean registerAdmin(AdminDTO admin) throws UserException;
 
-    public boolean registerAdmin(AdminDTO admin) throws UserException {
-        if (admin == null || admin.getEmail() == null || admin.getAdminId() == null) {
-            throw new UserException("Invalid admin data provided.");
-        }
-        return adminDAO.register(admin);
-    }
+    /**
+     * Updates an existing admin profile.
+     *
+     * @param admin AdminDTO with updated information
+     * @return true if update is successful
+     * @throws UserException if update fails
+     */
+    boolean updateAdminProfile(AdminDTO admin) throws UserException;
 
-    public boolean updateAdminProfile(AdminDTO admin) throws UserException {
-        if (admin == null || admin.getAdminId() == null || admin.getEmail() == null) {
-            throw new UserException("Invalid admin data for update.");
-        }
-        return adminDAO.updateProfile(admin);
-    }
+    /**
+     * Deletes an admin by email.
+     *
+     * @param email Admin's email
+     * @return true if deletion is successful
+     * @throws UserException if deletion fails
+     */
+    boolean deleteAdmin(String email) throws UserException;
 
-    public boolean deleteAdmin(String email) throws UserException {
-        if (email == null || email.trim().isEmpty()) {
-            throw new UserException("Email cannot be empty.");
-        }
-        return adminDAO.delete(email);
-    }
+    /**
+     * Retrieves an admin by email.
+     *
+     * @param email Admin's email
+     * @return AdminDTO object
+     * @throws UserException if admin is not found
+     */
+    AdminDTO getAdminByEmail(String email) throws UserException;
 
-    public AdminDTO getAdminByEmail(String email) throws UserException {
-        if (email == null || email.trim().isEmpty()) {
-            throw new UserException("Email cannot be empty.");
-        }
-        return adminDAO.getAdminByEmail(email);
-    }
+    /**
+     * Retrieves a list of all admins.
+     *
+     * @return List of AdminDTO
+     * @throws UserException if retrieval fails
+     */
+    List<AdminDTO> getAllAdmins() throws UserException;
 
-    public List<AdminDTO> getAllAdmins() throws UserException {
-        return adminDAO.getAllAdmins();
-    }
+    /**
+     * Generates the next available admin ID.
+     *
+     * @return Next admin ID as a String
+     * @throws UserException if generation fails
+     */
+    String getNextAdminId() throws UserException;
 
-    public String getNextAdminId() throws UserException {
-        String nextId = adminDAO.getNextAdminId();
-        if (nextId == null || nextId.trim().isEmpty()) {
-            throw new UserException("Failed to generate next admin ID.");
-        }
-        return nextId;
-    }
+    // ---------------- Doctor operations ----------------
 
-    // Doctor
-    public DoctorDTO doctorLogin(String email, String password) throws UserException {
-        DoctorDTO doctor = doctorDAO.authenticate(email, password);
-        if (doctor == null) throw new UserException("Invalid doctor email or password.");
-        return doctor;
-    }
+    /**
+     * Authenticates a doctor using email and password.
+     *
+     * @param email    Doctor's email
+     * @param password Doctor's password
+     * @return DoctorDTO object if credentials are valid
+     * @throws UserException if authentication fails
+     */
+    DoctorDTO doctorLogin(String email, String password) throws UserException;
 
-    public boolean registerDoctor(DoctorDTO doctor) throws UserException {
-        if (doctor == null || doctor.getEmail() == null || doctor.getDoctorId() == null) {
-            throw new UserException("Invalid doctor data provided.");
-        }
-        return doctorDAO.register(doctor);
-    }
+    /**
+     * Registers a new doctor.
+     *
+     * @param doctor DoctorDTO object containing doctor details
+     * @return true if registration is successful
+     * @throws UserException if registration fails
+     */
+    boolean registerDoctor(DoctorDTO doctor) throws UserException;
 
-    public boolean deleteDoctor(String email) throws UserException {
-        if (email == null || email.trim().isEmpty()) {
-            throw new UserException("Email cannot be empty.");
-        }
-        return doctorDAO.delete(email);
-    }
+    /**
+     * Updates an existing doctor profile.
+     *
+     * @param doctor DoctorDTO with updated information
+     * @return true if update is successful
+     * @throws UserException if update fails
+     */
+    boolean updateDoctorProfile(DoctorDTO doctor) throws UserException;
 
-    public boolean updateDoctorProfile(DoctorDTO doctor) throws UserException {
-        if (doctor == null || doctor.getDoctorId() == null) {
-            throw new UserException("Invalid doctor data for update.");
-        }
-        return doctorDAO.updateProfile(doctor);
-    }
+    /**
+     * Deletes a doctor by email.
+     *
+     * @param email Doctor's email
+     * @return true if deletion is successful
+     * @throws UserException if deletion fails
+     */
+    boolean deleteDoctor(String email) throws UserException;
 
-    public List<DoctorDTO> getAllDoctors() throws UserException {
-        return doctorDAO.getAllDoctors();
-    }
+    /**
+     * Retrieves all registered doctors.
+     *
+     * @return List of DoctorDTO
+     * @throws UserException if retrieval fails
+     */
+    List<DoctorDTO> getAllDoctors() throws UserException;
 
-    public DoctorDTO getDoctorById(String id) throws UserException {
-        if (id == null || id.trim().isEmpty()) {
-            throw new UserException("Doctor ID cannot be empty.");
-        }
-        return doctorDAO.getDoctorById(id);
-    }
+    /**
+     * Retrieves a doctor by ID.
+     *
+     * @param id Doctor's unique ID
+     * @return DoctorDTO object
+     * @throws UserException if doctor is not found
+     */
+    DoctorDTO getDoctorById(String id) throws UserException;
 
-    public DoctorDTO getDoctorByEmail(String email) throws UserException {
-        if (email == null || email.trim().isEmpty()) {
-            throw new UserException("Email cannot be empty.");
-        }
-        return doctorDAO.getDoctorByEmail(email);
-    }
+    /**
+     * Retrieves a doctor by email.
+     *
+     * @param email Doctor's email
+     * @return DoctorDTO object
+     * @throws UserException if doctor is not found
+     */
+    DoctorDTO getDoctorByEmail(String email) throws UserException;
 
-    public String getNextDoctorId() throws UserException {
-        String nextId = doctorDAO.getNextDoctorId();
-        if (nextId == null || nextId.trim().isEmpty()) {
-            throw new UserException("Failed to generate next doctor ID.");
-        }
-        return nextId;
-    }
+    /**
+     * Generates the next available doctor ID.
+     *
+     * @return Next doctor ID as a String
+     * @throws UserException if generation fails
+     */
+    String getNextDoctorId() throws UserException;
 
-    // Patient
-    public PatientDTO patientLogin(String email, String password) throws UserException {
-        PatientDTO patient = patientDAO.authenticate(email, password);
-        if (patient == null) throw new UserException("Invalid patient email or password.");
-        return patient;
-    }
+    // ---------------- Patient operations ----------------
 
-    public boolean registerPatient(PatientDTO patient) throws UserException {
-        if (patient == null || patient.getEmail() == null || patient.getPatientId() == null) {
-            throw new UserException("Invalid patient data provided.");
-        }
-        return patientDAO.register(patient);
-    }
+    /**
+     * Authenticates a patient using email and password.
+     *
+     * @param email    Patient's email
+     * @param password Patient's password
+     * @return PatientDTO object if credentials are valid
+     * @throws UserException if authentication fails
+     */
+    PatientDTO patientLogin(String email, String password) throws UserException;
 
-    public boolean updatePatientProfile(PatientDTO patient) throws UserException {
-        if (patient == null || patient.getPatientId() == null) {
-            throw new UserException("Invalid patient data for update.");
-        }
-        return patientDAO.updateProfile(patient);
-    }
+    /**
+     * Registers a new patient.
+     *
+     * @param patient PatientDTO object containing patient details
+     * @return true if registration is successful
+     * @throws UserException if registration fails
+     */
+    boolean registerPatient(PatientDTO patient) throws UserException;
 
-    public boolean deletePatient(String email) throws UserException {
-        if (email == null || email.trim().isEmpty()) {
-            throw new UserException("Email cannot be empty.");
-        }
-        return patientDAO.delete(email);
-    }
+    /**
+     * Updates an existing patient profile.
+     *
+     * @param patient PatientDTO with updated information
+     * @return true if update is successful
+     * @throws UserException if update fails
+     */
+    boolean updatePatientProfile(PatientDTO patient) throws UserException;
 
-    public List<PatientDTO> getAllPatients() throws UserException {
-        return patientDAO.getAllPatients();
-    }
+    /**
+     * Deletes a patient by email.
+     *
+     * @param email Patient's email
+     * @return true if deletion is successful
+     * @throws UserException if deletion fails
+     */
+    boolean deletePatient(String email) throws UserException;
 
-    public PatientDTO getPatientByEmail(String email) throws UserException {
-        if (email == null || email.trim().isEmpty()) {
-            throw new UserException("Email cannot be empty.");
-        }
-        return patientDAO.getPatientByEmail(email);
-    }
+    /**
+     * Retrieves all registered patients.
+     *
+     * @return List of PatientDTO
+     * @throws UserException if retrieval fails
+     */
+    List<PatientDTO> getAllPatients() throws UserException;
 
-    public String getNextPatientId() throws UserException {
-        String nextId = patientDAO.getNextPatientId();
-        if (nextId == null || nextId.trim().isEmpty()) {
-            throw new UserException("Failed to generate next patient ID.");
-        }
-        return nextId;
-    }
+    /**
+     * Retrieves a patient by email.
+     *
+     * @param email Patient's email
+     * @return PatientDTO object
+     * @throws UserException if patient is not found
+     */
+    PatientDTO getPatientByEmail(String email) throws UserException;
+
+    /**
+     * Generates the next available patient ID.
+     *
+     * @return Next patient ID as a String
+     * @throws UserException if generation fails
+     */
+    String getNextPatientId() throws UserException;
 }

@@ -1,14 +1,36 @@
 package com.abes.medx.dto;
 
+/**
+ * Data Transfer Object (DTO) representing an Appointment in the system.
+ * Contains details about appointment ID, date, time, patient, doctor, payment, and status.
+ */
 public class AppointmentDTO {
     String appointmentId;
+
     String appointmentDate;
+
     String appointmentTime;
+
     PatientDTO patient;
+
     DoctorDTO doctor;
+
     int toPay;
+
     String status = "Scheduled";
 
+    /**
+     * Constructor to initialize an AppointmentDTO object with all necessary details.
+     * The status is set to "Scheduled" by default regardless of the input parameter.
+     * 
+     * @param appointmentId   Unique ID for the appointment
+     * @param appointmentDate Date of the appointment
+     * @param appointmentTime Time of the appointment
+     * @param patient        PatientDTO object representing the patient
+     * @param doctor         DoctorDTO object representing the doctor
+     * @param toPay          Amount to be paid
+     * @param status         Status of the appointment (ignored, always set to "Scheduled")
+     */
     public AppointmentDTO(String appointmentId, String appointmentDate, String appointmentTime, PatientDTO patient, DoctorDTO doctor, int toPay, String status) {
         setAppointmentId(appointmentId);
         setAppointmentDate(appointmentDate);
@@ -16,8 +38,10 @@ public class AppointmentDTO {
         setPatient(patient);
         setDoctor(doctor);
         setToPay(toPay);
-        setStatus("Scheduled");
+        setStatus("Scheduled");  // Always sets status to "Scheduled" when creating new appointment
     }
+
+    // Getter and Setter methods for each field
 
     public String getAppointmentId() {
         return appointmentId;
@@ -69,11 +93,18 @@ public class AppointmentDTO {
 
     public String getStatus() {
         return status;
-    }   
+    }
+
     public void setStatus(String status) {
         this.status = status;
     }
 
+    /**
+     * Returns a string representation of the AppointmentDTO object,
+     * including all its fields.
+     *
+     * @return String describing the appointment details
+     */
     @Override
     public String toString() {
         return "AppointmentDTO{" +

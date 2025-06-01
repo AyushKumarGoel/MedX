@@ -19,11 +19,11 @@ import com.abes.medx.exception.UserException;
 
 class UserServiceTest {
 
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @BeforeEach
     void setUp() {
-        userService = new UserService(new AdminDAOImpl(), new DoctorDAOImpl(), new PatientDAOImpl());
+        userService = new UserServiceImpl(new AdminDAOImpl(), new DoctorDAOImpl(), new PatientDAOImpl());
     }
 
     // ---------------------- Admin Tests ----------------------
@@ -32,7 +32,7 @@ class UserServiceTest {
     void testAdminLoginSuccess() throws UserException {
         AdminDTO admin = userService.adminLogin("admin@mail.com", "admin123");
         assertNotNull(admin);
-        assertEquals("A002", admin.getAdminId());
+        assertEquals("ADM2", admin.getAdminId());
     }
 
     @Test
@@ -51,7 +51,7 @@ class UserServiceTest {
     void testGetAdminByEmail() throws UserException {
         AdminDTO admin = userService.getAdminByEmail("admin@mail.com");
         assertNotNull(admin);
-        assertEquals("A002", admin.getAdminId());
+        assertEquals("ADM2", admin.getAdminId());
     }
 
     // ---------------------- Doctor Tests ----------------------
@@ -60,7 +60,7 @@ class UserServiceTest {
     void testDoctorLoginSuccess() throws UserException {
         DoctorDTO doctor = userService.doctorLogin("rahul@gmail.com", "rahul");
         assertNotNull(doctor);
-        assertEquals("D002", doctor.getDoctorId());
+        assertEquals("D2", doctor.getDoctorId());
     }
 
     @Test
@@ -77,7 +77,7 @@ class UserServiceTest {
 
     @Test
     void testGetDoctorById() throws UserException {
-        DoctorDTO doctor = userService.getDoctorById("D001");
+        DoctorDTO doctor = userService.getDoctorById("D1");
         assertNotNull(doctor);
         assertEquals("doctor@mail.com", doctor.getEmail());
     }
@@ -86,7 +86,7 @@ class UserServiceTest {
     void testGetDoctorByEmail() throws UserException {
         DoctorDTO doctor = userService.getDoctorByEmail("doctor@mail.com");
         assertNotNull(doctor);
-        assertEquals("D001", doctor.getDoctorId());
+        assertEquals("D1", doctor.getDoctorId());
     }
 
     // ---------------------- Patient Tests ----------------------
@@ -95,7 +95,7 @@ class UserServiceTest {
     void testPatientLoginSuccess() throws UserException {
         PatientDTO patient = userService.patientLogin("raj@gmail.com", "raj");
         assertNotNull(patient);
-        assertEquals("P001", patient.getPatientId());
+        assertEquals("P1", patient.getPatientId());
     }
 
     @Test
@@ -114,7 +114,7 @@ class UserServiceTest {
     void testGetPatientByEmail() throws UserException {
         PatientDTO patient = userService.getPatientByEmail("raj@gmail.com");
         assertNotNull(patient);
-        assertEquals("P001", patient.getPatientId());
+        assertEquals("P1", patient.getPatientId());
     }
 
     // ---------------------- ID Generators ----------------------
@@ -135,5 +135,110 @@ class UserServiceTest {
     void testGetNextPatientId() throws UserException {
         String nextId = userService.getNextPatientId();
         assertTrue(nextId.startsWith("P"));
+    }
+
+    // ---------------------- Admin Registration/Update/Delete ----------------------
+
+    @Test
+    void testRegisterAdminSuccess() throws UserException {
+        AdminDTO admin = new AdminDTO("ADM100", "Alice", "alice@mail.com", "alice123", "9999999999", "35");
+        assertTrue(userService.registerAdmin(admin));
+    }
+
+    @Test
+    void testRegisterAdminFailure() {
+        assertThrows(UserException.class, () -> userService.registerAdmin(null));
+    }
+
+    @Test
+    void testUpdateAdminProfileSuccess() throws UserException {
+        AdminDTO admin = userService.getAdminByEmail("admin@mail.com");
+        admin.setName("Updated Name");
+        assertTrue(userService.updateAdminProfile(admin));
+    }
+
+    @Test
+    void testUpdateAdminProfileFailure() {
+        assertThrows(UserException.class, () -> userService.updateAdminProfile(null));
+    }
+
+    @Test
+    void testDeleteAdminSuccess() throws UserException {
+        assertTrue(userService.deleteAdmin("admin@mail.com"));
+    }
+
+    @Test
+    void testDeleteAdminFailure() {
+        assertThrows(UserException.class, () -> userService.deleteAdmin(""));
+    }
+
+    // ---------------------- Doctor Registration/Update/Delete ----------------------
+
+    @Test
+    void testRegisterDoctorSuccess() throws UserException {
+        DoctorDTO doctor = new DoctorDTO("D100", "Alice", "alice@doc.com", "alice123", "9999999999", "40", "Cardiology", 10);
+        assertTrue(userService.registerDoctor(doctor));
+    }
+
+    @Test
+    void testRegisterDoctorFailure() {
+        assertThrows(UserException.class, () -> userService.registerDoctor(null));
+    }
+
+    @Test
+    void testUpdateDoctorProfileSuccess() throws UserException {
+        DoctorDTO doctor = userService.getDoctorById("D1");
+        doctor.setName("Updated Name");
+        assertTrue(userService.updateDoctorProfile(doctor));
+    }
+
+    @Test
+    void testUpdateDoctorProfileFailure() {
+        assertThrows(UserException.class, () -> userService.updateDoctorProfile(null));
+    }
+
+    @Test
+    void testDeleteDoctorSuccess() throws UserException {
+        assertTrue(userService.deleteDoctor("doctor@mail.com"));
+    }
+
+    @Test
+    void testDeleteDoctorFailure() {
+        assertThrows(UserException.class, () -> userService.deleteDoctor(""));
+    }
+
+    // ---------------------- Patient Registration/Update/Delete ----------------------
+
+    @Test
+    void testRegisterPatientSuccess() throws UserException {
+        PatientDTO patient = new PatientDTO("P100", "Alice", "alice@pat.com", "alice123", "8888888888", "28");
+        assertTrue(userService.registerPatient(patient));
+    }
+
+    @Test
+    void testRegisterPatientFailure() {
+        assertThrows(UserException.class, () -> userService.registerPatient(null));
+    }
+
+    @Test
+    void testUpdatePatientProfileSuccess() throws UserException {
+        PatientDTO patient = userService.getPatientByEmail("raj@gmail.com");
+        patient.setName("Updated Name");
+        assertTrue(userService.updatePatientProfile(patient));
+    }
+
+    @Test
+    void testUpdatePatientProfileFailure() {
+        assertThrows(UserException.class, () -> userService.updatePatientProfile(null));
+    }
+
+    @Test
+    void testDeletePatientSuccess() throws UserException {
+        assertTrue(userService.deletePatient("raj@gmail.com"));
+    }
+
+    @Test
+    void testDeletePatientFailure() {
+        assertThrows(UserException.class, () -> userService.deletePatient(""));
     }
 }
