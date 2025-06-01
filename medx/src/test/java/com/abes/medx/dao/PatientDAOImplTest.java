@@ -19,6 +19,7 @@ class PatientDAOImplTest {
     private PatientDAO patientDAO;
     private PatientDTO samplePatient;
 
+    // Runs before each test case to initialize test data and reset storage
     @BeforeEach
     void setUp() throws UserException {
         patientDAO = new PatientDAOImpl();
@@ -28,18 +29,21 @@ class PatientDAOImplTest {
         );
     }
 
+    // Test: Registering a new patient should succeed
     @Test
     void testRegisterSuccess() {
         assertTrue(patientDAO.register(samplePatient));
         assertEquals(1, CollectionUtil.patientMap.size());
     }
 
+    // Test: Registering a duplicate patient should fail
     @Test
     void testRegisterDuplicate() {
         patientDAO.register(samplePatient);
         assertFalse(patientDAO.register(samplePatient)); // Should not allow duplicate
     }
 
+    // Test: Authenticating with correct credentials should return patient
     @Test
     void testAuthenticateSuccess() {
         patientDAO.register(samplePatient);
@@ -48,6 +52,7 @@ class PatientDAOImplTest {
         assertEquals("P10", result.getPatientId());
     }
 
+    // Test: Authenticating with wrong password should return null
     @Test
     void testAuthenticateFailure() {
         patientDAO.register(samplePatient);
@@ -55,6 +60,7 @@ class PatientDAOImplTest {
         assertNull(result);
     }
 
+    // Test: Updating profile of existing patient should succeed
     @Test
     void testUpdateProfileSuccess() throws UserException {
         patientDAO.register(samplePatient);
@@ -65,6 +71,7 @@ class PatientDAOImplTest {
         assertEquals("Kamal Updated", CollectionUtil.patientMap.get("P10").getName());
     }
 
+    // Test: Updating profile of unregistered patient should fail
     @Test
     void testUpdateProfileFailure() throws UserException {
         PatientDTO newPatient = new PatientDTO(
@@ -73,6 +80,7 @@ class PatientDAOImplTest {
         assertFalse(patientDAO.updateProfile(newPatient));
     }
 
+    // Test: Deleting a registered patient should succeed
     @Test
     void testDeleteSuccess() {
         patientDAO.register(samplePatient);
@@ -80,11 +88,13 @@ class PatientDAOImplTest {
         assertEquals(0, CollectionUtil.patientMap.size());
     }
 
+    // Test: Deleting a non-existent patient should fail
     @Test
     void testDeleteFailure() {
         assertFalse(patientDAO.delete("abc@example.com"));
     }
 
+    // Test: Retrieving patient by valid email should return correct patient
     @Test
     void testGetPatientByEmailSuccess() {
         patientDAO.register(samplePatient);
@@ -93,11 +103,13 @@ class PatientDAOImplTest {
         assertEquals("P10", result.getPatientId());
     }
 
+    // Test: Retrieving patient by unknown email should return null
     @Test
     void testGetPatientByEmailFailure() {
         assertNull(patientDAO.getPatientByEmail("notfound@example.com"));
     }
 
+    // Test: Should return all registered patients
     @Test
     void testGetAllPatients() throws UserException {
         patientDAO.register(samplePatient);
