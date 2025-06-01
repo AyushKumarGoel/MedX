@@ -11,23 +11,20 @@ import com.abes.medx.dto.AppointmentDTO;
 import com.abes.medx.dto.DoctorDTO;
 import com.abes.medx.dto.PatientDTO;
 import com.abes.medx.exception.AppointmentException;
-
-
-
 import com.abes.medx.exception.BookingException;
 import com.abes.medx.exception.UserException;
 import com.abes.medx.service.AppointmentService;
 import com.abes.medx.service.UserService;
 
 public class PatientUI {
+    private final Scanner scanner;
     private final AppointmentService appointmentService;
     private final UserService userService;
-    private final Scanner scanner;
 
-    public PatientUI(AppointmentService appointmentService, UserService userService, Scanner scanner) {
+    public PatientUI( Scanner scanner, AppointmentService appointmentService, UserService userService) {
+        this.scanner = scanner;
         this.appointmentService = appointmentService;
         this.userService = userService;
-        this.scanner = scanner;
     }
 
     public void handlePatient() {
