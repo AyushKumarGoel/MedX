@@ -12,17 +12,21 @@ import com.abes.medx.exception.UserException;
 
 public class UserServiceImpl implements UserService {
 
+    // Data Access Objects for Admin, Doctor, and Patient
     private final AdminDAO adminDAO;
     private final DoctorDAO doctorDAO;
     private final PatientDAO patientDAO;
 
+    // Constructor-based dependency injection
     public UserServiceImpl(AdminDAO adminDAO, DoctorDAO doctorDAO, PatientDAO patientDAO) {
         this.adminDAO = adminDAO;
         this.doctorDAO = doctorDAO;
         this.patientDAO = patientDAO;
     }
 
-    // Admin
+    // ----------- Admin Services -----------
+
+    // Authenticates an admin based on email and password
     @Override
     public AdminDTO adminLogin(String email, String password) throws UserException {
         AdminDTO admin = adminDAO.authenticate(email, password);
@@ -30,6 +34,7 @@ public class UserServiceImpl implements UserService {
         return admin;
     }
 
+    // Registers a new admin
     @Override
     public boolean registerAdmin(AdminDTO admin) throws UserException {
         if (admin == null || admin.getEmail() == null || admin.getAdminId() == null) {
@@ -38,6 +43,7 @@ public class UserServiceImpl implements UserService {
         return adminDAO.register(admin);
     }
 
+    // Updates the admin profile
     @Override
     public boolean updateAdminProfile(AdminDTO admin) throws UserException {
         if (admin == null || admin.getAdminId() == null || admin.getEmail() == null) {
@@ -46,6 +52,7 @@ public class UserServiceImpl implements UserService {
         return adminDAO.updateProfile(admin);
     }
 
+    // Deletes an admin using their email
     @Override
     public boolean deleteAdmin(String email) throws UserException {
         if (email == null || email.trim().isEmpty()) {
@@ -54,6 +61,7 @@ public class UserServiceImpl implements UserService {
         return adminDAO.delete(email);
     }
 
+    // Fetches admin details by email
     @Override
     public AdminDTO getAdminByEmail(String email) throws UserException {
         if (email == null || email.trim().isEmpty()) {
@@ -62,11 +70,13 @@ public class UserServiceImpl implements UserService {
         return adminDAO.getAdminByEmail(email);
     }
 
+    // Retrieves a list of all registered admins
     @Override
     public List<AdminDTO> getAllAdmins() throws UserException {
         return adminDAO.getAllAdmins();
     }
 
+    // Gets the next available admin ID
     @Override
     public String getNextAdminId() throws UserException {
         String nextId = adminDAO.getNextAdminId();
@@ -76,7 +86,9 @@ public class UserServiceImpl implements UserService {
         return nextId;
     }
 
-    // Doctor
+    // ----------- Doctor Services -----------
+
+    // Authenticates a doctor
     @Override
     public DoctorDTO doctorLogin(String email, String password) throws UserException {
         DoctorDTO doctor = doctorDAO.authenticate(email, password);
@@ -84,6 +96,7 @@ public class UserServiceImpl implements UserService {
         return doctor;
     }
 
+    // Registers a new doctor
     @Override
     public boolean registerDoctor(DoctorDTO doctor) throws UserException {
         if (doctor == null || doctor.getEmail() == null || doctor.getDoctorId() == null) {
@@ -92,6 +105,7 @@ public class UserServiceImpl implements UserService {
         return doctorDAO.register(doctor);
     }
 
+    // Deletes a doctor using their email
     @Override
     public boolean deleteDoctor(String email) throws UserException {
         if (email == null || email.trim().isEmpty()) {
@@ -100,6 +114,7 @@ public class UserServiceImpl implements UserService {
         return doctorDAO.delete(email);
     }
 
+    // Updates doctor profile
     @Override
     public boolean updateDoctorProfile(DoctorDTO doctor) throws UserException {
         if (doctor == null || doctor.getDoctorId() == null) {
@@ -108,11 +123,13 @@ public class UserServiceImpl implements UserService {
         return doctorDAO.updateProfile(doctor);
     }
 
+    // Fetches a list of all doctors
     @Override
     public List<DoctorDTO> getAllDoctors() throws UserException {
         return doctorDAO.getAllDoctors();
     }
 
+    // Retrieves doctor details by ID
     @Override
     public DoctorDTO getDoctorById(String id) throws UserException {
         if (id == null || id.trim().isEmpty()) {
@@ -121,6 +138,7 @@ public class UserServiceImpl implements UserService {
         return doctorDAO.getDoctorById(id);
     }
 
+    // Retrieves doctor details by email
     @Override
     public DoctorDTO getDoctorByEmail(String email) throws UserException {
         if (email == null || email.trim().isEmpty()) {
@@ -129,6 +147,7 @@ public class UserServiceImpl implements UserService {
         return doctorDAO.getDoctorByEmail(email);
     }
 
+    // Gets the next available doctor ID
     @Override
     public String getNextDoctorId() throws UserException {
         String nextId = doctorDAO.getNextDoctorId();
@@ -138,7 +157,9 @@ public class UserServiceImpl implements UserService {
         return nextId;
     }
 
-    // Patient
+    // ----------- Patient Services -----------
+
+    // Authenticates a patient
     @Override
     public PatientDTO patientLogin(String email, String password) throws UserException {
         PatientDTO patient = patientDAO.authenticate(email, password);
@@ -146,6 +167,7 @@ public class UserServiceImpl implements UserService {
         return patient;
     }
 
+    // Registers a new patient
     @Override
     public boolean registerPatient(PatientDTO patient) throws UserException {
         if (patient == null || patient.getEmail() == null || patient.getPatientId() == null) {
@@ -154,6 +176,7 @@ public class UserServiceImpl implements UserService {
         return patientDAO.register(patient);
     }
 
+    // Updates patient profile
     @Override
     public boolean updatePatientProfile(PatientDTO patient) throws UserException {
         if (patient == null || patient.getPatientId() == null) {
@@ -162,6 +185,7 @@ public class UserServiceImpl implements UserService {
         return patientDAO.updateProfile(patient);
     }
 
+    // Deletes a patient using email
     @Override
     public boolean deletePatient(String email) throws UserException {
         if (email == null || email.trim().isEmpty()) {
@@ -170,11 +194,13 @@ public class UserServiceImpl implements UserService {
         return patientDAO.delete(email);
     }
 
+    // Retrieves a list of all patients
     @Override
     public List<PatientDTO> getAllPatients() throws UserException {
         return patientDAO.getAllPatients();
     }
 
+    // Fetches patient details by email
     @Override
     public PatientDTO getPatientByEmail(String email) throws UserException {
         if (email == null || email.trim().isEmpty()) {
@@ -183,6 +209,7 @@ public class UserServiceImpl implements UserService {
         return patientDAO.getPatientByEmail(email);
     }
 
+    // Gets the next available patient ID
     @Override
     public String getNextPatientId() throws UserException {
         String nextId = patientDAO.getNextPatientId();
@@ -192,3 +219,5 @@ public class UserServiceImpl implements UserService {
         return nextId;
     }
 }
+// End of UserServiceImpl.java
+// This code is part of the MedX application, which provides a healthcare management system.
