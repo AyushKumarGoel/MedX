@@ -21,13 +21,14 @@ import com.abes.medx.exception.BookingException;
 import com.abes.medx.util.CollectionUtil;
 
 class AppointmentServiceTest {
-
+    
     private AppointmentService appointmentService;
     private AppointmentDAO appointmentDAO;
     private DoctorDAO doctorDAO;
 
     @BeforeEach
     public void setUp() {
+        // Initialize DAOs and service before each test
         appointmentDAO = new AppointmentDAOImpl();
         doctorDAO = new DoctorDAOImpl();
         appointmentService = new AppointmentService(appointmentDAO, doctorDAO);
@@ -35,6 +36,7 @@ class AppointmentServiceTest {
 
     @Test
     void testCreateAppointment_Success() throws AppointmentException {
+        // Test successful creation of a new appointment
         String appointmentId = "AP1000";
         String date = "2025-06-01";
         String time = "10:00";
@@ -51,6 +53,7 @@ class AppointmentServiceTest {
 
     @Test
     void testCreateAppointment_InvalidData() {
+        // Test creating an appointment with invalid input data
         assertThrows(AppointmentException.class, () -> {
             appointmentService.createAppointment(null, null, null, null, null, -100);
         });
@@ -58,6 +61,7 @@ class AppointmentServiceTest {
 
     @Test
     void testBookAppointment_Success() throws AppointmentException, BookingException {
+        // Test successful booking of a created appointment
         String appointmentId = "AP3";
         String date = "2025-06-02";
         String time = "11:00";
@@ -73,6 +77,7 @@ class AppointmentServiceTest {
 
     @Test
     void testBookAppointment_NullAppointment() {
+        // Test booking with a null appointment object
         assertThrows(BookingException.class, () -> {
             appointmentService.bookAppointment(null);
         });
@@ -80,6 +85,7 @@ class AppointmentServiceTest {
 
     @Test
     void testUpdateAppointment_InvalidData() {
+        // Test updating an appointment with invalid data (null)
         assertThrows(AppointmentException.class, () -> {
             appointmentService.updateAppointment(null);
         });
@@ -87,6 +93,7 @@ class AppointmentServiceTest {
 
     @Test
     void testCancelAppointment_Success() throws AppointmentException {
+        // Test successful cancellation of an appointment
         boolean canceled = appointmentService.cancelAppointment("AP2");
 
         assertTrue(true);
@@ -95,6 +102,7 @@ class AppointmentServiceTest {
 
     @Test
     void testCancelAppointment_InvalidId() {
+         // Test cancelling an appointment with an invalid ID
         assertThrows(AppointmentException.class, () -> {
             appointmentService.cancelAppointment("");
         });
@@ -104,6 +112,7 @@ class AppointmentServiceTest {
 
     @Test
     void testCompleteAppointment_Cancelled() throws AppointmentException {
+        // Test completing a cancelled appointment (should throw exception)
         String appointmentId = "AP2";
         AppointmentDTO appointment = CollectionUtil.appointmentMap.get(appointmentId);
         appointment.setStatus("Cancelled");
@@ -115,6 +124,7 @@ class AppointmentServiceTest {
 
     @Test
     void testGetAppointmentById_Success() throws AppointmentException {
+        // Test retrieving an appointment by a valid ID
         AppointmentDTO appointment = appointmentService.getAppointmentById("AP2");
 
         assertNotNull(appointment);
@@ -123,6 +133,7 @@ class AppointmentServiceTest {
 
     @Test
     void testGetAppointmentById_InvalidId() {
+        // Test retrieving an appointment with an invalid ID
         assertThrows(AppointmentException.class, () -> {
             appointmentService.getAppointmentById("");
         });
@@ -130,6 +141,7 @@ class AppointmentServiceTest {
 
     @Test
     void testGetAppointmentsByPatientId_Success() throws AppointmentException {
+        // Test retrieving all appointments for a valid patient ID
         List<AppointmentDTO> appointments = appointmentService.getAppointmentsByPatientId("P1");
 
         assertNotNull(appointments);
@@ -138,6 +150,7 @@ class AppointmentServiceTest {
 
     @Test
     void testGetAppointmentsByPatientId_InvalidId() {
+        // Test retrieving appointments using an invalid patient ID
         assertThrows(AppointmentException.class, () -> {
             appointmentService.getAppointmentsByPatientId("");
         });
@@ -145,6 +158,7 @@ class AppointmentServiceTest {
 
     @Test
     void testGetAppointmentsByDoctorId_Success() throws AppointmentException {
+        // Test retrieving all appointments for a valid doctor ID
         List<AppointmentDTO> appointments = appointmentService.getAppointmentsByDoctorId("D1");
 
         assertNotNull(appointments);
@@ -153,6 +167,7 @@ class AppointmentServiceTest {
 
     @Test
     void testGetAppointmentsByDoctorId_InvalidId() {
+        // Test retrieving appointments using an invalid doctor ID
         assertThrows(AppointmentException.class, () -> {
             appointmentService.getAppointmentsByDoctorId("");
         });
@@ -160,6 +175,7 @@ class AppointmentServiceTest {
 
     @Test
     void testGetAppointmentsByStatus_Success() throws AppointmentException {
+        // Test retrieving appointments by valid status
         List<AppointmentDTO> appointments = appointmentService.getAppointmentsByStatus("Scheduled");
 
         assertNotNull(appointments);
@@ -168,6 +184,7 @@ class AppointmentServiceTest {
 
     @Test
     void testGetAppointmentsByStatus_InvalidStatus() {
+        // Test retrieving appointments by invalid status (empty string)
         assertThrows(AppointmentException.class, () -> {
             appointmentService.getAppointmentsByStatus("");
         });
@@ -175,6 +192,7 @@ class AppointmentServiceTest {
 
     @Test
     void testGetAllAppointments() throws AppointmentException {
+        // Test retrieving all appointments in the system
         List<AppointmentDTO> appointments = appointmentService.getAllAppointments();
 
         assertNotNull(appointments);
@@ -183,6 +201,7 @@ class AppointmentServiceTest {
 
     @Test
     void testGetNextAppointmentId() throws AppointmentException {
+        // Test generating the next unique appointment ID
         String nextId = appointmentService.getNextAppointmentId();
 
         assertNotNull(nextId);
