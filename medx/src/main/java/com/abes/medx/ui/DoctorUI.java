@@ -8,16 +8,16 @@ import com.abes.medx.dto.AppointmentDTO;
 import com.abes.medx.dto.DoctorDTO;
 import com.abes.medx.exception.AppointmentException;
 import com.abes.medx.exception.UserException;
-import com.abes.medx.service.AppointmentServiceImpl;
-import com.abes.medx.service.UserServiceImpl;
+import com.abes.medx.service.AppointmentService;
+import com.abes.medx.service.UserService;
 import com.abes.medx.util.ValidationUtil;
 
 public class DoctorUI {
     private final Scanner scanner;
-    private final UserServiceImpl userService;
-    private final AppointmentServiceImpl appointmentService;
+    private final UserService userService;
+    private final AppointmentService appointmentService;
 
-    public DoctorUI(Scanner scanner, UserServiceImpl userService, AppointmentServiceImpl appointmentService) {
+    public DoctorUI(Scanner scanner, UserService userService, AppointmentService appointmentService) {
         this.scanner = scanner;
         this.userService = userService;
         this.appointmentService = appointmentService;
