@@ -204,39 +204,48 @@ private void updateDoctor() {
         }
     }
  private void registerAdmin() {
-        try {
-            System.out.print("Name: ");
-            String name = scanner.nextLine();
-            if (name.trim().isEmpty()) {
-                throw new UserException("Name cannot be empty.");
-            }
-            System.out.print("Email: ");
-            String email = scanner.nextLine();
-            if (email.trim().isEmpty()) {
-                throw new UserException("Email cannot be empty.");
-            }
-            System.out.print("Password: ");
-            String password = scanner.nextLine();
-            if (password.trim().isEmpty()) {
-                throw new UserException("Password cannot be empty.");
-            }
-            System.out.print("Phone Number: ");
-            String phoneNumber = scanner.nextLine();
-            System.out.print("Age: ");
-            String age = scanner.nextLine();
-
-            AdminDTO admin = new AdminDTO(userService.getNextAdminId(), name, email, password, phoneNumber, age);
-            if (userService.registerAdmin(admin)) {
-                System.out.println("Admin registered successfully.");
-            } else {
-                System.out.println("Admin registration failed. ID or email may already exist.");
-            }
-        } catch (UserException e) {
-            System.out.println("Error registering admin: " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("Unexpected error during admin registration: " + e.getMessage());
+    try {
+        System.out.print("Name: ");
+        String name = scanner.nextLine();
+        if (name.trim().isEmpty()) {
+            throw new UserException("Name cannot be empty.");
         }
+
+        System.out.print("Email: ");
+        String email = scanner.nextLine();
+        if (email.trim().isEmpty()) {
+            throw new UserException("Email cannot be empty.");
+        }
+
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+        if (password.trim().isEmpty()) {
+            throw new UserException("Password cannot be empty.");
+        }
+
+        System.out.print("Phone Number: ");
+        String phoneNumber = scanner.nextLine();
+
+        System.out.print("Age: ");
+        String age = scanner.nextLine();
+
+        // 🔍 Debug line
+        System.out.println("Generated ID: " + userService.getNextAdminId());
+
+        AdminDTO admin = new AdminDTO(userService.getNextAdminId(), name, email, password, phoneNumber, age);
+
+        if (userService.registerAdmin(admin)) {
+            System.out.println("Admin registered successfully.");
+        } else {
+            System.out.println("Admin registration failed. ID or email may already exist.");
+        }
+    } catch (UserException e) {
+        System.out.println("Error registering admin: " + e.getMessage());
+    } catch (Exception e) {
+        System.out.println("Unexpected error during admin registration: " + e.getMessage());
     }
+}
+
     
 
 }
