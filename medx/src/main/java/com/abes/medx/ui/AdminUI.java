@@ -9,6 +9,10 @@ import com.abes.medx.dto.PatientDTO;
 import com.abes.medx.exception.UserException;
 import com.abes.medx.service.UserService;
 
+/**
+ * AdminUI class handles all console-based admin operations
+ * including login, managing doctors, patients, and other admins.
+ */
 public class AdminUI {
 
     private final Scanner scanner;
@@ -19,6 +23,9 @@ public class AdminUI {
         this.userService = userService;
     }
 
+    /**
+     * Handles admin login and shows the admin menu upon successful authentication.
+     */
     public void handleAdmin() {
         try {
             System.out.print("Admin Email: ");
@@ -36,6 +43,9 @@ public class AdminUI {
         }
     }
 
+    /**
+     * Displays the admin menu and handles the selected operation.
+     */
     private void adminMenu(AdminDTO admin) {
         while (true) {
             System.out.println("\n--- Admin Menu ---");
@@ -84,7 +94,6 @@ public class AdminUI {
                     case "9":
                         registerAdmin();
                         break;
-                    
                     case "10":
                         System.out.println("Logging out...");
                         return;
@@ -97,6 +106,9 @@ public class AdminUI {
         }
     }
 
+    /**
+     * Handles registration of a new doctor.
+     */
     private void registerDoctor() {
         try {
             System.out.print("Doctor ID: ");
@@ -126,6 +138,9 @@ public class AdminUI {
         }
     }
 
+    /**
+     * Handles updating an existing doctor's profile.
+     */
     private void updateDoctor() {
         try {
             List<DoctorDTO> doctors = userService.getAllDoctors();
@@ -148,6 +163,7 @@ public class AdminUI {
                 return;
             }
 
+            // Allow selective updates
             System.out.print("New Name (press Enter to keep current): ");
             String name = scanner.nextLine().trim();
             if (!name.isEmpty()) doctor.setName(name);
@@ -170,12 +186,14 @@ public class AdminUI {
 
             boolean updated = userService.updateDoctorProfile(doctor);
             System.out.println(updated ? "Doctor updated successfully." : "Update failed.");
-
         } catch (Exception e) {
             System.out.println("Error updating doctor: " + e.getMessage());
         }
     }
 
+    /**
+     * Handles deletion of a doctor by ID.
+     */
     private void deleteDoctor() {
         try {
             List<DoctorDTO> doctors = userService.getAllDoctors();
@@ -193,30 +211,28 @@ public class AdminUI {
             String doctorId = scanner.nextLine().trim();
             boolean deleted = userService.deleteDoctor(doctorId);
             System.out.println(deleted ? "Doctor deleted successfully." : "Failed to delete doctor.");
-
         } catch (Exception e) {
             System.out.println("Error deleting doctor: " + e.getMessage());
         }
     }
 
-
+    /**
+     * Handles registration of a new patient.
+     */
     private void registerPatient() {
         try {
             System.out.print("Name: ");
             String name = scanner.nextLine();
-            if (name.trim().isEmpty()) {
-                throw new UserException("Name cannot be empty.");
-            }
+            if (name.trim().isEmpty()) throw new UserException("Name cannot be empty.");
+
             System.out.print("Email: ");
             String email = scanner.nextLine();
-            if (email.trim().isEmpty()) {
-                throw new UserException("Email cannot be empty.");
-            }
+            if (email.trim().isEmpty()) throw new UserException("Email cannot be empty.");
+
             System.out.print("Password: ");
             String password = scanner.nextLine();
-            if (password.trim().isEmpty()) {
-                throw new UserException("Password cannot be empty.");
-            }
+            if (password.trim().isEmpty()) throw new UserException("Password cannot be empty.");
+
             System.out.print("Phone Number: ");
             String phoneNumber = scanner.nextLine();
             System.out.print("Age: ");
@@ -235,6 +251,9 @@ public class AdminUI {
         }
     }
 
+    /**
+     * Handles deletion of a patient by ID.
+     */
     private void deletePatient() {
         try {
             List<PatientDTO> patients = userService.getAllPatients();
@@ -252,30 +271,28 @@ public class AdminUI {
             String patientId = scanner.nextLine().trim();
             boolean deleted = userService.deletePatient(patientId);
             System.out.println(deleted ? "Patient deleted successfully." : "Failed to delete patient.");
-
         } catch (Exception e) {
             System.out.println("Error deleting patient: " + e.getMessage());
         }
     }
 
-
+    /**
+     * Handles registration of a new admin.
+     */
     private void registerAdmin() {
         try {
             System.out.print("Name: ");
             String name = scanner.nextLine();
-            if (name.trim().isEmpty()) {
-                throw new UserException("Name cannot be empty.");
-            }
+            if (name.trim().isEmpty()) throw new UserException("Name cannot be empty.");
+
             System.out.print("Email: ");
             String email = scanner.nextLine();
-            if (email.trim().isEmpty()) {
-                throw new UserException("Email cannot be empty.");
-            }
+            if (email.trim().isEmpty()) throw new UserException("Email cannot be empty.");
+
             System.out.print("Password: ");
             String password = scanner.nextLine();
-            if (password.trim().isEmpty()) {
-                throw new UserException("Password cannot be empty.");
-            }
+            if (password.trim().isEmpty()) throw new UserException("Password cannot be empty.");
+
             System.out.print("Phone Number: ");
             String phoneNumber = scanner.nextLine();
             System.out.print("Age: ");
@@ -293,6 +310,6 @@ public class AdminUI {
             System.out.println("Unexpected error during admin registration: " + e.getMessage());
         }
     }
-    
-
 }
+// End of AdminUI.java
+// This class provides a console-based interface for admin users to manage doctors, patients, and other admins in the MedX application.

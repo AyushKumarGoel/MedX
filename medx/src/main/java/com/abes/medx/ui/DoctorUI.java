@@ -12,6 +12,9 @@ import com.abes.medx.service.AppointmentService;
 import com.abes.medx.service.UserService;
 import com.abes.medx.util.ValidationUtil;
 
+/**
+ * Handles all UI interactions for a logged-in Doctor.
+ */
 public class DoctorUI {
     private final Scanner scanner;
     private final UserService userService;
@@ -23,6 +26,9 @@ public class DoctorUI {
         this.appointmentService = appointmentService;
     }
 
+    /**
+     * Handles doctor login and shows doctor menu upon successful authentication.
+     */
     public void handleDoctor() {
         try {
             System.out.print("Doctor Email: ");
@@ -38,7 +44,7 @@ public class DoctorUI {
             }
 
             DoctorDTO doctor = userService.doctorLogin(email, password);
-            doctorMenu(doctor);
+            doctorMenu(doctor); // proceed to the doctor menu
         } catch (UserException e) {
             System.out.println("Doctor login failed: " + e.getMessage());
         } catch (Exception e) {
@@ -46,6 +52,9 @@ public class DoctorUI {
         }
     }
 
+    /**
+     * Displays the doctor's main menu with available operations.
+     */
     private void doctorMenu(DoctorDTO doctor) {
         while (true) {
             System.out.println("\n--- Doctor Menu ---");
@@ -81,63 +90,60 @@ public class DoctorUI {
         }
     }
 
+    /**
+     * Retrieves and displays appointments categorized as Pending/Approved or Completed.
+     */
     private void viewAppointments(DoctorDTO doctor) throws AppointmentException {
         List<AppointmentDTO> doctorAppointments = appointmentService.getAppointmentsByDoctorId(doctor.getDoctorId());
-                        if (doctorAppointments.isEmpty()) {
-                            System.out.println("No appointments found.");
-                        } else {
-                            List<AppointmentDTO> pending = new ArrayList<>();
-                            List<AppointmentDTO> completed = new ArrayList<>();
 
-                            for (AppointmentDTO app : doctorAppointments) {
-                                String status = app.getStatus();
-                                if ("Approved".equalsIgnoreCase(status) || "Pending".equalsIgnoreCase(status)) {
-                                    pending.add(app);
-                                } else if ("Completed".equalsIgnoreCase(status)) {
-                                    completed.add(app);
-                                }
-                            }
+        if (doctorAppointments.isEmpty()) {
+            System.out.println("No appointments found.");
+        } else {
+            List<AppointmentDTO> pending = new ArrayList<>();
+            List<AppointmentDTO> completed = new ArrayList<>();
 
-                            // Display Pending/Approved Appointments
-                            System.out.println("\n--- Pending/Approved Appointments ---");
-                            if (pending.isEmpty()) {
-                                System.out.println("No pending or approved appointments.");
-                            } else {
-                                for (AppointmentDTO app : pending) {
-                                    System.out.println("========================================");
-                                    System.out.println("Appointment ID : " + app.getAppointmentId());
-                                    System.out.println("Date           : " + app.getAppointmentDate());
-                                    System.out.println("Time           : " + app.getAppointmentTime());
-                                    System.out.println("Patient Name   : " + app.getPatient().getName());
-                                    System.out.println("Status         : " + app.getStatus());
-                                    System.out.println("========================================");
-                                }
-                            }
+            // Categorize appointments
+            for (AppointmentDTO app : doctorAppointments) {
+                String status = app.getStatus();
+                if ("Approved".equalsIgnoreCase(status) || "Pending".equalsIgnoreCase(status)) {
+                    pending.add(app);
+                } else if ("Completed".equalsIgnoreCase(status)) {
+                    completed.add(app);
+                }
+            }
 
-                            // Display Completed Appointments
-                            System.out.println("\n--- Completed Appointments ---");
-                            if (completed.isEmpty()) {
-                                System.out.println("No completed appointments.");
-                            } else {
-                                for (AppointmentDTO app : completed) {
-                                    System.out.println("========================================");
-                                    System.out.println("Appointment ID : " + app.getAppointmentId());
-                                    System.out.println("Date           : " + app.getAppointmentDate());
-                                    System.out.println("Time           : " + app.getAppointmentTime());
-                                    System.out.println("Patient Name   : " + app.getPatient().getName());
-                                    System.out.println("Status         : " + app.getStatus());
-                                    System.out.println("========================================");
-                                }
-                            }
-                        }
-                    }
+            // Display Pending/Approved Appointments
+            System.out.println("\n--- Pending/Approved Appointments ---");
+            if (pending.isEmpty()) {
+                System.out.println("No pending or approved appointments.");
+            } else {
+                for (AppointmentDTO app : pending) {
+                    displayAppointment(app);
+                }
+            }
 
+            // Display Completed Appointments
+            System.out.println("\n--- Completed Appointments ---");
+            if (completed.isEmpty()) {
+                System.out.println("No completed appointments.");
+            } else {
+                for (AppointmentDTO app : completed) {
+                    displayAppointment(app);
+                }
+            }
+        }
+    }
+
+    /**
+     * Marks an appointment as completed based on user input ID.
+     */
     private void completeAppointment() throws AppointmentException {
         System.out.print("Enter appointment ID to complete: ");
         String id = scanner.nextLine();
         if (id.trim().isEmpty()) {
             throw new AppointmentException("Appointment ID cannot be empty.");
         }
+
         boolean success = appointmentService.completeAppointment(id);
         if (success) {
             System.out.println("Appointment marked as completed.");
@@ -146,6 +152,9 @@ public class DoctorUI {
         }
     }
 
+    /**
+     * Allows the doctor to update their profile with input validation.
+     */
     private void updateDoctorProfile(DoctorDTO doctor) {
         try {
             System.out.println("Current details: " + doctor);
@@ -154,31 +163,37 @@ public class DoctorUI {
             if (!name.trim().isEmpty()) {
                 doctor.setName(ValidationUtil.validateName(name));
             }
+
             System.out.print("New Email (press Enter to keep current): ");
             String newEmail = scanner.nextLine();
             if (!newEmail.trim().isEmpty()) {
                 doctor.setEmail(ValidationUtil.validateEmail(newEmail));
             }
+
             System.out.print("New Password (press Enter to keep current): ");
             String password = scanner.nextLine();
             if (!password.trim().isEmpty()) {
                 doctor.setPassword(ValidationUtil.validatePassword(password));
             }
+
             System.out.print("New Phone Number (press Enter to keep current): ");
             String phoneNumber = scanner.nextLine();
             if (!phoneNumber.trim().isEmpty()) {
                 doctor.setPhoneNumber(ValidationUtil.validatePhoneNumber(phoneNumber));
             }
+
             System.out.print("New Age (press Enter to keep current): ");
             String ageStr = scanner.nextLine();
             if (!ageStr.trim().isEmpty()) {
                 doctor.setAge(ValidationUtil.validateAge(ageStr));
             }
+
             System.out.print("New Specialization (press Enter to keep current): ");
             String specialization = scanner.nextLine();
             if (!specialization.trim().isEmpty()) {
                 doctor.setSpecialization(ValidationUtil.validateName(specialization));
             }
+
             System.out.print("New Years of Experience (press Enter to keep current): ");
             String yearsInput = scanner.nextLine();
             if (!yearsInput.trim().isEmpty()) {
@@ -193,6 +208,7 @@ public class DoctorUI {
                 }
             }
 
+            // Update the doctor profile via service
             if (userService.updateDoctorProfile(doctor)) {
                 System.out.println("Profile updated successfully.");
             } else {
@@ -204,8 +220,10 @@ public class DoctorUI {
             System.out.println("Unexpected error during profile update: " + e.getMessage());
         }
     }
-    
 
+    /**
+     * Displays a single appointment in a formatted way.
+     */
     private void displayAppointment(AppointmentDTO app) {
         System.out.println("========================================");
         System.out.println("Appointment ID : " + app.getAppointmentId());
@@ -216,3 +234,5 @@ public class DoctorUI {
         System.out.println("========================================");
     }
 }
+// End of DoctorUI.java
+// This class handles all user interactions for a logged-in doctor, including viewing and completing appointments, and updating their profile.

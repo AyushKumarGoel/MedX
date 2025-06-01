@@ -1,6 +1,5 @@
 package com.abes.medx.ui;
 
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
@@ -21,12 +20,14 @@ public class PatientUI {
     private final AppointmentService appointmentService;
     private final UserService userService;
 
-    public PatientUI( Scanner scanner, AppointmentService appointmentService, UserService userService) {
+    // Constructor to initialize services and scanner
+    public PatientUI(Scanner scanner, AppointmentService appointmentService, UserService userService) {
         this.scanner = scanner;
         this.appointmentService = appointmentService;
         this.userService = userService;
     }
 
+    // Handles patient login and routes to patient menu if successful
     public void handlePatient() {
         try {
             System.out.print("Patient Email: ");
@@ -37,6 +38,7 @@ public class PatientUI {
             String password = scanner.nextLine().trim();
             if (password.isEmpty()) throw new UserException("Password cannot be empty.");
 
+            // Authenticate the patient
             PatientDTO patient = userService.patientLogin(email, password);
             patientMenu(patient);
         } catch (UserException e) {
@@ -46,6 +48,7 @@ public class PatientUI {
         }
     }
 
+    // Displays the patient menu and handles input
     public void patientMenu(PatientDTO patient) {
         while (true) {
             System.out.println("\n--- Patient Menu ---");
@@ -60,16 +63,16 @@ public class PatientUI {
             try {
                 switch (choice) {
                     case "1":
-                        viewAppointments(patient);
+                        viewAppointments(patient); // View all appointments
                         break;
                     case "2":
-                        bookAppointment(patient);
+                        bookAppointment(patient); // Book a new appointment
                         break;
                     case "3":
-                        cancelAppointment();
+                        cancelAppointment(); // Cancel an existing appointment
                         break;
                     case "4":
-                        updatePatientProfile(patient);
+                        updatePatientProfile(patient); // Update profile info
                         break;
                     case "5":
                         System.out.println("Patient logged out.");
@@ -85,9 +88,11 @@ public class PatientUI {
         }
     }
 
+    // Displays all appointments for the logged-in patient
     private void viewAppointments(PatientDTO patient) throws AppointmentException {
         System.out.println("Appointment Details:");
         List<AppointmentDTO> appointments = appointmentService.getAppointmentsByPatientId(patient.getPatientId());
+
         if (appointments.isEmpty()) {
             System.out.println("No appointments found.");
         } else {
@@ -104,6 +109,7 @@ public class PatientUI {
         }
     }
 
+    // Cancels an appointment by ID
     private void cancelAppointment() throws AppointmentException {
         System.out.print("Enter appointment ID to cancel: ");
         String id = scanner.nextLine().trim();
@@ -113,16 +119,19 @@ public class PatientUI {
         System.out.println(cancelled ? "Appointment cancelled successfully." : "Failed to cancel appointment.");
     }
 
+    // Books a new appointment by selecting doctor, date, and time
     private void bookAppointment(PatientDTO patient) {
         try {
+            // Take date and time input from user
             System.out.print("Date (YYYY-MM-DD): ");
             String date = scanner.nextLine().trim();
-            LocalDate parsedDate = LocalDate.parse(date); // May throw DateTimeParseException
+            LocalDate parsedDate = LocalDate.parse(date);
 
             System.out.print("Time (HH:MM): ");
             String time = scanner.nextLine().trim();
-            LocalTime parsedTime = LocalTime.parse(time); // May throw DateTimeParseException
+            LocalTime parsedTime = LocalTime.parse(time);
 
+            // Display all available doctors
             List<DoctorDTO> doctors = userService.getAllDoctors();
             if (doctors == null || doctors.isEmpty()) {
                 throw new AppointmentException("No doctors available.");
@@ -134,12 +143,15 @@ public class PatientUI {
                         doctor.getDoctorId(), doctor.getName(), doctor.getSpecialization());
             }
 
+            // Take doctor ID input
             System.out.print("Enter Doctor ID from the list above: ");
             String doctorId = scanner.nextLine().trim();
             if (doctorId.isEmpty()) throw new AppointmentException("Doctor ID cannot be empty.");
 
-            int toPay = 0; // Hardcoded; assumed no payment handling needed
+            // Payment logic is omitted; hardcoded to 0
+            int toPay = 0;
 
+            // Create and book the appointment
             AppointmentDTO appointment = appointmentService.createAppointment(
                     appointmentService.getNextAppointmentId(),
                     date,
@@ -168,6 +180,7 @@ public class PatientUI {
         }
     }
 
+    // Allows patient to update their profile details
     private void updatePatientProfile(PatientDTO patient) {
         try {
             if (patient == null) {
@@ -175,9 +188,11 @@ public class PatientUI {
                 return;
             }
 
+            // Display current profile info
             System.out.println("Current Profile Details:");
             System.out.println(patient);
 
+            // Update each field only if user provides new input
             System.out.print("New Name (press Enter to keep current): ");
             String name = scanner.nextLine().trim();
             if (!name.isEmpty()) patient.setName(name);
@@ -198,6 +213,7 @@ public class PatientUI {
             String age = scanner.nextLine().trim();
             if (!age.isEmpty()) patient.setAge(age);
 
+            // Update in backend
             boolean updated = userService.updatePatientProfile(patient);
             System.out.println(updated ? "Profile updated successfully." : "Failed to update profile.");
 
@@ -208,3 +224,5 @@ public class PatientUI {
         }
     }
 }
+// End of PatientUI.java
+// This class provides the user interface for patient-related operations such as login, viewing appointments, booking, cancelling appointments, and updating profile details.
