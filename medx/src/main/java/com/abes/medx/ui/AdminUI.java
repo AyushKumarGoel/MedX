@@ -7,14 +7,14 @@ import com.abes.medx.dto.AdminDTO;
 import com.abes.medx.dto.DoctorDTO;
 import com.abes.medx.dto.PatientDTO;
 import com.abes.medx.exception.UserException;
-import com.abes.medx.service.UserServiceImpl;
+import com.abes.medx.service.UserService;
 
 public class AdminUI {
 
     private final Scanner scanner;
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
-    public AdminUI(Scanner scanner, UserServiceImpl userService) {
+    public AdminUI(Scanner scanner, UserService userService) {
         this.scanner = scanner;
         this.userService = userService;
     }
@@ -48,7 +48,6 @@ public class AdminUI {
             System.out.println("7. Delete Patient");
             System.out.println("8. View All Admins");
             System.out.println("9. Register New Admin");
-          
             System.out.println("10. Logout");
             System.out.print("Choose: ");
             String choice = scanner.nextLine();

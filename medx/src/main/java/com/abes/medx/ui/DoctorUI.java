@@ -1,6 +1,5 @@
 package com.abes.medx.ui;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -10,6 +9,7 @@ import com.abes.medx.exception.AppointmentException;
 import com.abes.medx.exception.UserException;
 import com.abes.medx.service.AppointmentService;
 import com.abes.medx.service.UserService;
+import com.abes.medx.util.CollectionUtil;
 import com.abes.medx.util.ValidationUtil;
 
 /**
@@ -91,7 +91,7 @@ public class DoctorUI {
     }
 
     /**
-     * Retrieves and displays appointments categorized as Pending/Approved or Completed.
+     * Retrieves and displays appointments categorized as Scheduled or Completed.
      */
     private void viewAppointments(DoctorDTO doctor) throws AppointmentException {
         List<AppointmentDTO> doctorAppointments = appointmentService.getAppointmentsByDoctorId(doctor.getDoctorId());
@@ -99,35 +99,32 @@ public class DoctorUI {
         if (doctorAppointments.isEmpty()) {
             System.out.println("No appointments found.");
         } else {
-            List<AppointmentDTO> pending = new ArrayList<>();
-            List<AppointmentDTO> completed = new ArrayList<>();
-
             // Categorize appointments
             for (AppointmentDTO app : doctorAppointments) {
                 String status = app.getStatus();
-                if ("Approved".equalsIgnoreCase(status) || "Pending".equalsIgnoreCase(status)) {
-                    pending.add(app);
+                if ("Scheduled".equalsIgnoreCase(status)) {
+                    CollectionUtil.scheduled.add(app);
                 } else if ("Completed".equalsIgnoreCase(status)) {
-                    completed.add(app);
+                    CollectionUtil.completed.add(app);
                 }
             }
 
-            // Display Pending/Approved Appointments
-            System.out.println("\n--- Pending/Approved Appointments ---");
-            if (pending.isEmpty()) {
-                System.out.println("No pending or approved appointments.");
+            // Display Scheduled Appointments
+            System.out.println("\n--- Scheduled Appointments ---");
+            if (CollectionUtil.scheduled.isEmpty()) {
+                System.out.println("No scheduled appointments.");
             } else {
-                for (AppointmentDTO app : pending) {
+                for (AppointmentDTO app : CollectionUtil.scheduled) {
                     displayAppointment(app);
                 }
             }
 
             // Display Completed Appointments
             System.out.println("\n--- Completed Appointments ---");
-            if (completed.isEmpty()) {
+            if (CollectionUtil.completed.isEmpty()) {
                 System.out.println("No completed appointments.");
             } else {
-                for (AppointmentDTO app : completed) {
+                for (AppointmentDTO app : CollectionUtil.completed) {
                     displayAppointment(app);
                 }
             }
