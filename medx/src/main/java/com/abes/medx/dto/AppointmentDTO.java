@@ -5,25 +5,18 @@ package com.abes.medx.dto;
  * Contains details about appointment ID, date, time, patient, doctor, payment, and status.
  */
 public class AppointmentDTO {
-    // Unique identifier for the appointment
     String appointmentId;
 
-    // Date of the appointment (e.g., "2025-06-01")
     String appointmentDate;
 
-    // Time of the appointment (e.g., "14:30")
     String appointmentTime;
 
-    // Patient involved in the appointment
     PatientDTO patient;
 
-    // Doctor involved in the appointment
     DoctorDTO doctor;
 
-    // Amount to be paid for the appointment
     int toPay;
 
-    // Status of the appointment (default is "Scheduled")
     String status = "Scheduled";
 
     /**
