@@ -96,14 +96,7 @@ public class AdminDAOImpl implements AdminDAO {
                 .orElse(null);
     }
 
-<<<<<<< HEAD
-    
-   @Override
-public String getNextAdminId() {
-    int i = 1;
-    while (CollectionUtil.adminMap.containsKey("ADM" + i)) { 
-        i++;
-=======
+
     /**
      * Generates the next unique admin ID.
      * Checks for IDs starting from "ADM1" upwards until an unused ID is found.
@@ -118,11 +111,7 @@ public String getNextAdminId() {
             i++;
         }
         return "ADM" + i;
->>>>>>> ee4e36cb045b92ed4575ef150014281126bfa0f7
     }
-    return "ADM" + i;
-}
-
 
     /**
      * Returns a list of all registered admins.
