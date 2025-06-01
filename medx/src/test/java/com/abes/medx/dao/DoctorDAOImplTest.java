@@ -119,4 +119,11 @@ class DoctorDAOImplTest {
     @Test
     void testGetAllDoctors() throws UserException {
         doctorDAO.register(sampleDoctor);
-        doctorDAO.regist
+        doctorDAO.register(new DoctorDTO(
+            "D11", "Yash", "yash@example.com", "1234",
+            "1111111111", "40", "ENT", 10
+        ));
+        List<DoctorDTO> list = doctorDAO.getAllDoctors();
+        assertEquals(2, list.size());
+    }
+}
