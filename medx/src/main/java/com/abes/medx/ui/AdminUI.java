@@ -7,25 +7,18 @@ import com.abes.medx.dto.AdminDTO;
 import com.abes.medx.dto.DoctorDTO;
 import com.abes.medx.dto.PatientDTO;
 import com.abes.medx.exception.UserException;
-import com.abes.medx.service.UserService;
+import com.abes.medx.service.UserServiceImpl;
 
-/**
- * AdminUI class handles all console-based admin operations
- * including login, managing doctors, patients, and other admins.
- */
 public class AdminUI {
 
     private final Scanner scanner;
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
-    public AdminUI(Scanner scanner, UserService userService) {
+    public AdminUI(Scanner scanner, UserServiceImpl userService) {
         this.scanner = scanner;
         this.userService = userService;
     }
 
-    /**
-     * Handles admin login and shows the admin menu upon successful authentication.
-     */
     public void handleAdmin() {
         try {
             System.out.print("Admin Email: ");
@@ -43,21 +36,19 @@ public class AdminUI {
         }
     }
 
-    /**
-     * Displays the admin menu and handles the selected operation.
-     */
     private void adminMenu(AdminDTO admin) {
         while (true) {
             System.out.println("\n--- Admin Menu ---");
             System.out.println("1. View All Doctors");
             System.out.println("2. Register New Doctor");
-            System.out.println("3. Update Doctor Profile");
+            System.out.println("3. Update Doctor");
             System.out.println("4. Delete Doctor");
             System.out.println("5. View All Patients");
             System.out.println("6. Register New Patient");
             System.out.println("7. Delete Patient");
             System.out.println("8. View All Admins");
             System.out.println("9. Register New Admin");
+          
             System.out.println("10. Logout");
             System.out.print("Choose: ");
             String choice = scanner.nextLine();
@@ -75,7 +66,13 @@ public class AdminUI {
                         updateDoctor();
                         break;
                     case "4":
-                        deleteDoctor();
+                        System.out.print("Enter doctor email to delete: ");
+                        String docEmail = scanner.nextLine();
+                        if (userService.deleteDoctor(docEmail)) {
+                            System.out.println("Doctor deleted.");
+                        } else {
+                            System.out.println("Doctor not found.");
+                        }
                         break;
                     case "5":
                         List<PatientDTO> patients = userService.getAllPatients();
@@ -85,7 +82,13 @@ public class AdminUI {
                         registerPatient();
                         break;
                     case "7":
-                        deletePatient();
+                        System.out.print("Enter patient email to delete: ");
+                        String patEmail = scanner.nextLine();
+                        if (userService.deletePatient(patEmail)) {
+                            System.out.println("Patient deleted.");
+                        } else {
+                            System.out.println("Patient not found.");
+                        }
                         break;
                     case "8":
                         List<AdminDTO> admins = userService.getAllAdmins();
@@ -94,6 +97,7 @@ public class AdminUI {
                     case "9":
                         registerAdmin();
                         break;
+                    
                     case "10":
                         System.out.println("Logging out...");
                         return;
@@ -106,133 +110,82 @@ public class AdminUI {
         }
     }
 
-    /**
-     * Handles registration of a new doctor.
-     */
     private void registerDoctor() {
-        try {
-            System.out.print("Doctor ID: ");
-            String doctorId = scanner.nextLine();
-            System.out.print("Name: ");
-            String name = scanner.nextLine();
-            System.out.print("Email: ");
-            String email = scanner.nextLine();
-            System.out.print("Password: ");
-            String password = scanner.nextLine();
-            System.out.print("Phone Number: ");
-            String phoneNumber = scanner.nextLine();
-            System.out.print("Age: ");
-            String age = scanner.nextLine();
-            System.out.print("Specialization: ");
-            String specialization = scanner.nextLine();
-            System.out.print("Years of Experience: ");
-            int yearsOfExperience = Integer.parseInt(scanner.nextLine());
+    try {
+        System.out.print("Doctor ID: ");
+        String doctorId = scanner.nextLine();
+        System.out.print("Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Email: ");
+        String email = scanner.nextLine();
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+        System.out.print("Phone Number: ");
+        String phoneNumber = scanner.nextLine();
+        System.out.print("Age: ");
+        String age = scanner.nextLine();
+        System.out.print("Specialization: ");
+        String specialization = scanner.nextLine();
+        System.out.print("Years of Experience: ");
+        int yearsOfExperience = Integer.parseInt(scanner.nextLine());
 
-            DoctorDTO doctor = new DoctorDTO(doctorId, name, email, password, phoneNumber, age, specialization, yearsOfExperience);
-            userService.registerDoctor(doctor);
-            System.out.println("Doctor registered successfully.");
-        } catch (UserException e) {
-            System.out.println("Registration failed: " + e.getMessage());
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid input for years of experience.");
-        }
+        DoctorDTO doctor = new DoctorDTO(doctorId, name, email, password, phoneNumber, age, specialization, yearsOfExperience);
+        userService.registerDoctor(doctor);
+        System.out.println("Doctor registered successfully.");
+    } catch (UserException e) {
+        System.out.println("Registration failed: " + e.getMessage());
+    } catch (NumberFormatException e) {
+        System.out.println("Invalid input for years of experience.");
     }
+}
 
-    /**
-     * Handles updating an existing doctor's profile.
-     */
-    private void updateDoctor() {
-        try {
-            List<DoctorDTO> doctors = userService.getAllDoctors();
-            if (doctors.isEmpty()) {
-                System.out.println("No doctors available to update.");
-                return;
-            }
+private void updateDoctor() {
+    try {
+        System.out.print("Doctor ID: ");
+        String doctorId = scanner.nextLine();
+        System.out.print("Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Email: ");
+        String email = scanner.nextLine();
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+        System.out.print("Phone Number: ");
+        String phoneNumber = scanner.nextLine();
+        System.out.print("Age: ");
+        String age = scanner.nextLine();
+        System.out.print("Specialization: ");
+        String specialization = scanner.nextLine();
+        System.out.print("Years of Experience: ");
+        int yearsOfExperience = Integer.parseInt(scanner.nextLine());
 
-            System.out.println("Available Doctors:");
-            for (DoctorDTO doctor : doctors) {
-                System.out.printf("ID: %s, Name: %s, Specialty: %s%n", doctor.getDoctorId(), doctor.getName(), doctor.getSpecialization());
-            }
-
-            System.out.print("Enter Doctor ID to update: ");
-            String doctorId = scanner.nextLine().trim();
-
-            DoctorDTO doctor = userService.getDoctorById(doctorId);
-            if (doctor == null) {
-                System.out.println("Doctor not found.");
-                return;
-            }
-
-            // Allow selective updates
-            System.out.print("New Name (press Enter to keep current): ");
-            String name = scanner.nextLine().trim();
-            if (!name.isEmpty()) doctor.setName(name);
-
-            System.out.print("New Email (press Enter to keep current): ");
-            String email = scanner.nextLine().trim();
-            if (!email.isEmpty()) doctor.setEmail(email);
-
-            System.out.print("New Password (press Enter to keep current): ");
-            String password = scanner.nextLine().trim();
-            if (!password.isEmpty()) doctor.setPassword(password);
-
-            System.out.print("New Phone (press Enter to keep current): ");
-            String phone = scanner.nextLine().trim();
-            if (!phone.isEmpty()) doctor.setPhoneNumber(phone);
-
-            System.out.print("New Specialization (press Enter to keep current): ");
-            String specialization = scanner.nextLine().trim();
-            if (!specialization.isEmpty()) doctor.setSpecialization(specialization);
-
-            boolean updated = userService.updateDoctorProfile(doctor);
-            System.out.println(updated ? "Doctor updated successfully." : "Update failed.");
-        } catch (Exception e) {
-            System.out.println("Error updating doctor: " + e.getMessage());
-        }
+        DoctorDTO doctor = new DoctorDTO(doctorId, name, email, password, phoneNumber, age, specialization, yearsOfExperience);
+        userService.updateDoctorProfile(doctor);
+        System.out.println("Doctor updated successfully.");
+    } catch (UserException e) {
+        System.out.println("Update failed: " + e.getMessage());
+    } catch (NumberFormatException e) {
+        System.out.println("Invalid input for years of experience.");
     }
+}
 
-    /**
-     * Handles deletion of a doctor by ID.
-     */
-    private void deleteDoctor() {
-        try {
-            List<DoctorDTO> doctors = userService.getAllDoctors();
-            if (doctors.isEmpty()) {
-                System.out.println("No doctors available to delete.");
-                return;
-            }
 
-            System.out.println("Available Doctors:");
-            for (DoctorDTO doctor : doctors) {
-                System.out.printf("ID: %s, Name: %s, Specialty: %s%n", doctor.getDoctorId(), doctor.getName(), doctor.getSpecialization());
-            }
-
-            System.out.print("Enter Doctor ID to delete: ");
-            String doctorId = scanner.nextLine().trim();
-            boolean deleted = userService.deleteDoctor(doctorId);
-            System.out.println(deleted ? "Doctor deleted successfully." : "Failed to delete doctor.");
-        } catch (Exception e) {
-            System.out.println("Error deleting doctor: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Handles registration of a new patient.
-     */
     private void registerPatient() {
         try {
             System.out.print("Name: ");
             String name = scanner.nextLine();
-            if (name.trim().isEmpty()) throw new UserException("Name cannot be empty.");
-
+            if (name.trim().isEmpty()) {
+                throw new UserException("Name cannot be empty.");
+            }
             System.out.print("Email: ");
             String email = scanner.nextLine();
-            if (email.trim().isEmpty()) throw new UserException("Email cannot be empty.");
-
+            if (email.trim().isEmpty()) {
+                throw new UserException("Email cannot be empty.");
+            }
             System.out.print("Password: ");
             String password = scanner.nextLine();
-            if (password.trim().isEmpty()) throw new UserException("Password cannot be empty.");
-
+            if (password.trim().isEmpty()) {
+                throw new UserException("Password cannot be empty.");
+            }
             System.out.print("Phone Number: ");
             String phoneNumber = scanner.nextLine();
             System.out.print("Age: ");
@@ -250,66 +203,49 @@ public class AdminUI {
             System.out.println("Unexpected error during patient registration: " + e.getMessage());
         }
     }
-
-    /**
-     * Handles deletion of a patient by ID.
-     */
-    private void deletePatient() {
-        try {
-            List<PatientDTO> patients = userService.getAllPatients();
-            if (patients.isEmpty()) {
-                System.out.println("No patients available to delete.");
-                return;
-            }
-
-            System.out.println("Available Patients:");
-            for (PatientDTO patient : patients) {
-                System.out.printf("ID: %s, Name: %s, Age: %s%n", patient.getPatientId(), patient.getName(), patient.getAge());
-            }
-
-            System.out.print("Enter Patient ID to delete: ");
-            String patientId = scanner.nextLine().trim();
-            boolean deleted = userService.deletePatient(patientId);
-            System.out.println(deleted ? "Patient deleted successfully." : "Failed to delete patient.");
-        } catch (Exception e) {
-            System.out.println("Error deleting patient: " + e.getMessage());
+ private void registerAdmin() {
+    try {
+        System.out.print("Name: ");
+        String name = scanner.nextLine();
+        if (name.trim().isEmpty()) {
+            throw new UserException("Name cannot be empty.");
         }
-    }
 
-    /**
-     * Handles registration of a new admin.
-     */
-    private void registerAdmin() {
-        try {
-            System.out.print("Name: ");
-            String name = scanner.nextLine();
-            if (name.trim().isEmpty()) throw new UserException("Name cannot be empty.");
-
-            System.out.print("Email: ");
-            String email = scanner.nextLine();
-            if (email.trim().isEmpty()) throw new UserException("Email cannot be empty.");
-
-            System.out.print("Password: ");
-            String password = scanner.nextLine();
-            if (password.trim().isEmpty()) throw new UserException("Password cannot be empty.");
-
-            System.out.print("Phone Number: ");
-            String phoneNumber = scanner.nextLine();
-            System.out.print("Age: ");
-            String age = scanner.nextLine();
-
-            AdminDTO admin = new AdminDTO(userService.getNextAdminId(), name, email, password, phoneNumber, age);
-            if (userService.registerAdmin(admin)) {
-                System.out.println("Admin registered successfully.");
-            } else {
-                System.out.println("Admin registration failed. ID or email may already exist.");
-            }
-        } catch (UserException e) {
-            System.out.println("Error registering admin: " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("Unexpected error during admin registration: " + e.getMessage());
+        System.out.print("Email: ");
+        String email = scanner.nextLine();
+        if (email.trim().isEmpty()) {
+            throw new UserException("Email cannot be empty.");
         }
+
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+        if (password.trim().isEmpty()) {
+            throw new UserException("Password cannot be empty.");
+        }
+
+        System.out.print("Phone Number: ");
+        String phoneNumber = scanner.nextLine();
+
+        System.out.print("Age: ");
+        String age = scanner.nextLine();
+
+        // 🔍 Debug line
+        System.out.println("Generated ID: " + userService.getNextAdminId());
+
+        AdminDTO admin = new AdminDTO(userService.getNextAdminId(), name, email, password, phoneNumber, age);
+
+        if (userService.registerAdmin(admin)) {
+            System.out.println("Admin registered successfully.");
+        } else {
+            System.out.println("Admin registration failed. ID or email may already exist.");
+        }
+    } catch (UserException e) {
+        System.out.println("Error registering admin: " + e.getMessage());
+    } catch (Exception e) {
+        System.out.println("Unexpected error during admin registration: " + e.getMessage());
     }
 }
-// End of AdminUI.java
-// This class provides a console-based interface for admin users to manage doctors, patients, and other admins in the MedX application.
+
+    
+
+}
