@@ -2,10 +2,7 @@ package com.abes.medx.dao;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +18,7 @@ class AppointmentDAOImplTest {
     private DoctorDTO doctor;
     private PatientDTO patient;
 
+    // Setup before each test: initialize DAO, doctor, and patient, and clear existing data
     @BeforeEach
     void setUp() throws UserException {
         appointmentDAO = new AppointmentDAOImpl();
@@ -30,10 +28,12 @@ class AppointmentDAOImplTest {
         patient = new PatientDTO("P1", "John Doe", "john@pat.com", "pat123", "8888888888", "30");
     }
 
+    // Utility method to create appointment instances
     AppointmentDTO createAppointment(String id, String date, String time) {
         return new AppointmentDTO(id, date, time, patient, doctor, 500, "Scheduled");
     }
 
+    // Test: Successful appointment booking
     @Test
     void testBookAppointmentSuccess() {
         AppointmentDTO appt = createAppointment("AP1", "2025-06-01", "10:00 AM");
@@ -41,6 +41,7 @@ class AppointmentDAOImplTest {
         assertEquals(1, CollectionUtil.appointmentMap.size());
     }
 
+    // Test: Booking should fail if appointment ID already exists
     @Test
     void testBookAppointmentDuplicateIdFails() {
         AppointmentDTO appt1 = createAppointment("AP1", "2025-06-01", "10:00 AM");
@@ -50,15 +51,17 @@ class AppointmentDAOImplTest {
         assertFalse(appointmentDAO.bookAppointment(appt2)); // Duplicate ID
     }
 
+    // Test: Booking should fail if there's a conflict with same doctor, date, and time
     @Test
     void testBookAppointmentConflictFails() {
         AppointmentDTO appt1 = createAppointment("AP1", "2025-06-01", "10:00 AM");
-        AppointmentDTO appt2 = createAppointment("AP2", "2025-06-01", "10:00 AM"); // Same doctor, date, time
+        AppointmentDTO appt2 = createAppointment("AP2", "2025-06-01", "10:00 AM"); // Same slot
 
         assertTrue(appointmentDAO.bookAppointment(appt1));
         assertFalse(appointmentDAO.bookAppointment(appt2)); // Conflict
     }
 
+    // Test: Successfully update an existing appointment
     @Test
     void testUpdateAppointmentSuccess() {
         AppointmentDTO appt = createAppointment("AP1", "2025-06-01", "10:00 AM");
@@ -69,12 +72,14 @@ class AppointmentDAOImplTest {
         assertEquals(1000, CollectionUtil.appointmentMap.get("AP1").getToPay());
     }
 
+    // Test: Updating should fail if appointment doesn't exist
     @Test
     void testUpdateAppointmentFailsIfNotExist() {
         AppointmentDTO appt = createAppointment("AP1", "2025-06-01", "10:00 AM");
         assertFalse(appointmentDAO.updateAppointment(appt)); // Not in map
     }
 
+    // Test: Successfully cancel an existing appointment
     @Test
     void testCancelAppointmentSuccess() {
         AppointmentDTO appt = createAppointment("AP1", "2025-06-01", "10:00 AM");
@@ -84,11 +89,13 @@ class AppointmentDAOImplTest {
         assertEquals("Cancelled", CollectionUtil.appointmentMap.get("AP1").getStatus());
     }
 
+    // Test: Cancelling should fail if appointment ID is not found
     @Test
     void testCancelAppointmentFailsIfNotFound() {
         assertFalse(appointmentDAO.cancelAppointment("AP404"));
     }
 
+    // Test: Retrieve an appointment by ID
     @Test
     void testGetAppointmentById() {
         AppointmentDTO appt = createAppointment("AP1", "2025-06-01", "10:00 AM");
@@ -99,6 +106,7 @@ class AppointmentDAOImplTest {
         assertEquals("AP1", result.getAppointmentId());
     }
 
+    // Test: Retrieve appointments by patient ID
     @Test
     void testGetAppointmentsByPatientId() {
         AppointmentDTO appt = createAppointment("AP1", "2025-06-01", "10:00 AM");
@@ -108,6 +116,7 @@ class AppointmentDAOImplTest {
         assertEquals(1, result.size());
     }
 
+    // Test: Retrieve appointments by doctor ID
     @Test
     void testGetAppointmentsByDoctorId() {
         AppointmentDTO appt = createAppointment("AP1", "2025-06-01", "10:00 AM");
@@ -117,6 +126,7 @@ class AppointmentDAOImplTest {
         assertEquals(1, result.size());
     }
 
+    // Test: Retrieve all appointments
     @Test
     void testGetAllAppointments() {
         appointmentDAO.bookAppointment(createAppointment("AP1", "2025-06-01", "10:00 AM"));
@@ -126,6 +136,7 @@ class AppointmentDAOImplTest {
         assertEquals(2, all.size());
     }
 
+    // Test: Retrieve appointments by status (Scheduled / Cancelled)
     @Test
     void testGetAppointmentsByStatus() {
         AppointmentDTO appt1 = createAppointment("AP1", "2025-06-01", "10:00 AM");
@@ -142,6 +153,7 @@ class AppointmentDAOImplTest {
         assertEquals(1, cancelled.size());
     }
 
+    // Test: Auto-generate next appointment ID
     @Test
     void testGetNextAppointmentId() {
         assertEquals("AP1", appointmentDAO.getNextAppointmentId());
