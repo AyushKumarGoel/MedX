@@ -10,6 +10,7 @@ import com.abes.medx.exception.AppointmentException;
 import com.abes.medx.exception.UserException;
 import com.abes.medx.service.AppointmentServiceImpl;
 import com.abes.medx.service.UserServiceImpl;
+import com.abes.medx.util.ValidationUtil;
 
 public class DoctorUI {
     private final Scanner scanner;
@@ -82,40 +83,54 @@ public class DoctorUI {
 
     private void viewAppointments(DoctorDTO doctor) throws AppointmentException {
         List<AppointmentDTO> doctorAppointments = appointmentService.getAppointmentsByDoctorId(doctor.getDoctorId());
-        if (doctorAppointments.isEmpty()) {
-            System.out.println("No appointments found.");
-            return;
-        }
+                        if (doctorAppointments.isEmpty()) {
+                            System.out.println("No appointments found.");
+                        } else {
+                            List<AppointmentDTO> pending = new ArrayList<>();
+                            List<AppointmentDTO> completed = new ArrayList<>();
 
-        List<AppointmentDTO> scheduled = new ArrayList<>();
-        List<AppointmentDTO> completed = new ArrayList<>();
+                            for (AppointmentDTO app : doctorAppointments) {
+                                String status = app.getStatus();
+                                if ("Approved".equalsIgnoreCase(status) || "Pending".equalsIgnoreCase(status)) {
+                                    pending.add(app);
+                                } else if ("Completed".equalsIgnoreCase(status)) {
+                                    completed.add(app);
+                                }
+                            }
 
-        for (AppointmentDTO app : doctorAppointments) {
-            if ("Scheduled".equalsIgnoreCase(app.getStatus())) {
-                scheduled.add(app);
-            } else if ("Completed".equalsIgnoreCase(app.getStatus())) {
-                completed.add(app);
-            }
-        }
+                            // Display Pending/Approved Appointments
+                            System.out.println("\n--- Pending/Approved Appointments ---");
+                            if (pending.isEmpty()) {
+                                System.out.println("No pending or approved appointments.");
+                            } else {
+                                for (AppointmentDTO app : pending) {
+                                    System.out.println("========================================");
+                                    System.out.println("Appointment ID : " + app.getAppointmentId());
+                                    System.out.println("Date           : " + app.getAppointmentDate());
+                                    System.out.println("Time           : " + app.getAppointmentTime());
+                                    System.out.println("Patient Name   : " + app.getPatient().getName());
+                                    System.out.println("Status         : " + app.getStatus());
+                                    System.out.println("========================================");
+                                }
+                            }
 
-        System.out.println("\n--- Scheduled Appointments ---");
-        if (scheduled.isEmpty()) {
-            System.out.println("No scheduled appointments.");
-        } else {
-            for (AppointmentDTO app : scheduled) {
-                displayAppointment(app);
-            }
-        }
-
-        System.out.println("\n--- Completed Appointments ---");
-        if (completed.isEmpty()) {
-            System.out.println("No completed appointments.");
-        } else {
-            for (AppointmentDTO app : completed) {
-                displayAppointment(app);
-            }
-        }
-    }
+                            // Display Completed Appointments
+                            System.out.println("\n--- Completed Appointments ---");
+                            if (completed.isEmpty()) {
+                                System.out.println("No completed appointments.");
+                            } else {
+                                for (AppointmentDTO app : completed) {
+                                    System.out.println("========================================");
+                                    System.out.println("Appointment ID : " + app.getAppointmentId());
+                                    System.out.println("Date           : " + app.getAppointmentDate());
+                                    System.out.println("Time           : " + app.getAppointmentTime());
+                                    System.out.println("Patient Name   : " + app.getPatient().getName());
+                                    System.out.println("Status         : " + app.getStatus());
+                                    System.out.println("========================================");
+                                }
+                            }
+                        }
+                    }
 
     private void completeAppointment() throws AppointmentException {
         System.out.print("Enter appointment ID to complete: ");
@@ -132,9 +147,64 @@ public class DoctorUI {
     }
 
     private void updateDoctorProfile(DoctorDTO doctor) {
-        // Placeholder for profile update logic
-        System.out.println("Update Profile feature not implemented yet.");
+        try {
+            System.out.println("Current details: " + doctor);
+            System.out.print("New Name (press Enter to keep current): ");
+            String name = scanner.nextLine();
+            if (!name.trim().isEmpty()) {
+                doctor.setName(ValidationUtil.validateName(name));
+            }
+            System.out.print("New Email (press Enter to keep current): ");
+            String newEmail = scanner.nextLine();
+            if (!newEmail.trim().isEmpty()) {
+                doctor.setEmail(ValidationUtil.validateEmail(newEmail));
+            }
+            System.out.print("New Password (press Enter to keep current): ");
+            String password = scanner.nextLine();
+            if (!password.trim().isEmpty()) {
+                doctor.setPassword(ValidationUtil.validatePassword(password));
+            }
+            System.out.print("New Phone Number (press Enter to keep current): ");
+            String phoneNumber = scanner.nextLine();
+            if (!phoneNumber.trim().isEmpty()) {
+                doctor.setPhoneNumber(ValidationUtil.validatePhoneNumber(phoneNumber));
+            }
+            System.out.print("New Age (press Enter to keep current): ");
+            String ageStr = scanner.nextLine();
+            if (!ageStr.trim().isEmpty()) {
+                doctor.setAge(ValidationUtil.validateAge(ageStr));
+            }
+            System.out.print("New Specialization (press Enter to keep current): ");
+            String specialization = scanner.nextLine();
+            if (!specialization.trim().isEmpty()) {
+                doctor.setSpecialization(ValidationUtil.validateName(specialization));
+            }
+            System.out.print("New Years of Experience (press Enter to keep current): ");
+            String yearsInput = scanner.nextLine();
+            if (!yearsInput.trim().isEmpty()) {
+                try {
+                    int yearsOfExperience = Integer.parseInt(yearsInput);
+                    if (yearsOfExperience < 0) {
+                        throw new UserException("Years of experience cannot be negative.");
+                    }
+                    doctor.setYearsOfExperience(yearsOfExperience);
+                } catch (NumberFormatException e) {
+                    throw new UserException("Invalid input for years of experience. Please enter a number.");
+                }
+            }
+
+            if (userService.updateDoctorProfile(doctor)) {
+                System.out.println("Profile updated successfully.");
+            } else {
+                throw new UserException("Failed to update profile.");
+            }
+        } catch (UserException e) {
+            System.out.println("Error updating profile: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Unexpected error during profile update: " + e.getMessage());
+        }
     }
+    
 
     private void displayAppointment(AppointmentDTO app) {
         System.out.println("========================================");
