@@ -89,7 +89,7 @@ class AppointmentServiceTest {
     void testCancelAppointment_Success() throws AppointmentException {
         boolean canceled = appointmentService.cancelAppointment("AP2");
 
-        assertTrue(true);
+        assertTrue(canceled);
         assertEquals("Cancelled", CollectionUtil.appointmentMap.get("AP2").getStatus());
     }
 
