@@ -32,16 +32,12 @@ public class DoctorUI {
     public void handleDoctor() {
         try {
             System.out.print("Doctor Email: ");
-            String email = scanner.nextLine();
-            if (email.trim().isEmpty()) {
-                throw new UserException("Email cannot be empty.");
-            }
+            String email = scanner.nextLine().trim();
+            email = ValidationUtil.validateEmail(email);
 
             System.out.print("Password: ");
-            String password = scanner.nextLine();
-            if (password.trim().isEmpty()) {
-                throw new UserException("Password cannot be empty.");
-            }
+            String password = scanner.nextLine().trim();
+            password = ValidationUtil.validatePassword(password);
 
             DoctorDTO doctor = userService.doctorLogin(email, password);
             doctorMenu(doctor); // proceed to the doctor menu
@@ -135,17 +131,21 @@ public class DoctorUI {
      * Marks an appointment as completed based on user input ID.
      */
     private void completeAppointment() throws AppointmentException {
-        System.out.print("Enter appointment ID to complete: ");
-        String id = scanner.nextLine();
-        if (id.trim().isEmpty()) {
-            throw new AppointmentException("Appointment ID cannot be empty.");
-        }
+        try {
+            System.out.print("Enter appointment ID to complete: ");
+            String id = scanner.nextLine().trim();
+            if (id.isEmpty()) {
+                throw new AppointmentException("Appointment ID cannot be empty.");
+            }
 
-        boolean success = appointmentService.completeAppointment(id);
-        if (success) {
-            System.out.println("Appointment marked as completed.");
-        } else {
-            System.out.println("Failed to complete appointment.");
+            boolean success = appointmentService.completeAppointment(id);
+            if (success) {
+                System.out.println("Appointment marked as completed.");
+            } else {
+                System.out.println("Failed to complete appointment.");
+            }
+        } catch (AppointmentException e) {
+            throw e;
         }
     }
 
@@ -156,52 +156,58 @@ public class DoctorUI {
         try {
             System.out.println("Current details: " + doctor);
             System.out.print("New Name (press Enter to keep current): ");
-            String name = scanner.nextLine();
-            if (!name.trim().isEmpty()) {
-                doctor.setName(ValidationUtil.validateName(name));
+            String name = scanner.nextLine().trim();
+            if (!name.isEmpty()) {
+                name = ValidationUtil.validateName(name);
+                doctor.setName(name);
             }
 
             System.out.print("New Email (press Enter to keep current): ");
-            String newEmail = scanner.nextLine();
-            if (!newEmail.trim().isEmpty()) {
-                doctor.setEmail(ValidationUtil.validateEmail(newEmail));
+            String newEmail = scanner.nextLine().trim();
+            if (!newEmail.isEmpty()) {
+                newEmail = ValidationUtil.validateEmail(newEmail);
+                doctor.setEmail(newEmail);
             }
 
             System.out.print("New Password (press Enter to keep current): ");
-            String password = scanner.nextLine();
-            if (!password.trim().isEmpty()) {
-                doctor.setPassword(ValidationUtil.validatePassword(password));
+            String password = scanner.nextLine().trim();
+            if (!password.isEmpty()) {
+                password = ValidationUtil.validatePassword(password);
+                doctor.setPassword(password);
             }
 
             System.out.print("New Phone Number (press Enter to keep current): ");
-            String phoneNumber = scanner.nextLine();
-            if (!phoneNumber.trim().isEmpty()) {
-                doctor.setPhoneNumber(ValidationUtil.validatePhoneNumber(phoneNumber));
+            String phoneNumber = scanner.nextLine().trim();
+            if (!phoneNumber.isEmpty()) {
+                phoneNumber = ValidationUtil.validatePhoneNumber(phoneNumber);
+                doctor.setPhoneNumber(phoneNumber);
             }
 
             System.out.print("New Age (press Enter to keep current): ");
-            String ageStr = scanner.nextLine();
-            if (!ageStr.trim().isEmpty()) {
-                doctor.setAge(ValidationUtil.validateAge(ageStr));
+            String ageStr = scanner.nextLine().trim();
+            if (!ageStr.isEmpty()) {
+                ageStr = ValidationUtil.validateAge(ageStr);
+                doctor.setAge(ageStr);
             }
 
             System.out.print("New Specialization (press Enter to keep current): ");
-            String specialization = scanner.nextLine();
-            if (!specialization.trim().isEmpty()) {
-                doctor.setSpecialization(ValidationUtil.validateName(specialization));
+            String specialization = scanner.nextLine().trim();
+            if (!specialization.isEmpty()) {
+                specialization = ValidationUtil.validateName(specialization);
+                doctor.setSpecialization(specialization);
             }
 
             System.out.print("New Years of Experience (press Enter to keep current): ");
-            String yearsInput = scanner.nextLine();
-            if (!yearsInput.trim().isEmpty()) {
+            String yearsInput = scanner.nextLine().trim();
+            if (!yearsInput.isEmpty()) {
                 try {
                     int yearsOfExperience = Integer.parseInt(yearsInput);
                     if (yearsOfExperience < 0) {
-                        throw new UserException("Years of experience cannot be negative.");
+                        throw new UserException("Years of experience cannot be negative. Provided: " + yearsInput);
                     }
                     doctor.setYearsOfExperience(yearsOfExperience);
                 } catch (NumberFormatException e) {
-                    throw new UserException("Invalid input for years of experience. Please enter a number.");
+                    throw new UserException("Years of experience must be a valid number. Provided: " + yearsInput);
                 }
             }
 
@@ -231,5 +237,3 @@ public class DoctorUI {
         System.out.println("========================================");
     }
 }
-// End of DoctorUI.java
-// This class handles all user interactions for a logged-in doctor, including viewing and completing appointments, and updating their profile.
