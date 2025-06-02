@@ -111,8 +111,6 @@ public class AdminUI {
 
     private void registerDoctor() {
     try {
-        System.out.print("Doctor ID: ");
-        String doctorId = scanner.nextLine();
         System.out.print("Name: ");
         String name = scanner.nextLine();
         System.out.print("Email: ");
@@ -128,7 +126,7 @@ public class AdminUI {
         System.out.print("Years of Experience: ");
         int yearsOfExperience = Integer.parseInt(scanner.nextLine());
 
-        DoctorDTO doctor = new DoctorDTO(doctorId, name, email, password, phoneNumber, age, specialization, yearsOfExperience);
+        DoctorDTO doctor = new DoctorDTO(userService.getNextDoctorId(), name, email, password, phoneNumber, age, specialization, yearsOfExperience);
         userService.registerDoctor(doctor);
         System.out.println("Doctor registered successfully.");
     } catch (UserException e) {

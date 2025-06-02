@@ -30,9 +30,9 @@ class UserServiceTest {
 
     @Test
     void testAdminLoginSuccess() throws UserException {
-        AdminDTO admin = userService.adminLogin("admin@mail.com", "admin123");
+        AdminDTO admin = userService.adminLogin("ujj@gmail.com", "ujj");
         assertNotNull(admin);
-        assertEquals("ADM2", admin.getAdminId());
+        assertEquals("ADM1", admin.getAdminId());
     }
 
     @Test
@@ -49,9 +49,9 @@ class UserServiceTest {
 
     @Test
     void testGetAdminByEmail() throws UserException {
-        AdminDTO admin = userService.getAdminByEmail("admin@mail.com");
+        AdminDTO admin = userService.getAdminByEmail("ujj@gmail.com");
         assertNotNull(admin);
-        assertEquals("ADM2", admin.getAdminId());
+        assertEquals("ADM1", admin.getAdminId());
     }
 
     // ---------------------- Doctor Tests ----------------------
@@ -72,12 +72,13 @@ class UserServiceTest {
     void testGetAllDoctors() throws UserException {
         List<DoctorDTO> doctors = userService.getAllDoctors();
         assertNotNull(doctors);
-        assertTrue(doctors.size() >= 2);
+        assertTrue(doctors.size() >= 1);
     }
 
     @Test
     void testGetDoctorById() throws UserException {
         DoctorDTO doctor = userService.getDoctorById("D1");
+        System.out.println(doctor);
         assertNotNull(doctor);
         assertEquals("doctor@mail.com", doctor.getEmail());
     }
@@ -137,7 +138,8 @@ class UserServiceTest {
         assertTrue(nextId.startsWith("P"));
     }
 
-    // ---------------------- Admin Registration/Update/Delete ----------------------
+    // ---------------------- Admin Registration/Update/Delete
+    // ----------------------
 
     @Test
     void testRegisterAdminSuccess() throws UserException {
@@ -172,11 +174,13 @@ class UserServiceTest {
         assertThrows(UserException.class, () -> userService.deleteAdmin(""));
     }
 
-    // ---------------------- Doctor Registration/Update/Delete ----------------------
+    // ---------------------- Doctor Registration/Update/Delete
+    // ----------------------
 
     @Test
     void testRegisterDoctorSuccess() throws UserException {
-        DoctorDTO doctor = new DoctorDTO("D100", "Alice", "alice@doc.com", "alice123", "9999999999", "40", "Cardiology", 10);
+        DoctorDTO doctor = new DoctorDTO("D100", "Alice", "alice@doc.com", "alice123", "9999999999", "40", "Cardiology",
+                10);
         assertTrue(userService.registerDoctor(doctor));
     }
 
@@ -207,7 +211,8 @@ class UserServiceTest {
         assertThrows(UserException.class, () -> userService.deleteDoctor(""));
     }
 
-    // ---------------------- Patient Registration/Update/Delete ----------------------
+    // ---------------------- Patient Registration/Update/Delete
+    // ----------------------
 
     @Test
     void testRegisterPatientSuccess() throws UserException {

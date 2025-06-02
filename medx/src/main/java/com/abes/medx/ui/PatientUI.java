@@ -125,11 +125,9 @@ public class PatientUI {
             // Take date and time input from user
             System.out.print("Date (YYYY-MM-DD): ");
             String date = scanner.nextLine().trim();
-            LocalDate parsedDate = LocalDate.parse(date);
 
             System.out.print("Time (HH:MM): ");
             String time = scanner.nextLine().trim();
-            LocalTime parsedTime = LocalTime.parse(time);
 
             // Display all available doctors
             List<DoctorDTO> doctors = userService.getAllDoctors();
