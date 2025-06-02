@@ -1,8 +1,5 @@
 package com.abes.medx.ui;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,6 +11,7 @@ import com.abes.medx.exception.BookingException;
 import com.abes.medx.exception.UserException;
 import com.abes.medx.service.AppointmentService;
 import com.abes.medx.service.UserService;
+import com.abes.medx.util.ValidationUtil;
 
 public class PatientUI {
     private final Scanner scanner;
@@ -32,11 +30,11 @@ public class PatientUI {
         try {
             System.out.print("Patient Email: ");
             String email = scanner.nextLine().trim();
-            if (email.isEmpty()) throw new UserException("Email cannot be empty.");
+            email = ValidationUtil.validateEmail(email);
 
             System.out.print("Password: ");
             String password = scanner.nextLine().trim();
-            if (password.isEmpty()) throw new UserException("Password cannot be empty.");
+            password = ValidationUtil.validatePassword(password);
 
             // Authenticate the patient
             PatientDTO patient = userService.patientLogin(email, password);
@@ -125,9 +123,11 @@ public class PatientUI {
             // Take date and time input from user
             System.out.print("Date (YYYY-MM-DD): ");
             String date = scanner.nextLine().trim();
+            date = ValidationUtil.validateDate(date);
 
             System.out.print("Time (HH:MM): ");
             String time = scanner.nextLine().trim();
+            time = ValidationUtil.validateTime(time);
 
             // Display all available doctors
             List<DoctorDTO> doctors = userService.getAllDoctors();
@@ -169,8 +169,6 @@ public class PatientUI {
 
             System.out.println("Appointment booked successfully.");
 
-        } catch (DateTimeParseException e) {
-            System.out.println("Error: Invalid date/time format. Use YYYY-MM-DD and HH:MM.");
         } catch (AppointmentException | BookingException e) {
             System.out.println("Error: " + e.getMessage());
         } catch (Exception e) {
@@ -193,23 +191,38 @@ public class PatientUI {
             // Update each field only if user provides new input
             System.out.print("New Name (press Enter to keep current): ");
             String name = scanner.nextLine().trim();
-            if (!name.isEmpty()) patient.setName(name);
+            if (!name.isEmpty()) {
+                name = ValidationUtil.validateName(name);
+                patient.setName(name);
+            }
 
             System.out.print("New Email (press Enter to keep current): ");
             String email = scanner.nextLine().trim();
-            if (!email.isEmpty()) patient.setEmail(email);
+            if (!email.isEmpty()) {
+                email = ValidationUtil.validateEmail(email);
+                patient.setEmail(email);
+            }
 
             System.out.print("New Password (press Enter to keep current): ");
             String password = scanner.nextLine().trim();
-            if (!password.isEmpty()) patient.setPassword(password);
+            if (!password.isEmpty()) {
+                password = ValidationUtil.validatePassword(password);
+                patient.setPassword(password);
+            }
 
             System.out.print("New Phone Number (press Enter to keep current): ");
             String phone = scanner.nextLine().trim();
-            if (!phone.isEmpty()) patient.setPhoneNumber(phone);
+            if (!phone.isEmpty()) {
+                phone = ValidationUtil.validatePhoneNumber(phone);
+                patient.setPhoneNumber(phone);
+            }
 
             System.out.print("New Age (press Enter to keep current): ");
             String age = scanner.nextLine().trim();
-            if (!age.isEmpty()) patient.setAge(age);
+            if (!age.isEmpty()) {
+                age = ValidationUtil.validateAge(age);
+                patient.setAge(age);
+            }
 
             // Update in backend
             boolean updated = userService.updatePatientProfile(patient);
@@ -222,5 +235,3 @@ public class PatientUI {
         }
     }
 }
-// End of PatientUI.java
-// This class provides the user interface for patient-related operations such as login, viewing appointments, booking, cancelling appointments, and updating profile details.
