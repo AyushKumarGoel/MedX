@@ -27,7 +27,6 @@ public class CollectionUtil {
     public static final List<AppointmentDTO> completed = new ArrayList<>();
 
     // Maps to keep track of appointments linked to each patient and doctor
-    public static final Map<String, List<String>> patientAppointments = new HashMap<>();
     public static final Map<String, List<String>> doctorAppointments = new HashMap<>();
 
     // Static block to preload dummy data for testing
