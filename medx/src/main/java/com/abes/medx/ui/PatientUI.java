@@ -47,65 +47,76 @@ public class PatientUI {
     }
 
     // Displays the patient menu and handles input
-    public void patientMenu(PatientDTO patient) {
-        while (true) {
-            System.out.println("\n--- Patient Menu ---");
-            System.out.println("1. View My Appointments");
-            System.out.println("2. Book Appointment");
-            System.out.println("3. Cancel Appointment");
-            System.out.println("4. Update My Profile");
-            System.out.println("5. Logout");
-            System.out.print("Choose: ");
-            String choice = scanner.nextLine();
+   public void patientMenu(PatientDTO patient) {
+    while (true) {
+        System.out.println("\n--- Patient Menu ---");
+        System.out.println("1. View Active Appointments");
+        System.out.println("2. View Completed Appointments");
+        System.out.println("3. Book Appointment");
+        System.out.println("4. Cancel Appointment");
+        System.out.println("5. Update My Profile");
+        System.out.println("6. Logout");
+        System.out.print("Choose: ");
+        String choice = scanner.nextLine();
 
-            try {
-                switch (choice) {
-                    case "1":
-                        viewAppointments(patient); // View all appointments
-                        break;
-                    case "2":
-                        bookAppointment(patient); // Book a new appointment
-                        break;
-                    case "3":
-                        cancelAppointment(); // Cancel an existing appointment
-                        break;
-                    case "4":
-                        updatePatientProfile(patient); // Update profile info
-                        break;
-                    case "5":
-                        System.out.println("Patient logged out.");
-                        return;
-                    default:
-                        System.out.println("Invalid option. Please enter 1, 2, 3, 4, or 5.");
-                }
-            } catch (AppointmentException e) {
-                System.out.println("Error: " + e.getMessage());
-            } catch (Exception e) {
-                System.out.println("Unexpected error: " + e.getMessage());
+        try {
+            switch (choice) {
+                case "1":
+                    viewAppointmentsByStatus(patient, "Scheduled");
+                    break;
+                case "2":
+                    viewAppointmentsByStatus(patient, "Completed");
+                    viewAppointmentsByStatus(patient, "Cancelled");
+                    break;
+                case "3":
+                    bookAppointment(patient);
+                    break;
+                case "4":
+                    cancelAppointment();
+                    break;
+                case "5":
+                    updatePatientProfile(patient);
+                    break;
+                case "6":
+                    System.out.println("Patient logged out.");
+                    return;
+                default:
+                    System.out.println("Invalid option. Please enter a number from 1 to 6.");
             }
+        } catch (AppointmentException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Unexpected error: " + e.getMessage());
         }
     }
+}
 
     // Displays all appointments for the logged-in patient
-    private void viewAppointments(PatientDTO patient) throws AppointmentException {
-        System.out.println("Appointment Details:");
-        List<AppointmentDTO> appointments = appointmentService.getAppointmentsByPatientId(patient.getPatientId());
+   private void viewAppointmentsByStatus(PatientDTO patient, String statusFilter) throws AppointmentException {
+    List<AppointmentDTO> appointments = appointmentService.getAppointmentsByPatientId(patient.getPatientId());
 
-        if (appointments.isEmpty()) {
-            System.out.println("No appointments found.");
-        } else {
-            for (AppointmentDTO app : appointments) {
-                DoctorDTO doc = app.getDoctor();
-                System.out.printf("Appointment: %s - %s %s%nDoctor: %s (%s)%nStatus: %s%n%n",
-                        app.getAppointmentId(),
-                        app.getAppointmentDate(),
-                        app.getAppointmentTime(),
-                        doc.getName(),
-                        doc.getSpecialization(),
-                        app.getStatus());
-            }
+    boolean found = false;
+    System.out.println("\n--- " + statusFilter + " Appointments ---");
+
+    for (AppointmentDTO app : appointments) {
+        if (statusFilter.equalsIgnoreCase(app.getStatus())) {
+            DoctorDTO doc = app.getDoctor();
+            System.out.printf("Appointment: %s - %s %s%nDoctor: %s (%s)%nStatus: %s%n%n",
+                    app.getAppointmentId(),
+                    app.getAppointmentDate(),
+                    app.getAppointmentTime(),
+                    doc.getName(),
+                    doc.getSpecialization(),
+                    app.getStatus());
+            found = true;
         }
     }
+
+    if (!found) {
+        System.out.println("No " + statusFilter.toLowerCase() + " appointments found.");
+    }
+}
+
 
     // Cancels an appointment by ID
     private void cancelAppointment() throws AppointmentException {
