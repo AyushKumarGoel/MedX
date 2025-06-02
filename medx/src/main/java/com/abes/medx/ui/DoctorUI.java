@@ -9,7 +9,6 @@ import com.abes.medx.exception.AppointmentException;
 import com.abes.medx.exception.UserException;
 import com.abes.medx.service.AppointmentService;
 import com.abes.medx.service.UserService;
-import com.abes.medx.util.CollectionUtil;
 import com.abes.medx.util.ValidationUtil;
 
 /**
@@ -54,29 +53,33 @@ public class DoctorUI {
     private void doctorMenu(DoctorDTO doctor) {
         while (true) {
             System.out.println("\n--- Doctor Menu ---");
-            System.out.println("1. View My Appointments");
-            System.out.println("2. Complete An Appointment");
-            System.out.println("3. Update My Profile");
-            System.out.println("4. Logout");
+            System.out.println("1. View Active Appointments");
+            System.out.println("2. View Completed Appointments");
+            System.out.println("3. Complete An Appointment");
+            System.out.println("4. Update My Profile");
+            System.out.println("5. Logout");
             System.out.print("Choose: ");
             String choice = scanner.nextLine();
 
             try {
                 switch (choice) {
                     case "1":
-                        viewAppointments(doctor);
+                        viewAppointmentsByStatus(doctor, "Scheduled");
                         break;
                     case "2":
-                        completeAppointment();
+                        viewAppointmentsByStatus(doctor, "Completed");
                         break;
                     case "3":
-                        updateDoctorProfile(doctor);
+                        completeAppointment();
                         break;
                     case "4":
+                        updateDoctorProfile(doctor);
+                        break;
+                    case "5":
                         System.out.println("Doctor logged out.");
                         return;
                     default:
-                        System.out.println("Invalid option. Please enter 1, 2, 3, or 4.");
+                        System.out.println("Invalid option. Please enter a number from 1 to 5.");
                 }
             } catch (AppointmentException e) {
                 System.out.println("Error: " + e.getMessage());
@@ -87,43 +90,22 @@ public class DoctorUI {
     }
 
     /**
-     * Retrieves and displays appointments categorized as Scheduled or Completed.
+     * Retrieves and displays appointments by status (Scheduled or Completed).
      */
-    private void viewAppointments(DoctorDTO doctor) throws AppointmentException {
+    private void viewAppointmentsByStatus(DoctorDTO doctor, String statusFilter) throws AppointmentException {
         List<AppointmentDTO> doctorAppointments = appointmentService.getAppointmentsByDoctorId(doctor.getDoctorId());
+        boolean found = false;
 
-        if (doctorAppointments.isEmpty()) {
-            System.out.println("No appointments found.");
-        } else {
-            // Categorize appointments
-            for (AppointmentDTO app : doctorAppointments) {
-                String status = app.getStatus();
-                if ("Scheduled".equalsIgnoreCase(status)) {
-                    CollectionUtil.scheduled.add(app);
-                } else if ("Completed".equalsIgnoreCase(status)) {
-                    CollectionUtil.completed.add(app);
-                }
+        System.out.println("\n--- " + statusFilter + " Appointments ---");
+        for (AppointmentDTO app : doctorAppointments) {
+            if (statusFilter.equalsIgnoreCase(app.getStatus())) {
+                displayAppointment(app);
+                found = true;
             }
+        }
 
-            // Display Scheduled Appointments
-            System.out.println("\n--- Scheduled Appointments ---");
-            if (CollectionUtil.scheduled.isEmpty()) {
-                System.out.println("No scheduled appointments.");
-            } else {
-                for (AppointmentDTO app : CollectionUtil.scheduled) {
-                    displayAppointment(app);
-                }
-            }
-
-            // Display Completed Appointments
-            System.out.println("\n--- Completed Appointments ---");
-            if (CollectionUtil.completed.isEmpty()) {
-                System.out.println("No completed appointments.");
-            } else {
-                for (AppointmentDTO app : CollectionUtil.completed) {
-                    displayAppointment(app);
-                }
-            }
+        if (!found) {
+            System.out.println("No " + statusFilter.toLowerCase() + " appointments found.");
         }
     }
 
